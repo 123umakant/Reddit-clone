@@ -1,4 +1,4 @@
-package com.reddit.clone.security;
+package com.reddit.clone.configurations.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

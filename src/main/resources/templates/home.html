@@ -1,27 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
 <body>
+    <button onclick="window.location='/posts/create'">Create Post</button>
+    <button onclick="window.location='/posts/show'">Show Post</button>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
-<form action="post/create" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label>Title:</label>
-        <input type="text" class="form-control" name="title" placeholder="title">
-    </div>
-    <div class="form-group">
-        <label >Description</label>
-        <input type="text" class="form-control" name="description" placeholder="description">
-    </div>
-    <div class="form-group">
-        <label>Content:</label>
-        <textarea name="content" placeholder="content"></textarea>
-    </div>
-    <div class="form-group">
-        <label>Upload Media:</label>
-        <input type="file" name="file" placeholder="upload media">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
 </body>
 </html>

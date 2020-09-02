@@ -3,6 +3,8 @@ package com.reddit.clone.model;
 import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Set;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -11,15 +13,20 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     private String text;
+
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "postId", referencedColumnName = "id")
     private Post post;
+
+    @Column(name = "votecount")
+    private Integer voteCount = 0;
+
+    @OneToMany(fetch = LAZY, mappedBy = "commentSet")
+    private Set<Comment> commentSet;
+
     private Instant createdDate;
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private User user;
 
     public Long getId() {
         return id;
@@ -53,14 +60,6 @@ public class Comment {
         this.createdDate = createdDate;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
     public String toString() {
         return "Comment{" +
@@ -68,7 +67,6 @@ public class Comment {
                 ", text='" + text + '\'' +
                 ", post=" + post +
                 ", createdDate=" + createdDate +
-                ", user=" + user +
                 '}';
     }
 }

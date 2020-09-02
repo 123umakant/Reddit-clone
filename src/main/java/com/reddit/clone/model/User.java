@@ -2,27 +2,24 @@ package com.reddit.clone.model;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "user_data")
 public class User {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
-    @NotNull
+
+    @Column(name = "name", length = 50, nullable = false)
     private String userName;
-    @NotNull
-    private  String email;
-    @NotNull
+
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = System.currentTimeMillis();
-    }
 
     public String getUserName() {
         return userName;
