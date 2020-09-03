@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment Page</title>
+</head>
+<body>
+<form action="/comment/create" method="post">
+    <input type="text" name="comment" placeholder="enter your comment" required>
+    <input type="hidden" name="postId" value="1" placeholder="enter your post id" required>
+        <input type="submit" name="submit">
+</form>
+
+
+<div th:each="items : ${comment}">
+    <span th:text="${items.text}"></span>
+</div>
+
+
+</body>
+</html>
