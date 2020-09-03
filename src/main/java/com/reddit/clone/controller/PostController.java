@@ -6,6 +6,7 @@ import com.reddit.clone.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/posts")
@@ -37,13 +38,13 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model model) {
+    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model model, @RequestParam("file") MultipartFile multipartFile) {
 
-        textPostDto.setContentType("text");
-
-        Post post = new Post(textPostDto.getTitle(), textPostDto.getContent(), textPostDto.getContentType());
-
-        postService.save(post);
+//        textPostDto.setContentType("text");
+//
+//        Post post = new Post(textPostDto.getTitle(), textPostDto.getContent(), textPostDto.getContentType());
+//
+//        postService.save(post);
 
         return "home";
     }
