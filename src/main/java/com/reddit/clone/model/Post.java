@@ -113,6 +113,7 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", voteCount=" + voteCount +
+                contentType +
                 '}';
     }
 }
