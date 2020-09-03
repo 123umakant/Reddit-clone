@@ -4,6 +4,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.reddit.clone.configurations.metadata.AwsS3Credentials;
 import com.reddit.clone.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,28 +17,37 @@ import java.io.IOException;
 @Service
 public class FileServiceimpl implements FileService {
 
-    private String bucketName = "redditmedia";
-    private String endPointUrl = "s3.ap-south-1.amazonaws.com";
-
+    @Autowired
+    private AwsS3Credentials awsS3Credentials;
     @Autowired
     private AmazonS3 s3Client;
 
+    public FileServiceimpl() {
+    }
+
+    public FileServiceimpl(AwsS3Credentials awsS3Credentials, AmazonS3 s3Client) {
+        this.awsS3Credentials = awsS3Credentials;
+        this.s3Client = s3Client;
+    }
+
     public String upLoadFile(MultipartFile multipartFile) throws IOException {
-        String fileUrl = "";
+        String fileName = null;
         try {
             File file = convertMultiPartFileToFile(multipartFile);
-            String fileName = generateFileName(multipartFile);
-            fileUrl = bucketName + "." + endPointUrl + "/" + fileName;
+
+            fileName = generateFileName(multipartFile);
+
             uploadFileToS3Bucket(fileName, file);
+
             file.delete();
         } catch (AmazonServiceException ase) {
             System.out.println(ase);
         }
-        return fileUrl;
+        return fileName;
     }
 
     private void uploadFileToS3Bucket(String filename, File file) {
-        s3Client.putObject(new PutObjectRequest(bucketName, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
+        s3Client.putObject(new PutObjectRequest(awsS3Credentials.S3_BUCKET_NAME, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     private String generateFileName(MultipartFile multipartFile) {
