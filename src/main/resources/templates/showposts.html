@@ -5,8 +5,31 @@
     <title>Title</title>
 </head>
 <body>
+
+
         <div th:each=" post : ${posts}">
-            <span th:text="${post}"></span>
+            
+            <div th:if="${post.contentType == 'text'}">
+                <span th:text="${post.title}"></span><br>
+                <span th:text="${post.content}"></span>
+            </div>
+            <div th:if="${post.contentType == 'image'}">
+                <span th:text="${post.title}"></span><br>
+                <img th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" th:alt="${post.content}" style="width:304px;height:228px">
+            </div>
+            <div th:if="${post.contentType == 'video'}">
+                <span th:text="${post.title}"></span><br>
+                <video style="width:304px;height:228px" controls>
+                    <source th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" type="video/mp4" >
+                </video>
+            </div>
+            <div th:if="${post.contentType == 'link'}">
+                <span th:text="${post.title}"></span><br>
+                <a th:href="@{${post.content}}"><span th:text="${post.content}"></span></a>
+            </div>
+            <hr>
         </div>
+
+
 </body>
 </html>

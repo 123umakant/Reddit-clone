@@ -38,4 +38,13 @@ public class TextPostDto {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "TextPostDto{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", contentType='" + contentType + '\'' +
+                '}';
+    }
 }
