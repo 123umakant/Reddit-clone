@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class MainController {
 
-        @RequestMapping(value = "/")
-        public String getIndex(){
+    @RequestMapping(value = "/")
+    public String getIndex(){
             return "index";
         }
 

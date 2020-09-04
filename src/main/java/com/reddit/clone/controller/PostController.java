@@ -3,14 +3,17 @@ package com.reddit.clone.controller;
 import com.reddit.clone.configurations.metadata.AwsS3Credentials;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.User;
 import com.reddit.clone.service.FileService;
 import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/posts")
@@ -19,15 +22,17 @@ public class PostController {
     private PostService postService;
     private FileService fileService;
     private AwsS3Credentials awsS3Credentials;
+    private UserService userService;
 
-    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials) {
+    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService) {
         this.postService = postService;
         this.fileService = fileService;
         this.awsS3Credentials = awsS3Credentials;
+        this.userService = userService;
     }
 
     @GetMapping("/show")
-    public String showPosts(Model model) {
+    public String showPosts(Model model, Principal principal) {
 
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
 
@@ -48,7 +53,8 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model model, @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model model, @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+                       Principal principal) throws IOException {
 
         if (textPostDto.getContentType().equals("media")) {
             String fileName = fileService.upLoadFile(multipartFile);
@@ -65,6 +71,10 @@ public class PostController {
         }
 
         Post post = new Post(textPostDto.getTitle(), textPostDto.getContent(), textPostDto.getContentType());
+        User loggedUser = userService.findByUserName(principal.getName());
+
+        loggedUser.getPostList().add(post);
+        post.setUser(loggedUser);
 
         postService.save(post);
 

@@ -3,6 +3,8 @@ package com.reddit.clone.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_data")
@@ -20,6 +22,9 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Post> postList = new HashSet<>();
 
     public User() {
     }
@@ -62,13 +67,17 @@ public class User {
         this.userId = userId;
     }
 
+    public Set<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(Set<Post> postList) {
+        this.postList = postList;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return userName;
     }
+
 }

@@ -26,6 +26,17 @@ public class Post {
     @Column(name = "contenttype")
     private String contentType;
 
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @OneToMany(fetch = LAZY, mappedBy = "post")
     private Set<Comment> commentList;
 
