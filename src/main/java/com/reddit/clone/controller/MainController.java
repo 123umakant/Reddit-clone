@@ -13,7 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
         @RequestMapping(value = "/")
-        public String home(){
-            return "home";
+        public String getIndex(){
+            return "index";
         }
+
+
+    @RequestMapping(value = "/home")
+    public String getHome(){
+        return "home";
+    }
 }

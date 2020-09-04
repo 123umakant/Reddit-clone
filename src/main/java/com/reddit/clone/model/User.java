@@ -21,6 +21,15 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    public User() {
+    }
+
+    public User(String userName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -43,6 +52,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     @Override

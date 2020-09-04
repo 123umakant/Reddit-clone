@@ -21,4 +21,9 @@ public class UserServiceimpl implements UserService {
         User user = userRepository.findByEmail(userName);
         return new RedditUserDetails(user);
     }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="./../static/css/loginstyle.css" th:href="@{css/loginstyle.css}">-->
+</head>
+<body>
+
+<span th:if="${param.error}">Invalid username or password</span>
+
+<section>
+    <form th:action="@{/login}" method="post">
+
+        <input id="username" type="username" name="username" required placeholder="Email"><br>
+
+        <input id="password" type="password" name="password" placeholder="Password" required><br>
+
+        <input id="submit" type="submit" value="Log In">
+
+        <span style="font-size : 2em;"><a href="#" th:href="@{/register}">Sign-up</a> to create account</span>
+
+    </form>
+</section>
+
+
+</body>
+</html>
