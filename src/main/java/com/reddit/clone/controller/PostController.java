@@ -1,12 +1,15 @@
 package com.reddit.clone.controller;
 
 import com.reddit.clone.configurations.metadata.AwsS3Credentials;
+import com.reddit.clone.dto.ShowPostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
+import com.reddit.clone.model.Vote;
 import com.reddit.clone.service.FileService;
 import com.reddit.clone.service.PostService;
 import com.reddit.clone.service.UserService;
+import com.reddit.clone.service.VoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/posts")
@@ -23,12 +28,14 @@ public class PostController {
     private FileService fileService;
     private AwsS3Credentials awsS3Credentials;
     private UserService userService;
+    private VoteService voteService;
 
-    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService) {
+    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService, VoteService voteService) {
         this.postService = postService;
         this.fileService = fileService;
         this.awsS3Credentials = awsS3Credentials;
         this.userService = userService;
+        this.voteService = voteService;
     }
 
     @GetMapping("/show")
@@ -36,7 +43,21 @@ public class PostController {
 
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
 
-        model.addAttribute("posts", postService.findAll());
+        List<Post> posts = postService.findAll();
+        User user = userService.findByUserName(principal.getName());
+        List<ShowPostDto> showPostDtoList = new ArrayList<>();
+        for (Post post : posts) {
+            Vote vote = voteService.findByPostAndUser(post, user);
+            ShowPostDto showPostDto = new ShowPostDto(post);
+
+            if (vote != null) {
+                showPostDto.setIsVoted(true);
+                showPostDto.getIsUpVote(vote.isUpVote());
+            }
+            showPostDtoList.add(showPostDto);
+        }
+
+        model.addAttribute("posts", showPostDtoList);
 
         return "showposts";
     }

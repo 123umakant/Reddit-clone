@@ -25,4 +25,9 @@ public class PostServiceimpl implements PostService {
     public List<Post> findAll() {
         return postRepository.findAll();
     }
+
+    @Override
+    public Post findByPostId(long postId) {
+        return postRepository.findById(postId);
+    }
 }

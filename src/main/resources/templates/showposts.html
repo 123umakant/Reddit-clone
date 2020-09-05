@@ -6,7 +6,7 @@
 </head>
 <body>
 
-
+        <h1>posts</h1>
         <div th:each=" post : ${posts}">
             
             <div th:if="${post.contentType == 'text'}">
@@ -31,6 +31,13 @@
                 <span th:text="${post.title}"></span><br>
                 <a th:href="@{${post.content}}"><span th:text="${post.content}"></span></a>
             </div>
+            <span th:text="${post.isVoted}"></span>
+            <span th:text="${post.isUpVote}"></span>
+            <button th:unless="${post.isVoted && post.isUpVote}"><a th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-vote</a></button>
+            <button th:if="${post.isVoted && post.isUpVote}"><a th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-voted</a></button>
+            <button th:unless="${post.isVoted && post.isUpVote == false}"><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
+            <button th:if="${post.isVoted && post.isUpVote == false}"><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-voted</a></button>
+
             <hr>
         </div>
 

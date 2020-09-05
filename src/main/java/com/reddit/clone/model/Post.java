@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.FetchType.LAZY;
@@ -29,19 +30,17 @@ public class Post {
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     private User user;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @OneToMany(fetch = LAZY, mappedBy = "post")
-    private Set<Comment> commentList;
+    private Set<Comment> commentList = new HashSet<>();
 
-    @Column(name = "votecount")
-    private Integer voteCount = 0;
+    @OneToMany(fetch = LAZY, mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<Vote> voteList = new HashSet<>();
+
+    @Column(name = "upvotecount")
+    private Integer upVoteCount = 0;
+
+    @Column(name = "downvotecount")
+    private Integer downVoteCount = 0;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
@@ -101,14 +100,6 @@ public class Post {
         this.commentList = commentList;
     }
 
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -117,13 +108,44 @@ public class Post {
         this.createdAt = createdAt;
     }
 
+    public void setVoteList(Set<Vote> voteList) {
+        this.voteList = voteList;
+    }
+
+    public Integer getUpVoteCount() {
+        return upVoteCount;
+    }
+
+    public void setUpVoteCount(Integer upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Integer getDownVoteCount() {
+        return downVoteCount;
+    }
+
+    public void setDownVoteCount(Integer downVoteCount) {
+        this.downVoteCount = downVoteCount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<Vote> getVoteList() {
+        return voteList;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", voteCount=" + voteCount +
                 contentType +
                 '}';
     }

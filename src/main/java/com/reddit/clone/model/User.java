@@ -26,6 +26,9 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Post> postList = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Vote> voteList = new HashSet<>();
+
     public User() {
     }
 
@@ -73,6 +76,14 @@ public class User {
 
     public void setPostList(Set<Post> postList) {
         this.postList = postList;
+    }
+
+    public Set<Vote> getVoteList() {
+        return voteList;
+    }
+
+    public void setVoteList(Set<Vote> voteList) {
+        this.voteList = voteList;
     }
 
     @Override
