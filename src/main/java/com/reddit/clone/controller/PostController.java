@@ -5,6 +5,8 @@ import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.service.FileService;
 import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.implementation.CommentServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/posts")
 public class PostController {
+
+    @Autowired
+    CommentServiceImpl commentService;
 
     private PostService postService;
     private FileService fileService;
@@ -32,7 +37,8 @@ public class PostController {
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
 
         model.addAttribute("posts", postService.findAll());
-
+        System.out.println(postService.findAll());
+        model.addAttribute("comment", commentService.findAll());
         return "showposts";
     }
 
@@ -65,8 +71,7 @@ public class PostController {
         }
 
         Post post = new Post(textPostDto.getTitle(), textPostDto.getContent(), textPostDto.getContentType());
-
-        postService.save(post);
+        postService.save(post,textPostDto);
 
         return "redirect:/posts/create";
     }

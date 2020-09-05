@@ -20,14 +20,16 @@ public class Post {
     private String title;
 
     @Column(name = "content")
+    @Lob
     private String content;
 
     @NotNull
     @Column(name = "contenttype")
     private String contentType;
 
-    @OneToMany(fetch = LAZY, mappedBy = "post")
-    private Set<Comment> commentList;
+    @OneToMany(fetch = LAZY)
+    @JoinColumn(name = "comment",referencedColumnName = "id")
+    private Comment comment;
 
     @Column(name = "votecount")
     private Integer voteCount = 0;
@@ -35,6 +37,12 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "subreddit_id", referencedColumnName = "id")
+    private Subreddit subreddit;
+
+
 
     @PrePersist
     public void prePersist() {
@@ -48,6 +56,14 @@ public class Post {
         this.title = title;
         this.content = content;
         this.contentType = contentType;
+    }
+
+    public Subreddit getSubreddit() {
+        return subreddit;
+    }
+
+    public void setSubreddit(Subreddit subreddit) {
+        this.subreddit = subreddit;
     }
 
     public Long getId() {
@@ -82,13 +98,6 @@ public class Post {
         this.contentType = contentType;
     }
 
-    public Set<Comment> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(Set<Comment> commentList) {
-        this.commentList = commentList;
-    }
 
     public Integer getVoteCount() {
         return voteCount;
@@ -104,6 +113,14 @@ public class Post {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     @Override
