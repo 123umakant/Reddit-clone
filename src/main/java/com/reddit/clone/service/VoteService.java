@@ -10,4 +10,6 @@ public interface VoteService {
 
     Vote findByPostAndUser(Post post, User user);
 
+    void removeByPostAndUser(Post post, User user);
+
 }

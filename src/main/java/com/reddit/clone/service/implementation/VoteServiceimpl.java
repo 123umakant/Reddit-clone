@@ -25,4 +25,10 @@ public class VoteServiceimpl implements VoteService {
     public Vote findByPostAndUser(Post post, User user) {
         return voteRepository.findByPostAndUser(post, user);
     }
+
+    @Override
+    public void removeByPostAndUser(Post post, User user) {
+//        return voteRepository.removeByPostAndUser(post, user);
+         voteRepository.removeByPostAndUser(post, user);
+    }
 }

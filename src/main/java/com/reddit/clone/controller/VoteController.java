@@ -35,12 +35,55 @@ public class VoteController {
 
         Post post = postService.findByPostId(postId);
         User loggedUser = userService.findByUserName(principal.getName());
+        Vote vote = null;
 
-        Vote vote = new Vote(isUpVote, post, loggedUser);
-        post.getVoteList().add(vote);
-        loggedUser.getVoteList().add(vote);
+        vote = voteService.findByPostAndUser(post, loggedUser);
+
+        if (vote == null) {
+
+            if (isUpVote) {
+                post.setUpVoteCount(post.getUpVoteCount() + 1);
+            } else {
+                post.setDownVoteCount(post.getDownVoteCount() + 1);
+            }
+
+            vote = new Vote(isUpVote, post, loggedUser);
+            post.getVoteList().add(vote);
+            loggedUser.getVoteList().add(vote);
+
+        } else {
+            if (isUpVote) {
+                post.setDownVoteCount(post.getDownVoteCount() - 1);
+                post.setUpVoteCount(post.getUpVoteCount() + 1);
+            } else {
+                post.setDownVoteCount(post.getDownVoteCount() + 1);
+                post.setUpVoteCount(post.getUpVoteCount() - 1);
+            }
+
+            vote.setUpVote(isUpVote);
+        }
 
         voteService.save(vote);
+
+        return "redirect:/posts/show";
+    }
+
+    @RequestMapping("/unvote")
+    public String unVote(@PathVariable("postid") long postId,
+                         Principal principal) {
+
+        Post post = postService.findByPostId(postId);
+        User loggedUser = userService.findByUserName(principal.getName());
+
+        Vote vote = voteService.findByPostAndUser(post, loggedUser);
+
+        if (vote.isUpVote()) {
+            post.setUpVoteCount(post.getUpVoteCount() - 1);
+        }else {
+            post.setDownVoteCount(post.getDownVoteCount() - 1);
+        }
+
+        voteService.removeByPostAndUser(post, loggedUser);
 
         return "redirect:/posts/show";
     }
