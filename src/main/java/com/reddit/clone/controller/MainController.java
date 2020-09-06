@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 
 @Controller
 public class MainController {
 
     @RequestMapping(value = "/")
-    public String getIndex(){
-            return "redirect:/posts/show";
+    public String getIndex(Principal principal){
+
+        if(principal != null){
+            return "profile";
         }
+        return "redirect:/posts/show";
+    }
 
 
     @RequestMapping(value = "/home")

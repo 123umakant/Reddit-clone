@@ -12,8 +12,9 @@ body {
 	margin : 0px 0px;
 	display : flex;
 	flex-direction : row;
-	justify-content : space-between;
+	justify-content : space-evenly;
 	align-items : center;
+
 }
 
 #redditlogo {
@@ -21,7 +22,7 @@ body {
 }
 
 #profile {
-    padding : 20px;
+    padding : 10px;
     border-radius : 5px;
 }
 
@@ -33,18 +34,24 @@ body {
     list-style : none;
     position : absolute;
     width : 6em;
-    background-color : rgb(240, 240, 240);
+    background-color : white;
     border-radius : 0px 0px 10px 10px;
-    margin-top : 0.7em;
-    padding : 10px;
+    margin-top : 5px;
+    padding : 5px;
+    right : 70px;
 }
 
 #profile ul li{
     margin : auto;
     padding : 10px;
+    font-size : 20px;
     text-align : center;
     display : none;
     border-radius : 10px;
+}
+
+#profile ul li a {
+    text-decoration : none;
 }
 
 #profile:hover ul li {
@@ -52,7 +59,9 @@ body {
 }
 
 #profile ul li:hover {
-    background-color : rgb(225, 225, 225);
+    background-color : blue;
+    color : white;
+
 }
 
 #trending {
@@ -107,12 +116,15 @@ body {
 }
 
 #post-content div {
+
    background-color : white;
    padding : 3px 10px;
    border-radius : 5px;
    border-width : 1px;
-       border-color : black;
-       border-style : solid;
+   border-color : black;
+   border-style : solid;
+   margin-top : 6px;
+   padding-top : 0px;
 }
 
 #post-content div section{

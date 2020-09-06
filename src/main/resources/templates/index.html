@@ -19,14 +19,11 @@
             </div>
 
             <span id="profile" sec:authorize="isAuthenticated()">
-                 <a sec:authentication="name">YOU</a>
-                <ul>
-                 <li sec:authorize="hasAuthority('admin')"><a th:href="@{/profile}">Profile</a></li>
-                 <li sec:authorize="hasAuthority('author')"><a th:href="@{/profile}">Profile</a></li>
-                <li sec:authorize="hasAuthority('admin')"><a th:href="@{/blog}">Create blog</a></li>
-                <li sec:authorize="hasAuthority('author')"><a th:href="@{/blog}">Create blog</a></li>
-                <li><a th:href="@{/logout}">Logout</a></li>
-           </ul>
+                  <a sec:authentication="name">YOU</a>
+                  <ul>
+                     <li ><a th:href="@{/profile}">Profile</a></li>
+                     <li><a th:href="@{/logout}">Logout</a></li>
+                 </ul>
             </span>
 
         </div>
@@ -63,7 +60,7 @@
                     <div th:each=" post : ${posts}">
 
                         <section id="textpost" th:if="${post.contentType == 'text'}">
-                            <span style="font-size : 14px" th:text="${post.user}">user</span><br>
+                            <span style="font-size : 14px;" th:text="${post.user}">user</span><br>
                             <span style="font-size : 22px"th:text="${post.title}">title</span><br>
                             <span style="font-size : 18px" th:text="${post.content}">content</span>
                         </section>
