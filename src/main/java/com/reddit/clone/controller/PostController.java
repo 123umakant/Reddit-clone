@@ -10,6 +10,9 @@ import com.reddit.clone.service.FileService;
 import com.reddit.clone.service.PostService;
 import com.reddit.clone.service.UserService;
 import com.reddit.clone.service.VoteService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,22 +47,29 @@ public class PostController {
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
 
         List<Post> posts = postService.findAll();
-        User user = userService.findByUserName(principal.getName());
-        List<ShowPostDto> showPostDtoList = new ArrayList<>();
-        for (Post post : posts) {
-            Vote vote = voteService.findByPostAndUser(post, user);
-            ShowPostDto showPostDto = new ShowPostDto(post);
 
-            if (vote != null) {
-                showPostDto.setIsVoted(true);
-                showPostDto.getIsUpVote(vote.isUpVote());
-            }
-            showPostDtoList.add(showPostDto);
+        if (principal != null) {
+            User user = userService.findByUserName(principal.getName());
+                List<ShowPostDto> showPostDtoList = new ArrayList<>();
+                for (Post post : posts) {
+                    Vote vote = voteService.findByPostAndUser(post, user);
+                    ShowPostDto showPostDto = new ShowPostDto(post);
+
+                    if (vote != null) {
+                        showPostDto.setIsVoted(true);
+                        showPostDto.getIsUpVote(vote.isUpVote());
+                    }
+                    showPostDtoList.add(showPostDto);
+                }
+
+                model.addAttribute("posts", showPostDtoList);
+
+                return "index";
         }
 
-        model.addAttribute("posts", showPostDtoList);
+        model.addAttribute("posts", posts);
 
-        return "showposts";
+        return "index";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -74,7 +84,8 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model model, @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model
+            model, @RequestParam(value = "file", required = false) MultipartFile multipartFile,
                        Principal principal) throws IOException {
 
         if (textPostDto.getContentType().equals("media")) {

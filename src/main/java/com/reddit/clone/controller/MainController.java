@@ -14,7 +14,7 @@ public class MainController {
 
     @RequestMapping(value = "/")
     public String getIndex(){
-            return "index";
+            return "redirect:/posts/show";
         }
 
 
