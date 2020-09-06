@@ -89,16 +89,5 @@ public class Comment {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", text='" + text + '\'' +
-                ", post=" + post +
-                ", voteCount=" + voteCount +
-                ", commentSet=" + commentSet +
-                ", user=" + user +
-                ", createdDate=" + createdDate +
-                '}';
-    }
+
 }

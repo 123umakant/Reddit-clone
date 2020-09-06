@@ -1,5 +1,6 @@
 package com.reddit.clone.service.implementation;
 
+import com.reddit.clone.dto.ResponsePostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Comment;
 import com.reddit.clone.model.Post;
@@ -36,17 +37,7 @@ public class PostServiceimpl implements PostService {
     }
 
     @Override
-    public List<Post> findAll() {
-        /*List<Optional<Comment>> optionalList = new ArrayList<>();
-        List<Post> posts = new ArrayList<>();
-        posts =postRepository.findAll();
-        Iterator<Post> itr = posts.iterator();
-        while (itr.hasNext()){
-            Post post = itr.next();
-            Long postId = post.getId();
-            optionalList.add(commentRepository.findById(postId));
-        }*/
-
+    public List<Post>  findAll() {
         return postRepository.findAll();
     }
 }

@@ -27,10 +27,6 @@ public class Post {
     @Column(name = "contenttype")
     private String contentType;
 
-    @OneToMany(fetch = LAZY)
-    @JoinColumn(name = "comment",referencedColumnName = "id")
-    private Comment comment;
-
     @Column(name = "votecount")
     private Integer voteCount = 0;
 
@@ -115,13 +111,6 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
-    }
 
     @Override
     public String toString() {

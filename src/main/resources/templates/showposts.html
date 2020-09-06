@@ -68,13 +68,14 @@
                 </form>
 
             </div>
-            <div th:each="items : ${comment}">
-                <p th:text="${items.text}"></p>
-            </div>
+            <div th:each="items : ${comments}">
+                <p th:if="${items.post.id == post.id}" th:text="${items.text}">
 
-            <div>
-                <button>Reply</button>
+                </p>
+
             </div>
+            <button>Reply</button>
+
 
 
             <hr>
