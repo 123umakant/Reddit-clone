@@ -5,24 +5,29 @@
     <title>Reddit the fromt page of the internet</title>
     <link rel="stylesheet" href="../static/css/profilestyle.css" th:href="@{/css/profilestyle.css}">
 
-<style>
-    .btn{
-    margin:5px;
-    height:31px;
-    }
-</style>
-
 </head>
 <body>
     <div id="navbar">
 
         <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png" alt="reddit logo">
-        <form th:action="@{#}" href="#">
-            <input  style="height : 40px; font-size : 20px; width : 800px" type="text">
+        <select name="page" onchange="location = this.value;">
+            <option  value="home" selected>Home</option>
+            <option value="popular">Popular</option>
+            <option value="all">All</option>
+            <option value="Communities">Top Communities</option>
+            <option value="posts/create">Create Post</option>
+        </select>
+        <form th:action="@{#}" href="#" >
+            <input  style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text">
             <button class="btn btn-default" style="height : 40px; font-size : 20px" type="submit">Search</button>
         </form>
-
-        <span id="profile" sec:authorize="isAuthenticated()">
+        <div style="margin-right : 100px;">
+            <button class="nav-btn">ALL</button>
+            <button class="nav-btn">TOP</button>
+            <BUTTON class="nav-btn">POP</BUTTON>
+            <button class="nav-btn">CP</button>
+        </div>
+        <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
                       <a sec:authentication="name">YOU</a>
                       <ul>
                          <li ><a th:href="@{/profile}">Profile</a></li>
@@ -33,25 +38,18 @@
     </div>
 
     <div id="usernavigation">
-<!--        <section>-->
-<!--            <button>OVERVIEW</button>-->
-<!--            <button>POSTS</button>-->
-<!--            <button>COMMENTS</button>-->
-<!--            <button>SAVED</button>-->
-<!--            <button>HIDDEN</button>-->
-<!--            <button>UPVOTED</button>-->
-<!--            <button>DOWNVOTED</button>-->
-        <section style="display:flex;">
+
+        <section>
             <button class="btn">OVERVIEW</button>
-            <form action="posts/create">
             <button class="btn">POSTS</button>
-            </form>
             <button class="btn">COMMENTS</button>
             <button class="btn">SAVED</button>
             <button class="btn">HIDDEN</button>
             <button class="btn">UPVOTED</button>
             <button class="btn">DOWNVOTED</button>
         </section>
+
     </div>
+
 </body>
 </html>
