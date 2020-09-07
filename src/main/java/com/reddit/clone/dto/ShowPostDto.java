@@ -41,7 +41,6 @@ public class ShowPostDto {
         this.content = post.getContent();
         this.contentType = post.getContentType();
         this.user = post.getUser();
-        this.commentList = post.getCommentList();
         this.upVoteCount = post.getUpVoteCount();
         this.downVoteCount = post.getDownVoteCount();
         this.createdAt = post.getCreatedAt();

@@ -29,9 +29,7 @@ public class Post {
 
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     private User user;
-
-    @OneToMany(fetch = LAZY, mappedBy = "post")
-    private Set<Comment> commentList = new HashSet<>();
+    
 
     @OneToMany(fetch = LAZY, mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Vote> voteList = new HashSet<>();
@@ -42,9 +40,16 @@ public class Post {
     @Column(name = "downvotecount")
     private Integer downVoteCount = 0;
 
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "subreddit_id", referencedColumnName = "id")
+    private Subreddit subreddit;
+
+
 
     @PrePersist
     public void prePersist() {
@@ -58,6 +63,14 @@ public class Post {
         this.title = title;
         this.content = content;
         this.contentType = contentType;
+    }
+
+    public Subreddit getSubreddit() {
+        return subreddit;
+    }
+
+    public void setSubreddit(Subreddit subreddit) {
+        this.subreddit = subreddit;
     }
 
     public Long getId() {
@@ -92,13 +105,6 @@ public class Post {
         this.contentType = contentType;
     }
 
-    public Set<Comment> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(Set<Comment> commentList) {
-        this.commentList = commentList;
-    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -107,6 +113,7 @@ public class Post {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
 
     public void setVoteList(Set<Vote> voteList) {
         this.voteList = voteList;

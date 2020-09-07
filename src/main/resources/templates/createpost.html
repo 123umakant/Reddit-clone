@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
 <body>
 
 <button type="button" onclick="asd('text')" id="textpostform">Text post</button>
 <button type="button" onclick="asd('media')" id="mediapostform">Image/Video post</button>
 <button type="button" onclick="asd('link')" id="linkpostform">Link post</button>
 
+
+
+
 <form id="textpost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
       enctype="multipart/form-data">
+
+    <label for="subreddit">Choose a Subreddit:</label>
+    <select name="subredditName" id="subreddit">
+    </select>
+
     <div class="form-group">
         <label>Title:</label>
         <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="title">
@@ -59,6 +71,19 @@
 
       window.onload = function() {
 
+	$.ajax({
+				url : "/subreddit/get",
+				type : "get",
+				success : function(data) {
+                          console.log(data);
+                           for(var i=0;i<data.length;i++){
+                          console.log(data[i].communityName);
+                            $("#subreddit").append("<option value="+data[i].communityName+">r/"+data[i].communityName+"</option>");
+                        }
+				}
+
+			});
+
         document.getElementById("textpost").style.display = "block";
         document.getElementById("mediapost").style.display = "none";
         document.getElementById("linkpost").style.display = "none";
@@ -88,6 +113,8 @@
     document.getElementById("textcontent").value = "text";
     document.getElementById("mediacontent").value = "media";
     document.getElementById("linkcontent").value = "link";
+
+
 
 </script>
 
