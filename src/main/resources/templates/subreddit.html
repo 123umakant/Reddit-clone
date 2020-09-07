@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Subreddit</title>
+    <link rel="stylesheet" href="../static/css/createpoststyle.css" th:href="@{/css/createpoststyle.css}">
     <style>
     body{
    background-color: #DAE0E6;
@@ -53,8 +54,41 @@ padding: 9px 9px 9px 7px;
     </style>
 </head>
 <body>
-<h1>Create Subreddit</h1>
+
+<div id="navbar">
+
+    <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png"
+         alt="reddit logo">
+    <select name="page" onchange="location = this.value;">
+        <option value="home" selected>Home</option>
+        <option value="popular">Popular</option>
+        <option value="all">All</option>
+        <option value="Communities">Top Communities</option>
+        <option value="posts/create">Create Post</option>
+    </select>
+    <form th:action="@{#}" href="#">
+        <input style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text">
+        <button style="height : 40px; font-size : 20px" type="submit">Search</button>
+    </form>
+    <div style="margin-right : 100px;">
+        <button class="nav-btn">ALL</button>
+        <button class="nav-btn">TOP</button>
+        <BUTTON class="nav-btn">POP</BUTTON>
+        <button class="nav-btn">CP</button>
+    </div>
+    <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
+            <a sec:authentication="name">YOU</a>
+                <ul>
+                    <li><a th:href="@{/profile?sort=createdat}">Profile</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+        </span>
+
+</div>
+<hr>
+
 <div class="form-section">
+    <h6 style="margin-left : 15px;">Create Subreddit</h6>
     <form th:action="@{/subreddit/store}" method="post">
         <div class="form-div">
             <input type="text" class="form-input" name="title" placeholder="Title" required>

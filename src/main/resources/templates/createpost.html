@@ -1,121 +1,52 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style>
-    body {font-family: Arial;}
+    <link rel="stylesheet" href="../static/css/createpoststyle.css" th:href="@{/css/createpoststyle.css}">
 
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
-
-
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-}
-
-.tab button:hover {
-  background-color: #ddd;
-}
-
-
-.tab button.active {
-  background-color: #ccc;
-}
-
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-  background-color: white;
-}
-.form-control{
-    height: 39px;
-    width: 100%;
-
-}
-.form-group{
-padding: 9px 9px 9px 7px;
- color:#0060a8;
-}
-#content{
-    min-height: 122px;
-}
-.btn{
-border-color: blue;
-color:blue;
- box-sizing: border-box;
-  appearance: none;
-  background-color: transparent;
-  border: 2px solid $red;
-  border-radius: 0.6em;
-  color: $red;
-  cursor: pointer;
-  display: flex;
-  align-self: center;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1;
-  margin: 20px;
-  padding: 11px 33px;
-  text-decoration: none;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-
-  &:hover,
-  &:focus {
-    color: #fff;
-    outline: 0;
-  }
-
-}
-#subreddit{
-    position: relative;
-    box-sizing: border-box;
-    min-width: 300px;
-    height: 40px;
-    border-radius: 4px;
-    background-color:white;
-}
-.subreddit{
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-.createSubreddit{
-
-    min-width: 297px;
-    height: 40px;
-    border-radius: 4px;
-}
-    </style>
 </head>
 <body style="background:#DAE0E6;">
 
+    <div id="navbar">
 
-<h2>Create a Post</h2>
+        <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png"
+             alt="reddit logo">
+        <select name="page" onchange="location = this.value;">
+            <option value="home" selected>Home</option>
+             <option value="popular">Popular</option>
+            <option value="all">All</option>
+            <option value="Communities">Top Communities</option>
+            <option value="posts/create">Create Post</option>
+        </select>
+        <form th:action="@{#}" href="#">
+            <input style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text">
+            <button style="height : 40px; font-size : 20px" type="submit">Search</button>
+        </form>
+        <div style="margin-right : 100px;">
+            <button class="nav-btn">ALL</button>
+            <button class="nav-btn">TOP</button>
+            <BUTTON class="nav-btn">POP</BUTTON>
+            <button class="nav-btn">CP</button>
+        </div>
+        <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
+            <a sec:authentication="name">YOU</a>
+                <ul>
+                    <li><a th:href="@{/profile?sort=createdat}">Profile</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+        </span>
+
+    </div>
 <hr>
 <div class="subreddit">
     <div>
-<label for="subreddit">Choose a Subreddit:</label>
-<select name="subredditName" id="subreddit"></select>
+        <label for="subreddit">Choose a Subreddit:</label>
+        <select name="subredditName" id="subreddit"></select>
     </div>
     <div>
-<form action="/subreddit/create">
-<button class="createSubreddit">Create Subreddit</button>
-</form>
+        <form action="/subreddit/create">
+            <button class="createSubreddit">Create Subreddit</button>
+        </form>
     </div>
 </div>
 
@@ -206,6 +137,8 @@ color:blue;
 
 
 
+
+
 </script>
 <script>
 function openCity(evt, cityName) {
@@ -224,6 +157,12 @@ function openCity(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+document.getElementById("textcontent").value = "text";
+document.getElementById("mediacontent").value = "media";
+document.getElementById("linkcontent").value = "link";
+
+
 
 </script>
 

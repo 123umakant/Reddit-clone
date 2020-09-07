@@ -30,7 +30,7 @@
         <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
                       <a sec:authentication="name">YOU</a>
                       <ul>
-                         <li ><a th:href="@{/profile/?sort=createdat}">Profile</a></li>
+                         <li ><a th:href="@{/profile?sort=createdat}" >Profile</a></li>
                          <li><a th:href="@{/logout}">Logout</a></li>
                       </ul>
         </span>
@@ -114,7 +114,7 @@
 
             <section >
                 <span sec:authentication="name">YOU</span>
-                <button th:onclick="window.location='posts/create'">New Post</button>
+                <button th:onclick="window.location='/../posts/create'">New Post</button>
             </section>
 
             <section th:unless="${param.profile}">
@@ -150,6 +150,8 @@
         </div>
 
     </div>
+
+<!--    <span th:text="${#httpServletRequest.requestURI} + "-" + ${#httpServletRequest.queryString}"></span>-->
 
 </body>
 </html>

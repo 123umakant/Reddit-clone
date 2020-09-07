@@ -10,9 +10,12 @@ import com.reddit.clone.service.VoteService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +34,13 @@ public class ProfileController {
         this.voteService = voteService;
     }
 
-    @RequestMapping("/")
+    @GetMapping
     public String goToProfile(@RequestParam(value = "sort", required = false) String sort, Principal principal,
+                              @ModelAttribute("page") String page, HttpServletRequest request,
                               Model model) {
         User user = userService.findByUserName(principal.getName());
 
-        List<Post> postList = postService.findByUser(user, Sort.by(Sort.Direction.ASC, "createdAt"));
+        List<Post> postList = postService.findByUser(user, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         List<ShowPostDto> showPostDtoList = new ArrayList<>();
         for (Post post : postList) {
