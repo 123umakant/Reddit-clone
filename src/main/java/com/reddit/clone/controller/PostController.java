@@ -2,9 +2,7 @@ package com.reddit.clone.controller;
 
 import com.reddit.clone.configurations.metadata.AwsS3Credentials;
 import com.reddit.clone.dto.ShowPostDto;
-=========
 import com.reddit.clone.dto.ResponsePostDto;
->>>>>>>>> Temporary merge branch 2
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
@@ -30,9 +28,6 @@ import java.util.List;
 @RequestMapping("/posts")
 public class PostController {
 
-    @Autowired
-    CommentServiceImpl commentService;
-
     private PostService postService;
     private FileService fileService;
     private AwsS3Credentials awsS3Credentials;
@@ -54,22 +49,8 @@ public class PostController {
 
 
         List<Post> posts = postService.findAll();
-        User user = userService.findByUserName(principal.getName());
-        List<ShowPostDto> showPostDtoList = new ArrayList<>();
-        for (Post post : posts) {
-            Vote vote = voteService.findByPostAndUser(post, user);
-            ShowPostDto showPostDto = new ShowPostDto(post);
 
-            if (vote != null) {
-                showPostDto.setIsVoted(true);
-                showPostDto.getIsUpVote(vote.isUpVote());
-            }
-            showPostDtoList.add(showPostDto);
-        }
-
-        model.addAttribute("posts", showPostDtoList);
-        model.addAttribute("comments", commentService.findAll());
-
+        model.addAttribute("posts", posts);
 
         return "index";
     }
@@ -116,6 +97,6 @@ public class PostController {
         postService.save(post, textPostDto);
 
 
-        return "redirect:/posts/create";
+        return "redirect:/profile?sort?createdat";
     }
 }

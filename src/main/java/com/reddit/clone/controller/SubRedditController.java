@@ -26,7 +26,7 @@ public class SubRedditController {
     @PostMapping("/store")
     public String create(@Validated SubredditDto subredditDto){
         subredditService.save(subredditDto);
-         return  "home";
+         return  "redirect:/posts/create";
     }
      @GetMapping("/get")
      @ResponseBody
