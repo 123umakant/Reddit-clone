@@ -3,43 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        #respond {
-  margin-top: 40px;
-}
-
-#respond input[type='text'],
-#respond input[type='email'],
-#respond textarea {
-  margin-bottom: 10px;
-  display: block;
-    width:40%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -o-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  border-radius: 5px;
-
-  line-height: 1.4em;
-}
-
-    </style>
 </head>
 <body>
 
         <h1>posts</h1>
         <div th:each=" post : ${posts}">
 
-
-
             <div th:if="${post.contentType == 'text'}">
-
                 <span th:text="${post.user}"></span><br>
                 <span th:text="${post.title}"></span><br>
                 <span th:text="${post.content}"></span>
-
             </div>
             <div th:if="${post.contentType == 'image'}">
                 <span th:text="${post.user}"></span><br>
@@ -68,37 +41,8 @@
             <button th:unless="${post.isVoted && post.isUpVote == false}"><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
             <button th:if="${post.isVoted && post.isUpVote == false}"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
 
-            <div id="respond">
-
-                <h3>Leave a Comment</h3>
-
-                <form th:action="@{/comment/create}" method="post" >
-
-                    <label  class="required">Your message</label>
-                    <textarea name="comment"  rows="8" tabindex="4"  required="required"></textarea>
-                    <input type="hidden" th:value="${post.id}"  name="postId" />
-                    <input name="submit" type="submit" value="Submit comment" />
-
-                </form>
-
-            </div>
-            <div th:each="items : ${comments}">
-                <p th:if="${items.post.id == post.id}" th:text="${items.text}">
-
-                </p>
-
-            </div>
-            <button>Reply</button>
-
-
-
-
             <hr>
         </div>
-
-
-
-
 
 
 </body>

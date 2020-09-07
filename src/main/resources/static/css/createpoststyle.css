@@ -1,0 +1,178 @@
+body {font-family: Arial;
+    font-size : 30px;
+}
+
+
+#navbar {
+	background-color : white;
+	height : 1.8em;
+	margin : 0px 0px;
+	display : flex;
+	flex-direction : row;
+	justify-content : space-evenly;
+	align-items : center;
+
+}
+
+#redditlogo {
+    height : 40px;
+}
+
+#navbar select {
+    width : 200px;
+    height : 40px;
+    border-style : solid;
+    border-width : 1px;
+    border-color : black;
+    border-radius : 5px;
+    background-color : white;
+}
+
+.nav-btn {
+    width : 40px;
+    height : 40px;
+    font-weight : bold;
+    text-align : center;
+    padding : 2px;
+    border-style : none;
+    background-color : white;
+}
+
+#profile {
+    padding : 10px;
+    border-radius : 5px;
+}
+
+#profile:hover {
+    background-color : rgb(225, 225, 225);
+}
+
+#profile ul{
+    list-style : none;
+    position : absolute;
+     width : 6em;
+    background-color : white;
+    border-radius : 0px 0px 10px 10px;
+    margin-top : 5px;
+    padding : 5px;
+    right : 70px;
+}
+
+#profile ul li{
+    margin : auto;
+    padding : 10px;
+    font-size : 20px;
+    text-align : center;
+    display : none;
+    border-radius : 10px;
+}
+
+#profile ul li a {
+    text-decoration : none;
+}
+
+#profile:hover ul li {
+    display : block;
+}
+
+#profile ul li:hover {
+    background-color : blue;
+    color : white;
+
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+}
+
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: white;
+}
+.form-control{
+    height: 39px;
+    width: 100%;
+
+}
+.form-group{
+padding: 9px 9px 9px 7px;
+ color:#0060a8;
+}
+#content{
+    min-height: 122px;
+}
+.btn{
+border-color: blue;
+color:blue;
+ box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid $red;
+  border-radius: 0.6em;
+  color: $red;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 20px;
+  padding: 11px 33px;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+
+}
+#subreddit{
+    position: relative;
+    box-sizing: border-box;
+    min-width: 300px;
+    height: 40px;
+    border-radius: 4px;
+    background-color:white;
+}
+.subreddit{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.createSubreddit{
+
+    min-width: 297px;
+    height: 40px;
+    border-radius: 4px;
+}

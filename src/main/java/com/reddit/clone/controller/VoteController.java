@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
@@ -29,8 +30,7 @@ public class VoteController {
 
     @RequestMapping("/vote")
     public String vote(@PathVariable("postid") long postId, @RequestParam("upvote") String upVote,
-                       Principal principal) {
-
+                       Principal principal, HttpServletRequest request) {
         boolean isUpVote = upVote.equals("true") ? true : false;
 
         Post post = postService.findByPostId(postId);
@@ -65,7 +65,7 @@ public class VoteController {
 
         voteService.save(vote);
 
-        return "redirect:/posts/show";
+        return "redirect:/profile?sort?createdat";
     }
 
     @RequestMapping("/unvote")
@@ -85,7 +85,7 @@ public class VoteController {
 
         voteService.removeByPostAndUser(post, loggedUser);
 
-        return "redirect:/posts/show";
+        return "redirect:/profile?sort?createdat";
     }
 
 }

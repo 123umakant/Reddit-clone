@@ -2,7 +2,9 @@ package com.reddit.clone.controller;
 
 import com.reddit.clone.configurations.metadata.AwsS3Credentials;
 import com.reddit.clone.dto.ShowPostDto;
-
+=========
+import com.reddit.clone.dto.ResponsePostDto;
+>>>>>>>>> Temporary merge branch 2
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
@@ -69,8 +71,10 @@ public class PostController {
         model.addAttribute("comments", commentService.findAll());
 
 
-        return "showposts";
+        return "index";
     }
+
+
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getPostDto(Model model) {
@@ -84,7 +88,8 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model model, @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model
+            model, @RequestParam(value = "file", required = false) MultipartFile multipartFile,
                        Principal principal) throws IOException {
 
         if (textPostDto.getContentType().equals("media")) {

@@ -1,15 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Subreddit</title>
+    <link rel="stylesheet" href="../static/css/createpoststyle.css" th:href="@{/css/createpoststyle.css}">
+    <style>
+    body{
+   background-color: #DAE0E6;
+    }
+
+        .form-section{
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    background-color: white;
+        }
+        .form-input{
+            height: 39px;
+            width: 100%;
+        }
+.form-div{
+padding: 9px 9px 9px 7px;
+}
+.btn {
+    border-color: blue;
+    color: blue;
+    box-sizing: border-box;
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid $red;
+    border-radius: 0.6em;
+    color: $red;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    margin: 20px;
+    padding: 11px 33px;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    &: hover,;
+    &: focus {;
+    color: #fff;
+    outline: 0;
+    }: ;
+}
+
+    </style>
 </head>
 <body>
-<h1>Create Subreddit</h1>
-    <form action="/subreddit/create" method="post">
-        <input type="text" name="title" placeholder="title" required>
-        <input type="text" name="description" placeholder="description">
-        <input type="submit" name="submit">
+
+<div id="navbar">
+
+    <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png"
+         alt="reddit logo">
+    <select name="page" onchange="location = this.value;">
+        <option value="home" selected>Home</option>
+        <option value="popular">Popular</option>
+        <option value="all">All</option>
+        <option value="Communities">Top Communities</option>
+        <option value="posts/create">Create Post</option>
+    </select>
+    <form th:action="@{#}" href="#">
+        <input style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text">
+        <button style="height : 40px; font-size : 20px" type="submit">Search</button>
     </form>
+    <div style="margin-right : 100px;">
+        <button class="nav-btn">ALL</button>
+        <button class="nav-btn">TOP</button>
+        <BUTTON class="nav-btn">POP</BUTTON>
+        <button class="nav-btn">CP</button>
+    </div>
+    <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
+            <a sec:authentication="name">YOU</a>
+                <ul>
+                    <li><a th:href="@{/profile?sort=createdat}">Profile</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+        </span>
+
+</div>
+<hr>
+
+<div class="form-section">
+    <h6 style="margin-left : 15px;">Create Subreddit</h6>
+    <form th:action="@{/subreddit/store}" method="post">
+        <div class="form-div">
+            <input type="text" class="form-input" name="title" placeholder="Title" required>
+        </div>
+        <div class="form-div">
+            <input type="text" class="form-input" style="min-height:100px;" name="description" placeholder="Description">
+        </div>
+        <input type="submit" class="btn" name="submit">
+    </form>
+</div>
+
 </body>
 </html>
