@@ -1,18 +1,20 @@
 package com.reddit.clone.dto;
 
 public class RegisterDto {
-        private long timeStamp;
-        private String name;
-        private String email;
-        private String password;
-        private String role;
 
-    public long getTimeStamp() {
-        return timeStamp;
+        private String name;
+
+        private String email;
+
+        private String password;
+
+    public RegisterDto() {
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public RegisterDto(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
     public String getName() {
@@ -39,22 +41,13 @@ public class RegisterDto {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     @Override
     public String toString() {
         return "RegisterDto{" +
-                "timeStamp=" + timeStamp +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+
                 '}';
     }
 }

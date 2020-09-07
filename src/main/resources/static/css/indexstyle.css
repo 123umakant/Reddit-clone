@@ -1,0 +1,138 @@
+@charset "UTF-8";
+
+body {
+	font-family: monospace;
+	background-color : rgb(199, 210, 213);
+	font-size : 30px;
+}
+
+#navbar {
+	background-color : white;
+	height : 1.8em;
+	margin : 0px 0px;
+	display : flex;
+	flex-direction : row;
+	justify-content : space-evenly;
+	align-items : center;
+
+}
+
+#redditlogo {
+    height : 40px;
+}
+
+#profile {
+    padding : 10px;
+    border-radius : 5px;
+}
+
+#profile:hover {
+    background-color : rgb(225, 225, 225);
+}
+
+#profile ul{
+    list-style : none;
+    position : absolute;
+    width : 6em;
+    background-color : white;
+    border-radius : 0px 0px 10px 10px;
+    margin-top : 5px;
+    padding : 5px;
+    right : 70px;
+}
+
+#profile ul li{
+    margin : auto;
+    padding : 10px;
+    font-size : 20px;
+    text-align : center;
+    display : none;
+    border-radius : 10px;
+}
+
+#profile ul li a {
+    text-decoration : none;
+}
+
+#profile:hover ul li {
+    display : block;
+}
+
+#profile ul li:hover {
+    background-color : blue;
+    color : white;
+
+}
+
+#trending {
+    max-width : 1000px;
+    height : 250px;
+    margin : auto;
+    margin-top : -5px;
+}
+
+#trending div {
+    display : flex;
+    flex-direction : row;
+   	justify-content : space-between;
+    margin-top : 5px;
+}
+
+#trendingposts {
+    border-radius : 20px;
+    width :200px;
+    height : 200px;
+}
+
+#post-subreddit {
+    max-width : 970px;
+    display : flex;
+    flex-direction : row;
+    justify-content : space-between;
+    margin : auto;
+    margin-top : 10px;
+}
+
+#sort-posts{
+    height : 40px;
+    background-color : white;
+    border-radius : 3px;
+    border-width : thin;
+    border-color : black;
+    border-style : solid;
+}
+
+#sort-posts button {
+    background-color : white;
+    border-radius : 10px;
+    border-width : 1px;
+    border-color : black;
+    border-style : solid;
+    width : 80px;
+    height : 30px;
+    color : blue;
+    font-weight : bold;
+    margin-left : 10px;
+}
+
+#post-content div {
+
+   background-color : white;
+   padding : 3px 10px;
+   border-radius : 5px;
+   border-width : 1px;
+   border-color : black;
+   border-style : solid;
+   margin-top : 6px;
+   padding-top : 0px;
+}
+
+#post-content div section{
+    margin-left : 20px;
+}
+
+#textpost {
+    height : 100px;
+}
+
+

@@ -1,23 +1,40 @@
 package com.reddit.clone.controller;
 
 import com.reddit.clone.dto.RegisterDto;
+import com.reddit.clone.model.User;
+import com.reddit.clone.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/api/auth")
 public class AuthController {
 
-    @PostMapping("/register")
-    public String register(@RequestBody RegisterDto registerDto){
+    private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
-        return "";
+    public AuthController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("login")
-    public String login(){
+    @GetMapping("/register")
+    public String sendSignUpPage(Model model) {
+        model.addAttribute("user", new RegisterDto());
+        return "signup";
+    }
 
-        return "";
+    @PostMapping("/register")
+    public String register(@ModelAttribute("user") RegisterDto registerDto) {
+        User user = new User(registerDto.getName(), registerDto.getEmail(), passwordEncoder.encode(registerDto.getPassword()));
+        userService.save(user);
+        return "login";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
 }

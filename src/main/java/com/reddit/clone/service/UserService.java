@@ -4,24 +4,18 @@ import com.reddit.clone.dto.RegisterDto;
 import com.reddit.clone.model.User;
 import com.reddit.clone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+public interface UserService extends UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    UserDetails loadUserByUsername(String userName);
 
-    public void registerUser(RegisterDto registerDto){
-        User user = new User();
-        user.setUserName(registerDto.getName());
-        user.setEmail(registerDto.getEmail());
-        String encodedPassword = passwordEncoder.encode(registerDto.getPassword());
-        user.setPassword(encodedPassword);
-        userRepository.save(user);
-    }
+    User save(User user);
+
+    User findByUserName(String userName);
+
 }

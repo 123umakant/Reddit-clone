@@ -1,48 +1,75 @@
 package com.reddit.clone.controller;
 
 import com.reddit.clone.configurations.metadata.AwsS3Credentials;
-import com.reddit.clone.dto.ResponsePostDto;
+import com.reddit.clone.dto.ShowPostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.User;
+import com.reddit.clone.model.Vote;
 import com.reddit.clone.service.FileService;
 import com.reddit.clone.service.PostService;
-import com.reddit.clone.service.implementation.CommentServiceImpl;
-import com.reddit.clone.service.implementation.PostServiceimpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.reddit.clone.service.UserService;
+import com.reddit.clone.service.VoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/posts")
 public class PostController {
 
-    @Autowired
-    CommentServiceImpl commentService;
-
     private PostService postService;
     private FileService fileService;
     private AwsS3Credentials awsS3Credentials;
+    private UserService userService;
+    private VoteService voteService;
 
-    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials) {
+    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService, VoteService voteService) {
         this.postService = postService;
         this.fileService = fileService;
         this.awsS3Credentials = awsS3Credentials;
+        this.userService = userService;
+        this.voteService = voteService;
     }
 
     @GetMapping("/show")
-    public String showPosts(Model model) {
+    public String showPosts(Model model, Principal principal) {
 
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
-        model.addAttribute("posts", postService.findAll());
-        model.addAttribute("comments", commentService.findAll());
 
+        List<Post> posts = postService.findAll();
 
-        return "showposts";
+        if (principal != null) {
+            User user = userService.findByUserName(principal.getName());
+            List<ShowPostDto> showPostDtoList = new ArrayList<>();
+            for (Post post : posts) {
+                Vote vote = voteService.findByPostAndUser(post, user);
+                ShowPostDto showPostDto = new ShowPostDto(post);
+
+                if (vote != null) {
+                    showPostDto.setIsVoted(true);
+                    showPostDto.getIsUpVote(vote.isUpVote());
+                }
+                showPostDtoList.add(showPostDto);
+            }
+
+            model.addAttribute("posts", showPostDtoList);
+
+            return "index";
+        }
+
+        model.addAttribute("posts", posts);
+
+        return "index";
     }
+
+
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getPostDto(Model model) {
@@ -56,7 +83,9 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model model, @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
+    public String post(@ModelAttribute("post") TextPostDto textPostDto, Model
+            model, @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+                       Principal principal) throws IOException {
 
         if (textPostDto.getContentType().equals("media")) {
             String fileName = fileService.upLoadFile(multipartFile);
@@ -73,7 +102,12 @@ public class PostController {
         }
 
         Post post = new Post(textPostDto.getTitle(), textPostDto.getContent(), textPostDto.getContentType());
-        postService.save(post, textPostDto);
+        User loggedUser = userService.findByUserName(principal.getName());
+
+        loggedUser.getPostList().add(post);
+        post.setUser(loggedUser);
+
+        postService.save(post);
 
         return "redirect:/posts/create";
     }

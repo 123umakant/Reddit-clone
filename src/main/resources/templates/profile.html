@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Reddit the fromt page of the internet</title>
+    <link rel="stylesheet" href="../static/css/profilestyle.css" th:href="@{/css/profilestyle.css}">
+<style>
+    .btn{
+    margin:5px;
+    height:31px;
+    }
+
+</style>
+</head>
+<body>
+    <div id="navbar">
+
+        <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png" alt="reddit logo">
+        <form th:action="@{#}" href="#">
+            <input  style="height : 40px; font-size : 20px; width : 800px" type="text">
+            <button class="btn btn-default" style="height : 40px; font-size : 20px" type="submit">Search</button>
+        </form>
+
+        <span id="profile" sec:authorize="isAuthenticated()">
+                      <a sec:authentication="name">YOU</a>
+                      <ul>
+                         <li ><a th:href="@{/profile}">Profile</a></li>
+                         <li><a th:href="@{/logout}">Logout</a></li>
+                    </ul>
+        </span>
+
+    </div>
+
+    <div id="usernavigation">
+        <section style="display:flex;">
+            <button class="btn">OVERVIEW</button>
+            <form action="posts/create">
+            <button class="btn">POSTS</button>
+            </form>
+            <button class="btn">COMMENTS</button>
+            <button class="btn">SAVED</button>
+            <button class="btn">HIDDEN</button>
+            <button class="btn">UPVOTED</button>
+            <button class="btn">DOWNVOTED</button>
+        </section>
+    </div>
+</body>
+</html>
