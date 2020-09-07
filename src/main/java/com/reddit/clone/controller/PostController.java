@@ -2,6 +2,7 @@ package com.reddit.clone.controller;
 
 import com.reddit.clone.configurations.metadata.AwsS3Credentials;
 import com.reddit.clone.dto.ShowPostDto;
+
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
@@ -47,21 +48,22 @@ public class PostController {
 
         if (principal != null) {
             User user = userService.findByUserName(principal.getName());
-            List<ShowPostDto> showPostDtoList = new ArrayList<>();
-            for (Post post : posts) {
-                Vote vote = voteService.findByPostAndUser(post, user);
-                ShowPostDto showPostDto = new ShowPostDto(post);
 
-                if (vote != null) {
-                    showPostDto.setIsVoted(true);
-                    showPostDto.getIsUpVote(vote.isUpVote());
+                List<ShowPostDto> showPostDtoList = new ArrayList<>();
+                for (Post post : posts) {
+                    Vote vote = voteService.findByPostAndUser(post, user);
+                    ShowPostDto showPostDto = new ShowPostDto(post);
+
+                    if (vote != null) {
+                        showPostDto.setIsVoted(true);
+                        showPostDto.getIsUpVote(vote.isUpVote());
+                    }
+                    showPostDtoList.add(showPostDto);
                 }
-                showPostDtoList.add(showPostDto);
-            }
 
-            model.addAttribute("posts", showPostDtoList);
+                model.addAttribute("posts", showPostDtoList);
 
-            return "index";
+                return "index";
         }
 
         model.addAttribute("posts", posts);

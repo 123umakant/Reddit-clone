@@ -10,21 +10,16 @@
 
             <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png" alt="reddit logo">
             <form th:action="@{#}" href="#">
-                <input  style="height : 40px; font-size : 20px; width : 800px" type="text">
-                <button class="btn btn-default" style="height : 40px; font-size : 20px" type="submit">Search</button>
+                <input  style="height : 35px; font-size : 20px; width : 700px; border-radius : 10px; border-width : 1px;" type="text">
+                <button style="height : 35px; font-size : 20px; background-color : white;
+                           border-width : 1px; border-radius : 10px;" class="btnn btn-default" type="submit">Search</button>
             </form>
             <div th:unless="${#authorization.expression('isAuthenticated()')}">
-                <button th:onclick="window.location='/login'" style="height : 40px; font-size : 20px" class="btn btn-default">Login</button>
-                <button th:onclick="window.location='/register'" style="height : 40px; font-size : 20px" class="btn btn-default">Signup</button>
+                <button th:onclick="window.location='/login'" style="height : 35px; font-size : 20px; background-color : white;
+                           border-width : 1px; border-radius : 10px;" class="btnn">Login</button>
+                <button th:onclick="window.location='/register'" style="height : 35px; font-size : 20px; background-color : white;
+                            border-width : 1px; border-radius : 10px;" class="btnn">Signup</button>
             </div>
-
-            <span id="profile" sec:authorize="isAuthenticated()">
-                  <a sec:authentication="name">YOU</a>
-                  <ul>
-                     <li ><a th:href="@{/profile}">Profile</a></li>
-                     <li><a th:href="@{/logout}">Logout</a></li>
-                 </ul>
-            </span>
 
         </div>
 
@@ -32,16 +27,16 @@
             <span style="font-size : 12px; margin-left : 15px; font-weight : bold">Trending today</span>
             <div >
                 <section>
-                    <img style="height : 200px; width : 230px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
+                    <img style="height : 200px; width : 240px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
                 </section>
                 <section>
-                    <img style="height : 200px; width : 230px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
+                    <img style="height : 200px; width : 240px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
                 </section>
                 <section>
-                    <img style="height : 200px; width : 230px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
+                    <img style="height : 200px; width : 240px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
                 </section>
                 <section>
-                    <img style="height : 200px; width : 230px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
+                    <img style="height : 200px; width : 240px; border-radius : 20px;" src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg" alt="nothing">
                 </section>
             </div>
         </div>
@@ -49,7 +44,7 @@
         <span style="font-size : 12px; margin-left : 15px; font-weight : bold; margin-left : 18% ">Popular posts</span>
 
         <div id="post-subreddit">
-            <div id="posts" style="width : 68%;">
+            <div id="posts" style="width : 65.5%;">
                 <section id="sort-posts">
                     <button class="btn btn-default" >Hot</button>
                     <button class="btn btn-default" >New</button>
@@ -92,7 +87,9 @@
                         <button th:unless="${post.isVoted && post.isUpVote}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-vote</a></button>
                         <button th:if="${post.isVoted && post.isUpVote}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Up-voted</a></button>
 
-                      <!--  <span style="font-size : 14px" th:text="${post.upVoteCount} - ${post.downVoteCount} > 0 ? ${post.upVoteCount} - ${post.downVoteCount} : 0"></span>-->
+
+                        <span style="font-size : 14px" th:text="${post.upVoteCount} - ${post.downVoteCount} > 0 ? ${post.upVoteCount} - ${post.downVoteCount} : 0"></span>
+
 
                         <button th:unless="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
                         <button th:if="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
@@ -101,10 +98,36 @@
                 </section>
             </div>
 
-            <div id="subreddits">
+            <div id="subreddits" style="width : 33%;">
+                <section >
 
+                    <span style="font-size : 15px; ">Todya's Top Growing Communities</span>
+
+                    <a href="#">1    firstsub</a><br>
+                    <a href="#">2    secondsub</a><br>
+                    <a href="#">3    thirdsub</a><br>
+                    <a href="#">4    fourthsub</a><br>
+                    <a href="#">5    fifthsub</a><br>
+                    <button >View All</button>
+                </section>
+
+                <br>
+                <br>
+
+                <section >
+                    <span style="font-size : 15px; ">Top Trending Communities</span>
+
+                    <a href="#">1    firstsub</a><br>
+                    <a href="#">2    secondsub</a><br>
+                    <a href="#">3    thirdsub</a><br>
+                    <a href="#">4    fourthsub</a><br>
+                    <a href="#">5    fifthsub</a><br>
+                    <button >View All</button>
+                </section>
             </div>
 
         </div>
+
+
 </body>
 </html>

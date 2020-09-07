@@ -17,6 +17,12 @@ body {
 
 }
 
+.btnn {
+    background-color : white;
+    height : 40px;
+    font-size : 20px;
+}
+
 #redditlogo {
     height : 40px;
 }
@@ -96,7 +102,7 @@ body {
 #sort-posts{
     height : 40px;
     background-color : white;
-    border-radius : 3px;
+    border-radius : 2px;
     border-width : thin;
     border-color : black;
     border-style : solid;
@@ -104,10 +110,7 @@ body {
 
 #sort-posts button {
     background-color : white;
-    border-radius : 10px;
-    border-width : 1px;
-    border-color : black;
-    border-style : solid;
+    border-style : none;
     width : 80px;
     height : 30px;
     color : blue;
@@ -115,11 +118,15 @@ body {
     margin-left : 10px;
 }
 
+#sort-posts button:hover {
+    color : black;
+}
+
 #post-content div {
 
    background-color : white;
    padding : 3px 10px;
-   border-radius : 5px;
+   border-radius : 2px;
    border-width : 1px;
    border-color : black;
    border-style : solid;
@@ -133,6 +140,33 @@ body {
 
 #textpost {
     height : 100px;
+}
+
+#subreddits section {
+    padding-left : 20px;
+    padding-top  : 40px;
+    background-color : white;
+    border-style : solid;
+    border-width : 1px;
+    border-radius : 4px;
+}
+
+#subreddits section a {
+    text-decoration : none;
+    color : black;
+    font-size : 15px;
+    margin-left : 20px;
+}
+
+#subreddits section button {
+    margin : auto;
+    background-color : white;
+    border-style : solid;
+    border-width : 1px;
+    border-radius : 4px;
+    width : 92.7%;
+    margin : 20px 0px;
+    height : 30px;
 }
 
 
