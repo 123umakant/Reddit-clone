@@ -91,6 +91,14 @@ color:blue;
 }
 .subreddit{
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.createSubreddit{
+
+    min-width: 297px;
+    height: 40px;
+    border-radius: 4px;
 }
     </style>
 </head>
@@ -100,11 +108,17 @@ color:blue;
 <h2>Create a Post</h2>
 <hr>
 <div class="subreddit">
+    <div>
 <label for="subreddit">Choose a Subreddit:</label>
-<select name="subredditName" id="subreddit">
-</select>
-
+<select name="subredditName" id="subreddit"></select>
+    </div>
+    <div>
+<form action="/subreddit/create">
+<button class="createSubreddit">Create Subreddit</button>
+</form>
+    </div>
 </div>
+
 <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'post')">Post</button>
     <button class="tablinks" onclick="openCity(event, 'media')">Image & Video</button>
