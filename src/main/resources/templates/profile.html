@@ -5,6 +5,13 @@
     <title>Reddit the fromt page of the internet</title>
     <link rel="stylesheet" href="../static/css/profilestyle.css" th:href="@{/css/profilestyle.css}">
 
+<style>
+    .btn{
+    margin:5px;
+    height:31px;
+    }
+</style>
+
 </head>
 <body>
     <div id="navbar">
@@ -26,14 +33,24 @@
     </div>
 
     <div id="usernavigation">
-        <section>
-            <button>OVERVIEW</button>
-            <button>POSTS</button>
-            <button>COMMENTS</button>
-            <button>SAVED</button>
-            <button>HIDDEN</button>
-            <button>UPVOTED</button>
-            <button>DOWNVOTED</button>
+<!--        <section>-->
+<!--            <button>OVERVIEW</button>-->
+<!--            <button>POSTS</button>-->
+<!--            <button>COMMENTS</button>-->
+<!--            <button>SAVED</button>-->
+<!--            <button>HIDDEN</button>-->
+<!--            <button>UPVOTED</button>-->
+<!--            <button>DOWNVOTED</button>-->
+        <section style="display:flex;">
+            <button class="btn">OVERVIEW</button>
+            <form action="posts/create">
+            <button class="btn">POSTS</button>
+            </form>
+            <button class="btn">COMMENTS</button>
+            <button class="btn">SAVED</button>
+            <button class="btn">HIDDEN</button>
+            <button class="btn">UPVOTED</button>
+            <button class="btn">DOWNVOTED</button>
         </section>
     </div>
 </body>

@@ -10,9 +10,6 @@ import com.reddit.clone.service.FileService;
 import com.reddit.clone.service.PostService;
 import com.reddit.clone.service.UserService;
 import com.reddit.clone.service.VoteService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +47,7 @@ public class PostController {
 
         if (principal != null) {
             User user = userService.findByUserName(principal.getName());
+
                 List<ShowPostDto> showPostDtoList = new ArrayList<>();
                 for (Post post : posts) {
                     Vote vote = voteService.findByPostAndUser(post, user);
@@ -71,6 +69,8 @@ public class PostController {
 
         return "index";
     }
+
+
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getPostDto(Model model) {

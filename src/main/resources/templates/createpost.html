@@ -1,93 +1,215 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<body>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+    body {font-family: Arial;}
 
-<button type="button" onclick="asd('text')" id="textpostform">Text post</button>
-<button type="button" onclick="asd('media')" id="mediapostform">Image/Video post</button>
-<button type="button" onclick="asd('link')" id="linkpostform">Link post</button>
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
 
-<form id="textpost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
-      enctype="multipart/form-data">
-    <div class="form-group">
-        <label>Title:</label>
-        <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="title">
-    </div>
-    <div class="form-group">
-        <label>Content:</label>
-        <textarea th:field="*{content}" name="content" placeholder="content"></textarea>
-    </div>
-    <div class="form-group">
-        <input type="text" id="textcontent" th:field="${post.contentType}"   hidden></input>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
 
-<form id="mediapost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
-      enctype="multipart/form-data">
-    <div class="form-group">
-        <label>Title:</label>
-        <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="title">
-    </div>
-    <div class="form-group">
-        <label>Upload Media:</label>
-        <input type="file" name="file" placeholder="upload media">
-    </div>
-    <div class="form-group">
-        <input type="text" id="mediacontent" th:field="${post.contentType}"  hidden></input>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
 
-<form id="linkpost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
-      enctype="multipart/form-data">
+.tab button:hover {
+  background-color: #ddd;
+}
 
-    <div class="form-group">
-        <label>Title:</label>
-        <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="title">
-    </div>
-    <div class="form-group">
-        <label>Content:</label>
-        <textarea th:field="*{content}" name="content" placeholder="content"></textarea>
-    </div>
-    <div class="form-group">
-        <input type="text" id="linkcontent" th:field="${post.contentType}"  hidden></input>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: white;
+}
+.form-control{
+    height: 39px;
+    width: 100%;
+
+}
+.form-group{
+padding: 9px 9px 9px 7px;
+ color:#0060a8;
+}
+#content{
+    min-height: 122px;
+}
+.btn{
+border-color: blue;
+color:blue;
+ box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid $red;
+  border-radius: 0.6em;
+  color: $red;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 20px;
+  padding: 11px 33px;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+
+}
+#subreddit{
+    position: relative;
+    box-sizing: border-box;
+    min-width: 300px;
+    height: 40px;
+    border-radius: 4px;
+    background-color:white;
+}
+.subreddit{
+    padding: 10px;
+}
+    </style>
+</head>
+<body style="background:#DAE0E6;">
+
+
+<h2>Create a Post</h2>
+<hr>
+<div class="subreddit">
+<label for="subreddit">Choose a Subreddit:</label>
+<select name="subredditName" id="subreddit">
+</select>
+
+</div>
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'post')">Post</button>
+    <button class="tablinks" onclick="openCity(event, 'media')">Image & Video</button>
+    <button class="tablinks" onclick="openCity(event, 'link')">Links</button>
+</div>
+
+<div id="post" class="tabcontent">
+
+    <form id="textpost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
+          enctype="multipart/form-data">
+
+
+        <div class="form-group">
+
+            <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="Title">
+        </div>
+        <div class="form-group">
+            <textarea th:field="*{content}" name="content" placeholder="content" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <p><input type="text" id="textcontent" th:field="${post.contentType}" hidden></input></p>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+
+</div>
+
+<div id="media" class="tabcontent">
+
+
+    <form id="mediapost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
+          enctype="multipart/form-data">
+        <div class="form-group">
+            <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="Title">
+        </div>
+        <div class="form-group" id="mediaFile">
+            <input type="file" name="file" placeholder="upload media" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" id="mediacontent" th:field="${post.contentType}" hidden></input>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</div>
+
+<div id="link" class="tabcontent">
+
+    <form id="linkpost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="Title">
+        </div>
+        <div class="form-group">
+            <input th:field="*{content}" name="content" class="form-control" style="min-height: 60px;"
+                   placeholder="Url">
+        </div>
+        <div class="form-group">
+            <input type="text" id="linkcontent" th:field="${post.contentType}" hidden></input>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+
+</div>
+
 
 <script type="text/javascript">
 
       window.onload = function() {
+      openCity(event, 'post');
 
-        document.getElementById("textpost").style.display = "block";
-        document.getElementById("mediapost").style.display = "none";
-        document.getElementById("linkpost").style.display = "none";
+	$.ajax({
+				url : "/subreddit/get",
+				type : "get",
+				success : function(data) {
+                          console.log(data);
+                           for(var i=0;i<data.length;i++){
+                          console.log(data[i].communityName);
+                            $("#subreddit").append("<option value="+data[i].communityName+">r/"+data[i].communityName+"</option>");
+                        }
+				}
 
+			});
     };
 
-      function asd(a) {
 
-        if (a == "text") {
-          document.getElementById("textpost").style.display = "block";
-          document.getElementById("mediapost").style.display = "none";
-          document.getElementById("linkpost").style.display = "none";
 
-        } else if (a == "media"){
-          document.getElementById("textpost").style.display = "none";
-          document.getElementById("mediapost").style.display = "block";
-          document.getElementById("linkpost").style.display = "none";
+</script>
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
 
-        } else if (a == "link"){
-          document.getElementById("textpost").style.display = "none";
-          document.getElementById("linkpost").style.display = "block";
-          document.getElementById("mediapost").style.display = "none";
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
 
-        }
-    }
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
 
-    document.getElementById("textcontent").value = "text";
-    document.getElementById("mediacontent").value = "media";
-    document.getElementById("linkcontent").value = "link";
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
 
 </script>
 

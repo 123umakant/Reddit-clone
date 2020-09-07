@@ -1,10 +1,15 @@
 package com.reddit.clone.dto;
 
+import com.reddit.clone.model.Subreddit;
+
 public class TextPostDto {
 
+    private Long id;
     private String title;
     private String content;
     private String contentType;
+    private String subredditName;
+
 
     public TextPostDto() {
     }
@@ -17,10 +22,29 @@ public class TextPostDto {
         this.contentType = contentType;
     }
 
+
+
+    public String getSubredditName() {
+        return subredditName;
+    }
+
+    public void setSubredditName(String subredditName) {
+        this.subredditName = subredditName;
+    }
+
     public TextPostDto(String title, String content, String contentType) {
         this.title = title;
         this.content = content;
         this.contentType = contentType;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -45,6 +69,7 @@ public class TextPostDto {
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", contentType='" + contentType + '\'' +
+                ", subredditName='" + subredditName + '\'' +
                 '}';
     }
 }

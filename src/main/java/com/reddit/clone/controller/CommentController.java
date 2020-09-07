@@ -24,6 +24,7 @@ public class CommentController {
 
     @PostMapping("/create")
     public String createComment(@Validated CommentDto commentDto, Model model) {
+        System.out.println(commentDto);
         model.addAttribute("comment", commentService.save(commentDto));
         return "home";
     }

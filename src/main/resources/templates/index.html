@@ -92,7 +92,9 @@
                         <button th:unless="${post.isVoted && post.isUpVote}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-vote</a></button>
                         <button th:if="${post.isVoted && post.isUpVote}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Up-voted</a></button>
 
+
                         <span style="font-size : 14px" th:text="${post.upVoteCount} - ${post.downVoteCount} > 0 ? ${post.upVoteCount} - ${post.downVoteCount} : 0"></span>
+
 
                         <button th:unless="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
                         <button th:if="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>

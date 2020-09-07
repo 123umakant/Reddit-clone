@@ -1,5 +1,6 @@
 package com.reddit.clone.service.implementation;
 
+import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.repository.PostRepository;
 import com.reddit.clone.service.PostService;
@@ -19,6 +20,11 @@ public class PostServiceimpl implements PostService {
     @Override
     public Post save(Post post) {
         return postRepository.save(post);
+    }
+
+    @Override
+    public Post savePost(Post post, TextPostDto textPostDto) {
+        return null;
     }
 
     @Override

@@ -18,6 +18,7 @@ public class Comment {
     private String text;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "postId", referencedColumnName = "id")
     private Post post;
 
     @Column(name = "votecount")
@@ -25,6 +26,10 @@ public class Comment {
 
     @OneToMany(fetch = LAZY, mappedBy = "commentSet")
     private Set<Comment> commentSet;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private User user;
 
     private Instant createdDate;
 
@@ -60,13 +65,29 @@ public class Comment {
         this.createdDate =createdDate ;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", text='" + text + '\'' +
-                ", post=" + post +
-                ", createdDate=" + createdDate +
-                '}';
+    public Integer getVoteCount() {
+        return voteCount;
     }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public Set<Comment> getCommentSet() {
+        return commentSet;
+    }
+
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 }
