@@ -30,9 +30,9 @@
         <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
                       <a sec:authentication="name">YOU</a>
                       <ul>
-                         <li ><a th:href="@{/profile}">Profile</a></li>
+                         <li ><a th:href="@{/profile/?sort=createdat}">Profile</a></li>
                          <li><a th:href="@{/logout}">Logout</a></li>
-                    </ul>
+                      </ul>
         </span>
 
     </div>
@@ -52,12 +52,13 @@
     </div>
 
     <div id="post-subreddit">
-        <div id="posts" style="width : 68%;">
+        <div id="posts" style="width : 65.5%;">
             <section id="sort-posts">
                 <button class="btn btn-default" >Hot</button>
                 <button class="btn btn-default" >New</button>
                 <button class="btn btn-default" >Top</button>
                 <button class="btn btn-default" >Rising</button>
+                <button style="width : 150px" class="btn btn-default" onclick="window.location='/posts/create'">Create Post</button>
             </section>
             <section id="post-content" style="margin-top : 10px">
                 <div th:each=" post : ${posts}">
@@ -103,10 +104,48 @@
                     <button th:if="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
 
                 </div>
+
+                <span th:unless="${posts}" style="margin-left : 160px; font-size : 20px;">Please join some communities</span>
+
             </section>
         </div>
 
-        <div id="subreddits">
+        <div id="subreddits" style="width : 33%;">
+
+            <section >
+                <span sec:authentication="name">YOU</span>
+                <button th:onclick="window.location='posts/create'">New Post</button>
+            </section>
+
+            <section th:unless="${param.profile}">
+
+                <span style="font-size : 15px; ">Todya's Top Growing Communities</span>
+
+                <a href="#">1    firstsub</a><br>
+                <a href="#">2    secondsub</a><br>
+                <a href="#">3    thirdsub</a><br>
+                <a href="#">4    fourthsub</a><br>
+                <a href="#">5    fifthsub</a><br>
+                <button >View All</button>
+            </section>
+
+            <br>
+            <br>
+
+            <section th:unless="${param.profile}">
+                <span style="font-size : 15px; ">Top Trending Communities</span>
+
+                <a href="#">1    firstsub</a><br>
+                <a href="#">2    secondsub</a><br>
+                <a href="#">3    thirdsub</a><br>
+                <a href="#">4    fourthsub</a><br>
+                <a href="#">5    fifthsub</a><br>
+                <button >View All</button>
+            </section>
+
+        </div>
+
+        <div id="username">
 
         </div>
 

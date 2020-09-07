@@ -2,8 +2,10 @@ package com.reddit.clone.service.implementation;
 
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.User;
 import com.reddit.clone.repository.PostRepository;
 import com.reddit.clone.service.PostService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +37,10 @@ public class PostServiceimpl implements PostService {
     @Override
     public Post findByPostId(long postId) {
         return postRepository.findById(postId);
+    }
+
+    @Override
+    public List<Post> findByUser(User user, Sort sort) {
+        return postRepository.findByUser(user, sort);
     }
 }
