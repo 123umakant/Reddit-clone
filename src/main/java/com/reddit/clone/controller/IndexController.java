@@ -27,7 +27,7 @@ public class IndexController {
             return "profile";
         }
 
-        List<Post> postList = postService.findSortedPosts(getSortString("hot"));
+        List<Post> postList = postService.findSortedPosts("hot");
 
         model.addAttribute("posts", postList);
         return "index";
@@ -39,7 +39,7 @@ public class IndexController {
             return "profile";
         }
 
-        List<Post> postList = postService.findSortedPosts(getSortString("new"));
+        List<Post> postList = postService.findSortedPosts("new");
 
         model.addAttribute("posts", postList);
         return "index";
@@ -51,7 +51,7 @@ public class IndexController {
             return "profile";
         }
 
-        List<Post> postList = postService.findSortedPosts(getSortString("top"));
+        List<Post> postList = postService.findSortedPosts("top");
 
         model.addAttribute("posts", postList);
         return "index";
@@ -63,36 +63,9 @@ public class IndexController {
             return "profile";
         }
 
-        List<Post> postList = postService.findSortedPosts(getSortString("best"));
+        List<Post> postList = postService.findSortedPosts("best");
 
         model.addAttribute("posts", postList);
         return "index";
-    }
-
-    private String getSortString(String sort) {
-        String sortBy = null;
-
-        if(sort.equals("hot")){
-            sortBy = "(post.upVoteCount/post.downVoteCount)";
-        }
-
-        switch (sort){
-            case "best" :
-                sortBy = "(post.upVoteCount/post.downVoteCount)";
-                break;
-            case "new" :
-                sortBy = "post.createdAt";
-                break;
-            case "top" :
-                sortBy = "(post.upVoteCount - post.downVoteCount)";
-                break;
-            case  "hot" :
-                sortBy = "post.upVoteCount*(EXTRACT(EPOCH FROM (NOW()::timestamp - post.createdAt))";
-                break;
-            default:
-                sortBy = "post.createdAt";
-        }
-
-        return sortBy;
     }
 }

@@ -1,22 +1,28 @@
 package com.reddit.clone.service.implementation;
 
+import com.reddit.clone.dto.ShowPostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
+import com.reddit.clone.model.Vote;
 import com.reddit.clone.repository.PostRepository;
 import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.VoteService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PostServiceimpl implements PostService {
 
     private PostRepository postRepository;
+    private VoteService voteService;
 
-    public PostServiceimpl(PostRepository postRepository) {
+    public PostServiceimpl(PostRepository postRepository, VoteService voteService) {
         this.postRepository = postRepository;
+        this.voteService = voteService;
     }
 
     @Override
@@ -46,6 +52,70 @@ public class PostServiceimpl implements PostService {
 
     @Override
     public List<Post> findSortedPosts(String sort) {
-        return postRepository.findHotPosts(sort);
+        switch (sort){
+            case "best" :
+                return postRepository.findBestSortedPosts();
+            case "new" :
+                return postRepository.findNewSortedPosts();
+            case "top" :
+                return postRepository.findTopSortedPosts();
+            case  "hot" :
+                return postRepository.findHotSortedPosts();
+        }
+        return postRepository.findHotSortedPosts();
+    }
+
+    @Override
+    public List<ShowPostDto> findSortedAllPosts(String sort, User user) {
+
+        switch (sort){
+            case "best" :
+                return getShopPostDtoList(postRepository.findBestSortedPosts(), user);
+            case "new" :
+                return getShopPostDtoList(postRepository.findNewSortedPosts(), user);
+            case "top" :
+                return getShopPostDtoList(postRepository.findTopSortedPosts(), user);
+            case  "hot" :
+                return getShopPostDtoList(postRepository.findHotSortedPosts(), user);
+        }
+        return getShopPostDtoList(postRepository.findHotSortedPosts(), user);
+    }
+
+    private List<ShowPostDto> getShopPostDtoList(List<Post> postList, User user) {
+        List<ShowPostDto> showPostDtoList = new ArrayList<>();
+        for (Post post : postList) {
+            Vote vote = voteService.findByPostAndUser(post, user);
+            ShowPostDto showPostDto = new ShowPostDto(post);
+
+            if (vote != null) {
+                showPostDto.setIsVoted(true);
+                showPostDto.getIsUpVote(vote.isUpVote());
+            }
+            showPostDtoList.add(showPostDto);
+        }
+        return showPostDtoList;
+    }
+
+    private String getSortString(String sort) {
+        String sortBy = null;
+
+        switch (sort){
+            case "best" :
+                sortBy = "(post.upVoteCount/post.downVoteCount)";
+                break;
+            case "new" :
+                sortBy = "post.createdAt";
+                break;
+            case "top" :
+                sortBy = "(post.upVoteCount - post.downVoteCount)";
+                break;
+            case  "hot" :
+                sortBy = "(post.upVoteCount*(EXTRACT(EPOCH FROM (NOW()::timestamp - post.createdAt)))";
+                break;
+            default:
+                sortBy = "post.createdAt";
+        }
+
+        return sortBy;
     }
 }

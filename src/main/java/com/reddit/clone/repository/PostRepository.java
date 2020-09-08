@@ -16,6 +16,18 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
      List<Post> findByUser(User user, Sort sort);
 
-     @Query(value = "SELECT post FROM Post post ORDER BY :sort ASC")
-     List<Post> findHotPosts(@Param("sort") String sort);
+     @Query(value = "SELECT post FROM Post post ORDER BY (post.upVoteCount * EXTRACT(EPOCH FROM (NOW() - post.createdAt))) DESC")
+     List<Post> findHotSortedPosts( );
+
+     @Query(value = "SELECT post FROM Post post ORDER BY (post.upVoteCount - post.downVoteCount) DESC")
+     List<Post> findTopSortedPosts( );
+
+     @Query(value = "SELECT post FROM Post post ORDER BY post.createdAt DESC")
+     List<Post> findNewSortedPosts( );
+
+     @Query(value = "SELECT post FROM Post post ORDER BY (post.upVoteCount/post.downVoteCount) DESC")
+     List<Post> findBestSortedPosts( );
+
 }
+
+//             "(post.upVoteCount * EXTRACT(EPOCH FROM (NOW()::timestamp - post.createdAt))) " +
