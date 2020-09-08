@@ -11,7 +11,7 @@
 
         <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png"
              alt="reddit logo">
-        <select name="page" onchange="location = this.value;">
+        <select id="pagetype" name="page" onchange="location = this.value;">
             <option value="home" selected>Home</option>
              <option value="popular">Popular</option>
             <option value="all">All</option>
@@ -35,6 +35,7 @@
                     <li><a th:href="@{/logout}">Logout</a></li>
                 </ul>
         </span>
+        <span id="pagetypevar" th:text="${pagetype}" hidden></span>
 
     </div>
 <hr>
@@ -162,9 +163,34 @@ document.getElementById("textcontent").value = "text";
 document.getElementById("mediacontent").value = "media";
 document.getElementById("linkcontent").value = "link";
 
-
+    var page = document.getElementById("pagetypevar").innerHTML;
+    console.log(page);
+    switch (page) {
+        case "home" :
+            document.getElementById('pagetype').selectedIndex=0;
+            break;
+        case "popular" :
+            document.getElementById('pagetype').selectedIndex=1;
+            break;
+        case "topcommunities" :
+            document.getElementById('pagetype').selectedIndex=2;
+            break;
+        case "all" :
+            document.getElementById('pagetype').selectedIndex=3;
+            break;
+        case "createpost" :
+            document.getElementById('pagetype').selectedIndex=4;
+            break;
+        case "profile" :
+            document.getElementById('pagetype').selectedIndex=5;
+            break;
+        default :
+            document.getElementById('pagetype').selectedIndex=0;
+    }
 
 </script>
+
+
 
 
 </body>

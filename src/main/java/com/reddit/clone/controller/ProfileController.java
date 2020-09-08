@@ -55,7 +55,7 @@ public class ProfileController {
         }
 
         model.addAttribute("posts", showPostDtoList);
-
+        model.addAttribute("pagetype", "profile");
         return "profile";
     }
 }
