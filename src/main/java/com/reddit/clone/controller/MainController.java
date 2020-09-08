@@ -22,8 +22,6 @@ public class MainController {
     public String getIndex(Principal principal, Model model, HttpServletRequest request){
 
         if(principal != null){
-            model.addAttribute("page", "home");
-            model.addAttribute("sort", "best");
             return "profile";
         }
         return "redirect:/posts/show";
