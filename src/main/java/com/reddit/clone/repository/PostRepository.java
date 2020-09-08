@@ -4,6 +4,8 @@ import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +15,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      Post findById(long postId);
 
      List<Post> findByUser(User user, Sort sort);
+
+     @Query(value = "SELECT post FROM Post post ORDER BY :sort ASC")
+     List<Post> findHotPosts(@Param("sort") String sort);
 }

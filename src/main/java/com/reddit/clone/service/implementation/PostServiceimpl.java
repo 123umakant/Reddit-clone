@@ -43,4 +43,9 @@ public class PostServiceimpl implements PostService {
     public List<Post> findByUser(User user, Sort sort) {
         return postRepository.findByUser(user, sort);
     }
+
+    @Override
+    public List<Post> findSortedPosts(String sort) {
+        return postRepository.findHotPosts(sort);
+    }
 }

@@ -14,14 +14,14 @@ import java.security.Principal;
 @Controller
 public class MainController {
 
-    @RequestMapping(value = "/")
-    public String getIndex(Principal principal){
-
-        if(principal != null){
-            return "profile";
-        }
-        return "redirect:/posts/show";
-    }
+//    @RequestMapping(value = "/")
+//    public String getIndex(Principal principal){
+//
+//        if(principal != null){
+//            return "profile";
+//        }
+//        return "redirect:/posts/show";
+//    }
 
 
     @RequestMapping(value = "/home")

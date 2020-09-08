@@ -16,4 +16,7 @@ public interface PostService {
     Post findByPostId(long postId);
 
     List<Post> findByUser(User user, Sort sort);
+
+    List<Post> findSortedPosts(String sort);
+
 }

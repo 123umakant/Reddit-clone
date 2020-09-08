@@ -53,11 +53,11 @@ public class VoteController {
 
         } else {
             if (isUpVote) {
-                post.setDownVoteCount(post.getDownVoteCount() - 1);
+                post.setDownVoteCount((post.getDownVoteCount() - 1) > 0 ? (post.getDownVoteCount() - 1) : 1 );
                 post.setUpVoteCount(post.getUpVoteCount() + 1);
             } else {
                 post.setDownVoteCount(post.getDownVoteCount() + 1);
-                post.setUpVoteCount(post.getUpVoteCount() - 1);
+                post.setUpVoteCount((post.getUpVoteCount() - 1) > 0 ? (post.getUpVoteCount() - 1) : 1 );
             }
 
             vote.setUpVote(isUpVote);
