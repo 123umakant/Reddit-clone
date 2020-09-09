@@ -1,7 +1,5 @@
 package com.reddit.clone.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +26,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Vote> voteList = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Post> savedPostList = new HashSet<>();
 
     public User() {
     }
@@ -84,6 +85,14 @@ public class User {
 
     public void setVoteList(Set<Vote> voteList) {
         this.voteList = voteList;
+    }
+
+    public Set<Post> getSavedPostList() {
+        return savedPostList;
+    }
+
+    public void setSavedPostList(Set<Post> savedPostList) {
+        this.savedPostList = savedPostList;
     }
 
     @Override

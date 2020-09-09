@@ -102,6 +102,10 @@
                     <button th:unless="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
                     <button th:if="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
 
+                    <button th:unless="${post.isSaved}" ><a th:href="@{/posts/{postid}/save (postid = ${post.id})}">save</a></button>
+                    <button th:if="${post.isSaved}" ><a th:href="@{/posts/{postid}/unsave (postid = ${post.id})}">unsave</a></button>
+
+
                 </div>
 
                 <span th:unless="${posts}" style="margin-left : 160px; font-size : 20px;">Please join some communities</span>

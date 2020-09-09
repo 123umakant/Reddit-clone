@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -76,6 +77,16 @@ public class ProfileController {
         List<Post> downVotedPostList = voteService.findDownVotesByUser(user);
 
         model.addAttribute("posts", postService.getShowPostDtoList(downVotedPostList, user));
+
+        return "profile";
+    }
+
+    @RequestMapping("/saved")
+    public String getSavedPosts(Model model, Principal principal) {
+
+        User user = userService.findByUserName(principal.getName());
+
+        model.addAttribute("posts", postService.getShowPostDtoList(new ArrayList<>(user.getSavedPostList()), user));
 
         return "profile";
     }

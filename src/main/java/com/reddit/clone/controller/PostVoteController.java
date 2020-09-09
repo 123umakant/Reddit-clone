@@ -15,13 +15,13 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/posts/{postid}")
-public class VoteController {
+public class PostVoteController {
 
     private PostService postService;
     private VoteService voteService;
     private UserService userService;
 
-    public VoteController(PostService postService, VoteService voteService, UserService userService) {
+    public PostVoteController(PostService postService, VoteService voteService, UserService userService) {
         this.postService = postService;
         this.voteService = voteService;
         this.userService = userService;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PostServiceimpl implements PostService {
@@ -52,14 +53,14 @@ public class PostServiceimpl implements PostService {
 
     @Override
     public List<Post> findSortedPosts(String sort) {
-        switch (sort){
-            case "best" :
+        switch (sort) {
+            case "best":
                 return postRepository.findBestSortedPosts();
-            case "new" :
+            case "new":
                 return postRepository.findNewSortedPosts();
-            case "top" :
+            case "top":
                 return postRepository.findTopSortedPosts();
-            case  "hot" :
+            case "hot":
                 return postRepository.findHotSortedPosts();
         }
         return postRepository.findHotSortedPosts();
@@ -68,21 +69,25 @@ public class PostServiceimpl implements PostService {
     @Override
     public List<ShowPostDto> findSortedAllPosts(String sort, User user) {
 
-        switch (sort){
-            case "best" :
+        switch (sort) {
+            case "best":
                 return getShowPostDtoList(postRepository.findBestSortedPosts(), user);
-            case "new" :
+            case "new":
                 return getShowPostDtoList(postRepository.findNewSortedPosts(), user);
-            case "top" :
+            case "top":
                 return getShowPostDtoList(postRepository.findTopSortedPosts(), user);
-            case  "hot" :
+            case "hot":
                 return getShowPostDtoList(postRepository.findHotSortedPosts(), user);
         }
         return getShowPostDtoList(postRepository.findHotSortedPosts(), user);
     }
 
     public List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user) {
+
         List<ShowPostDto> showPostDtoList = new ArrayList<>();
+
+        Set<Post> savedPostList = user.getSavedPostList();
+
         for (Post post : postList) {
             Vote vote = voteService.findByPostAndUser(post, user);
             ShowPostDto showPostDto = new ShowPostDto(post);
@@ -91,25 +96,31 @@ public class PostServiceimpl implements PostService {
                 showPostDto.setIsVoted(true);
                 showPostDto.getIsUpVote(vote.isUpVote());
             }
+
+            if (savedPostList.contains(post)) {
+                showPostDto.setIsSaved(true);
+            }
+
             showPostDtoList.add(showPostDto);
         }
+
         return showPostDtoList;
     }
 
     private String getSortString(String sort) {
         String sortBy = null;
 
-        switch (sort){
-            case "best" :
+        switch (sort) {
+            case "best":
                 sortBy = "(post.upVoteCount/post.downVoteCount)";
                 break;
-            case "new" :
+            case "new":
                 sortBy = "post.createdAt";
                 break;
-            case "top" :
+            case "top":
                 sortBy = "(post.upVoteCount - post.downVoteCount)";
                 break;
-            case  "hot" :
+            case "hot":
                 sortBy = "(post.upVoteCount*(EXTRACT(EPOCH FROM (NOW()::timestamp - post.createdAt)))";
                 break;
             default:
