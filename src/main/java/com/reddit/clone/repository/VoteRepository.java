@@ -29,4 +29,5 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Query(value = "SELECT vote.post FROM Vote vote WHERE vote.user = :user AND vote.isUpVote = false")
     List<Post> findDownVotesByUser(@Param("user") User user);
 
+
 }

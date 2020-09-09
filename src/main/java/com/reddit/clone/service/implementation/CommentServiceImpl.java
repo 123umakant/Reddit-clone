@@ -38,4 +38,9 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findByUser(User user) {
         return commentRepository.findByUser(user);
     }
+
+    @Override
+    public void deleteAll(Iterable<Comment> comments) {
+        commentRepository.deleteInBatch(comments);
+    }
 }

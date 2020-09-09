@@ -82,6 +82,11 @@ public class PostServiceimpl implements PostService {
         return getShowPostDtoList(postRepository.findHotSortedPosts(), user);
     }
 
+    @Override
+    public void delete(Post post) {
+        postRepository.delete(post);
+    }
+
     public List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user) {
 
         List<ShowPostDto> showPostDtoList = new ArrayList<>();

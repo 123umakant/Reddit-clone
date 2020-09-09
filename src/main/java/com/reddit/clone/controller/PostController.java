@@ -7,10 +7,7 @@ import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
 import com.reddit.clone.model.Vote;
-import com.reddit.clone.service.FileService;
-import com.reddit.clone.service.PostService;
-import com.reddit.clone.service.UserService;
-import com.reddit.clone.service.VoteService;
+import com.reddit.clone.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +27,15 @@ public class PostController {
     private AwsS3Credentials awsS3Credentials;
     private UserService userService;
     private VoteService voteService;
+    private CommentService commentService;
 
-    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService, VoteService voteService) {
+    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService, VoteService voteService, CommentService commentService) {
         this.postService = postService;
         this.fileService = fileService;
         this.awsS3Credentials = awsS3Credentials;
         this.userService = userService;
         this.voteService = voteService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/show")
@@ -49,29 +48,15 @@ public class PostController {
         if (principal != null) {
             User user = userService.findByUserName(principal.getName());
 
-                List<ShowPostDto> showPostDtoList = new ArrayList<>();
-                for (Post post : posts) {
-                    Vote vote = voteService.findByPostAndUser(post, user);
-                    ShowPostDto showPostDto = new ShowPostDto(post);
+            model.addAttribute("posts", postService.getShowPostDtoList(posts, user));
 
-                    if (vote != null) {
-                        showPostDto.setIsVoted(true);
-                        showPostDto.getIsUpVote(vote.isUpVote());
-                    }
-                    showPostDtoList.add(showPostDto);
-                }
-
-                model.addAttribute("posts", showPostDtoList);
-
-                return "index";
+            return "index";
         }
 
         model.addAttribute("posts", posts);
 
         return "index";
     }
-
-
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getPostDto(Model model) {
@@ -112,5 +97,22 @@ public class PostController {
         postService.save(post);
 
         return "redirect:/posts/create";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String deletePost(@RequestParam("postid") long postId, Model model, Principal principal) {
+
+        Post post = postService.findByPostId(postId);
+        User user = userService.findByUserName(principal.getName());
+
+        userService.deleteSavedPosts(postId);
+//        commentService.deleteAll(post.getCommentList());
+//        voteService.deleteAll(post.getVoteList());
+
+        postService.delete(post);
+
+        return "redirect:/all";
+
+
     }
 }

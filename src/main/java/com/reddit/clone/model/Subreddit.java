@@ -24,7 +24,7 @@ public class Subreddit {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Post> post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private User user;
 
     private long subscriberCount;

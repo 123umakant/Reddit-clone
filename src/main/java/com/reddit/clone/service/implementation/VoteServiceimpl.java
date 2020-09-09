@@ -43,4 +43,9 @@ public class VoteServiceimpl implements VoteService {
     public List<Post> findDownVotesByUser(User user) {
         return voteRepository.findDownVotesByUser(user);
     }
+
+    @Override
+    public void deleteAll(Iterable< Vote> votes) {
+        voteRepository.deleteInBatch(votes);
+    }
 }

@@ -21,7 +21,7 @@ public class Vote {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Post post;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     private User user;
 
     @Temporal(TemporalType.TIMESTAMP)

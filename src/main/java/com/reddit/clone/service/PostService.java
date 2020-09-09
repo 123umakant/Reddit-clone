@@ -25,4 +25,6 @@ public interface PostService {
     List<ShowPostDto> findSortedAllPosts(String sort, User user);
 
     List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user);
+
+    void delete(Post post);
 }

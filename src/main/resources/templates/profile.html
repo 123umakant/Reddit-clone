@@ -43,7 +43,6 @@
             <button th:onclick="goTo('posts')" class="btn">POSTS</button>
             <button th:onclick="goTo('comments')" class="btn">COMMENTS</button>
             <button th:onclick="goTo('saved')" class="btn">SAVED</button>
-            <button th:onclick="goTo('hidden')" class="btn">HIDDEN</button>
             <button th:onclick="goTo('upvoted')" class="btn">UPVOTED</button>
             <button th:onclick="goTo('downvoted')" class="btn">DOWNVOTED</button>
         </section>
@@ -105,6 +104,8 @@
                     <button th:unless="${post.isSaved}" ><a th:href="@{/posts/{postid}/save (postid = ${post.id})}">save</a></button>
                     <button th:if="${post.isSaved}" ><a th:href="@{/posts/{postid}/unsave (postid = ${post.id})}">unsave</a></button>
 
+                    <button th:if="${post.user.userName} == ${#authentication.name}"><a th:href="@{/posts/delete (postid = ${post.id})}">Delete</a></button>
+
 
                 </div>
 
@@ -160,7 +161,7 @@
 
     var cururl = document.getElementById("cururl").innerHTML;
     function goTo(sort){
-        if(cururl.split("/").length < 3 && sort != 'all'){
+        if(cururl.split("/").length == 2 && sort != 'all'){
             window.location = cururl + "/" + sort;
         } else if(sort == 'all') {
             window.location = "/all";

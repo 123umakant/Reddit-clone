@@ -27,7 +27,7 @@ public class Post {
     @Column(name = "contenttype")
     private String contentType;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     private User user;
 
     @OneToMany(fetch = LAZY, mappedBy = "post")

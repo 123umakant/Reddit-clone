@@ -19,5 +19,6 @@ public interface VoteService {
 
     List<Post> findDownVotesByUser(@Param("user") User user);
 
+    void deleteAll(Iterable< Vote> votes);
 
 }
