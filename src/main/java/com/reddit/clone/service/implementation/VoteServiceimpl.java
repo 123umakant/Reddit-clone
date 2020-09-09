@@ -7,6 +7,8 @@ import com.reddit.clone.repository.VoteRepository;
 import com.reddit.clone.service.VoteService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoteServiceimpl implements VoteService {
 
@@ -30,5 +32,20 @@ public class VoteServiceimpl implements VoteService {
     public void removeByPostAndUser(Post post, User user) {
 //        return voteRepository.removeByPostAndUser(post, user);
          voteRepository.removeByPostAndUser(post, user);
+    }
+
+    @Override
+    public List<Post> findUpVotesByUser(User user) {
+        return voteRepository.findUpVotesByUser(user);
+    }
+
+    @Override
+    public List<Post> findDownVotesByUser(User user) {
+        return voteRepository.findDownVotesByUser(user);
+    }
+
+    @Override
+    public void deleteAll(Iterable< Vote> votes) {
+        voteRepository.deleteInBatch(votes);
     }
 }

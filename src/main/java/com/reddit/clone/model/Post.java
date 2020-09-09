@@ -27,7 +27,7 @@ public class Post {
     @Column(name = "contenttype")
     private String contentType;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     private User user;
     
 
@@ -35,10 +35,10 @@ public class Post {
     private Set<Vote> voteList = new HashSet<>();
 
     @Column(name = "upvotecount")
-    private Integer upVoteCount = 0;
+    private Integer upVoteCount;
 
     @Column(name = "downvotecount")
-    private Integer downVoteCount = 0;
+    private Integer downVoteCount;
 
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,6 +54,8 @@ public class Post {
     @PrePersist
     public void prePersist() {
         createdAt = new Date();
+        this.upVoteCount = 1;
+        this.downVoteCount = 1;
     }
 
     public Post() {

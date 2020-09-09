@@ -31,4 +31,9 @@ public class UserServiceimpl implements UserService {
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
+
+    @Override
+    public void deleteSavedPosts(long postId) {
+         userRepository.deleteSavedPosts(postId);
+    }
 }

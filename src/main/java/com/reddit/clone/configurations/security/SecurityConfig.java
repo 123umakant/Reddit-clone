@@ -30,7 +30,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/register", "/login","/subreddit/**").permitAll()
-                .antMatchers("/css/**", "/", "/index","/posts/show","/subreddit/**").permitAll()
+                .antMatchers("/css/**", "/", "/index","/posts/show", "/new", "/top", "/best").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
@@ -39,7 +39,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/index")
+                .logoutSuccessUrl("/")
                 .permitAll();
     }
 
