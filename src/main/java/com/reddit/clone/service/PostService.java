@@ -23,4 +23,6 @@ public interface PostService {
     List<Post> findSortedPosts(String sort);
 
     List<ShowPostDto> findSortedAllPosts(String sort, User user);
+
+    List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user);
 }

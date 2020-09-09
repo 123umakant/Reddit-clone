@@ -70,18 +70,18 @@ public class PostServiceimpl implements PostService {
 
         switch (sort){
             case "best" :
-                return getShopPostDtoList(postRepository.findBestSortedPosts(), user);
+                return getShowPostDtoList(postRepository.findBestSortedPosts(), user);
             case "new" :
-                return getShopPostDtoList(postRepository.findNewSortedPosts(), user);
+                return getShowPostDtoList(postRepository.findNewSortedPosts(), user);
             case "top" :
-                return getShopPostDtoList(postRepository.findTopSortedPosts(), user);
+                return getShowPostDtoList(postRepository.findTopSortedPosts(), user);
             case  "hot" :
-                return getShopPostDtoList(postRepository.findHotSortedPosts(), user);
+                return getShowPostDtoList(postRepository.findHotSortedPosts(), user);
         }
-        return getShopPostDtoList(postRepository.findHotSortedPosts(), user);
+        return getShowPostDtoList(postRepository.findHotSortedPosts(), user);
     }
 
-    private List<ShowPostDto> getShopPostDtoList(List<Post> postList, User user) {
+    public List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user) {
         List<ShowPostDto> showPostDtoList = new ArrayList<>();
         for (Post post : postList) {
             Vote vote = voteService.findByPostAndUser(post, user);

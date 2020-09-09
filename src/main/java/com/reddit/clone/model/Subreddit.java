@@ -11,15 +11,23 @@ public class Subreddit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     @NotNull
+
     private String communityName;
+
     private String description;
+
     private Instant createdAt;
+
     @OneToMany(fetch = FetchType.LAZY)
     private List<Post> post;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    private long subscriberCount;
 
     public User getUser() {
         return user;
@@ -67,6 +75,14 @@ public class Subreddit {
 
     public void setPost(List<Post> post) {
         this.post = post;
+    }
+
+    public long getSubscriberCount() {
+        return subscriberCount;
+    }
+
+    public void setSubscriberCount(long subscriberCount) {
+        this.subscriberCount = subscriberCount;
     }
 
     @Override

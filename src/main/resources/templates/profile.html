@@ -22,15 +22,15 @@
             <button class="btn btn-default" style="height : 40px; font-size : 20px" type="submit">Search</button>
         </form>
         <div style="margin-right : 100px;">
-            <button class="nav-btn">ALL</button>
-            <button class="nav-btn">TOP</button>
-            <BUTTON class="nav-btn">POP</BUTTON>
-            <button class="nav-btn">CP</button>
+            <button th:onclick="window.location='/all'" class="nav-btn">ALL</button>
+            <button th:onclick="window.location='/popular'" class="nav-btn">TOP</button>
+            <BUTTON th:onclick="window.location='/Communities'" class="nav-btn">POPC</BUTTON>
+            <button th:onclick="window.location='/posts/create'" class="nav-btn">CP</button>
         </div>
         <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
                       <a sec:authentication="name">YOU</a>
                       <ul>
-                         <li ><a th:href="@{/profile/?sort=createdat}">Profile</a></li>
+                         <li ><a th:href="@{/profile?sort=createdat}">Profile</a></li>
                          <li><a th:href="@{/logout}">Logout</a></li>
                       </ul>
         </span>
@@ -40,13 +40,12 @@
     <div id="usernavigation">
 
         <section>
-            <button class="btn">OVERVIEW</button>
-            <button class="btn">POSTS</button>
-            <button class="btn">COMMENTS</button>
-            <button class="btn">SAVED</button>
-            <button class="btn">HIDDEN</button>
-            <button class="btn">UPVOTED</button>
-            <button class="btn">DOWNVOTED</button>
+            <button th:onclick="goTo('posts')" class="btn">POSTS</button>
+            <button th:onclick="goTo('comments')" class="btn">COMMENTS</button>
+            <button th:onclick="goTo('saved')" class="btn">SAVED</button>
+            <button th:onclick="goTo('hidden')" class="btn">HIDDEN</button>
+            <button th:onclick="goTo('upvoted')" class="btn">UPVOTED</button>
+            <button th:onclick="goTo('downvoted')" class="btn">DOWNVOTED</button>
         </section>
 
     </div>
@@ -58,7 +57,7 @@
                 <button th:onclick="goTo('new')" class="btn btn-default" >New</button>
                 <button th:onclick="goTo('top')" class="btn btn-default" >Top</button>
                 <button th:onclick="goTo('best')" class="btn btn-default" >Best</button>
-                <button style="width : 150px" class="btn btn-default" onclick="window.location='/posts/create'">Create Post</button>
+                <button style="width : 150px" class="btn btn-default" th:onclick="window.location='/posts/create'">Create Post</button>
             </section>
             <section id="post-content" style="margin-top : 10px">
                 <div th:each=" post : ${posts}">
@@ -151,16 +150,18 @@
 
     </div>
 
-    <span id="cururl" th:text="${#httpServletRequest.requestURI}"></span>
+    <span id="cururl" th:text="${#httpServletRequest.requestURI}" hidden></span>
 
 <script>
 
     var cururl = document.getElementById("cururl").innerHTML;
     function goTo(sort){
-        if(cururl.split("/").length < 3){
-            window.location = "all/" + sort;
+        if(cururl.split("/").length < 3 && sort != 'all'){
+            window.location = cururl + "/" + sort;
         } else if(sort == 'all') {
             window.location = "/all";
+        } else if(sort == 'posts'){
+            window.location = "/profile";
         } else {
             window.location = sort;
         }
