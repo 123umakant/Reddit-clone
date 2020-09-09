@@ -12,7 +12,7 @@ import java.util.SortedMap;
 public interface PostService {
     Post savePost(Post post, TextPostDto textPostDto);
 
-    Post save(Post post);
+    Post save(Post post, TextPostDto textPostDto);
 
     List<Post> findAll();
 

@@ -157,6 +157,18 @@ color:blue;
   }
 
 }
+
+.searchbtn{
+    margin:5px;
+    height:31px;
+    border-style : none;
+    background-color : white;
+}
+
+.searchbtn:hover, .nav-btn:hover {
+    color : blue;
+}
+
 #subreddit{
     position: relative;
     box-sizing: border-box;

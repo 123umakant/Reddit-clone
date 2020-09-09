@@ -10,17 +10,17 @@
     <div id="navbar">
 
         <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png" alt="reddit logo">
-        <select name="page" onchange="location = this.value;">
+        <select id="pagetype" name="pagetype" onchange="location = this.value;">
             <option  value="/" selected>Home</option>
-            <option value="popular">Popular</option>
-            <option value="all">All</option>
-            <option value="Communities">Top Communities</option>
-            <option value="posts/create">Create Post</option>
-            <option value="profile?sort=createdat">Profile</option>
+            <option value="../popular">Popular</option>
+            <option value="../all">All</option>
+            <option value="../Communities">Top Communities</option>
+            <option value="../posts/create">Create Post</option>
+            <option value="../profile?sort=createdat">Profile</option>
         </select>
         <form th:action="@{#}" href="#" >
             <input  style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text">
-            <button class="btn btn-default" style="height : 40px; font-size : 20px" type="submit">Search</button>
+            <button class="searchbtn" style="height : 40px; font-size : 20px" type="submit">Search</button>
         </form>
         <div style="margin-right : 100px;">
             <button th:onclick="window.location='/all'" class="nav-btn">ALL</button>
@@ -36,18 +36,16 @@
                       </ul>
         </span>
 
-        <span id="pagetypevar" th:text="${pagetype}" hidden></span>
-
     </div>
 
     <div id="usernavigation">
 
         <section>
-            <button th:onclick="goTo('posts')" class="btn">POSTS</button>
-            <button th:onclick="goTo('comments')" class="btn">COMMENTS</button>
-            <button th:onclick="goTo('saved')" class="btn">SAVED</button>
-            <button th:onclick="goTo('upvoted')" class="btn">UPVOTED</button>
-            <button th:onclick="goTo('downvoted')" class="btn">DOWNVOTED</button>
+            <button th:onclick="window.location='/profile'" class="searchbtn">POSTS</button>
+            <button th:onclick="window.location='/profile/comments'" class="searchbtn">COMMENTS</button>
+            <button th:onclick="window.location='/profile/saved'" class="searchbtn">SAVED</button>
+            <button th:onclick="window.location='/profile/upvoted'" class="searchbtn">UPVOTED</button>
+            <button th:onclick="window.location='/profile/downvoted'" class="searchbtn">DOWNVOTED</button>
         </section>
 
     </div>
@@ -55,7 +53,7 @@
     <div id="post-subreddit">
         <div id="posts" style="width : 65.5%;">
             <section id="sort-posts">
-                <button th:onclick="goTo('all')" class="btn btn-default" >Hot</button>
+                <button th:onclick="goTo('hot')" class="btn btn-default" >Hot</button>
                 <button th:onclick="goTo('new')" class="btn btn-default" >New</button>
                 <button th:onclick="goTo('top')" class="btn btn-default" >Top</button>
                 <button th:onclick="goTo('best')" class="btn btn-default" >Best</button>
@@ -158,12 +156,13 @@
 
     </div>
 
-    <span id="cururl" th:text="${#httpServletRequest.requestURI}" hidden></span>
+    <span id="cururl" th:text="${#httpServletRequest.requestURI}" ></span>
 
     <!--    <span th:text="${#httpServletRequest.requestURI} + "-" + ${#httpServletRequest.queryString}"></span>-->
 <script>
-    var page = document.getElementById("pagetypevar").innerHTML;
-    switch (page) {
+    var cururl = document.getElementById("cururl").innerHTML;
+
+    switch (cururl.split("/")[1]) {
         case "home" :
             document.getElementById('pagetype').selectedIndex=0;
             break;
@@ -171,31 +170,53 @@
             document.getElementById('pagetype').selectedIndex=1;
             break;
         case "topcommunities" :
-            document.getElementById('pagetype').selectedIndex=2;
-            break;
-        case "all" :
             document.getElementById('pagetype').selectedIndex=3;
             break;
-        case "createpost" :
+        case "all" :
+            document.getElementById('pagetype').selectedIndex=2;
+            break;
+        case "posts" :
             document.getElementById('pagetype').selectedIndex=4;
             break;
         case "profile" :
             document.getElementById('pagetype').selectedIndex=5;
             break;
+        case "subreddit" :
+            document.getElementById('pagetype').selectedIndex=4;
+            break;
         default :
             document.getElementById('pagetype').selectedIndex=0;
     }
 
-    var cururl = document.getElementById("cururl").innerHTML;
     function goTo(sort){
-        if(cururl.split("/").length == 2 && sort != 'all'){
-            window.location = cururl + "/" + sort;
-        } else if(sort == 'all') {
-            window.location = "/all";
-        } else if(sort == 'posts'){
-            window.location = "/profile";
+        if(cururl.split("/")[1] == 'profile' && cururl.split("/").length > 2 ) {
+
+            window.location = '../profile/' + cururl.split("/")[2] + '?sort=' + sort;
+
+        } else if ( cururl.split("/")[1] == 'profile' ){
+
+            window.location = 'profile?sort=' + sort;
+
+        } else if ( cururl.split("/").length < 3 && sort != 'hot' && cururl.split("/")[1] != 'all' ) {
+
+            window.location = '/' + sort;
+
+        } else if ( cururl.split("/").length < 3 && sort != 'hot') {
+
+            window.location = cururl.split("/")[1] + "/" + sort;
+
+        } else if(sort == 'hot' && cururl.split("/")[1] != 'all') {
+
+            window.location = "/";
+
+        }  else if (sort == 'hot') {
+
+            window.location = '/all';
+
         } else {
-            window.location = sort;
+
+        window.location = sort;
+
         }
     }
 

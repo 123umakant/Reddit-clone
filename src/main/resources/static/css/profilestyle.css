@@ -96,14 +96,14 @@ body {
     margin : auto;
 }
 
-.btn{
+.searchbtn{
     margin:5px;
     height:31px;
     border-style : none;
     background-color : white;
 }
 
-.btn:hover, .nav-btn:hover {
+.searchbtn:hover, .nav-btn:hover {
     color : blue;
 }
 

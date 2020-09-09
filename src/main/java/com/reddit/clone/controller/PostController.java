@@ -72,7 +72,6 @@ public class PostController {
         textPostDto.setContentType("text");
 
         model.addAttribute("post", textPostDto);
-        model.addAttribute("pagetype", "createpost");
         return "createpost";
     }
 
