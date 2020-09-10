@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubredditImpl implements SubredditService {
@@ -38,6 +39,11 @@ public class SubredditImpl implements SubredditService {
     @Override
     public void saveSubredditPosts(Subreddit subreddit) {
         subredditRepository.save(subreddit);
+    }
+
+    @Override
+    public Optional<Subreddit> findById(String id) {
+      return   subredditRepository.findById(Long.parseLong(id));
     }
 
     @Override

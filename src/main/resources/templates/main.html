@@ -74,11 +74,13 @@
         <div class="subreddit-content" th:each=" subreddits : ${subreddit}">
            <!-- <section id="textpost" th:if="${post.contentType == 'text'}">-->
                 <div style="font-size:15px;">
-                    <a href="#" style="text-decoration:none;"> <span th:text="${'r/'+subreddits.communityName}">Subreddit</span></a>
+                    <a th:href="@{/subreddit/community/?id={id}(id=${subreddits.id})}" style="text-decoration:none;"> <span th:text="${'r/'+subreddits.communityName}">Subreddit</span></a>
                     <span style="color:rgb(120, 124, 126);">Posted by u/<span th:text="${subreddits.user}">user</span>
                          <span th:text="${subreddits.createdAt}"></span></span>
-                    <a th:href="@{/home/{id}(id=${subreddits.id})}"  style="text-decoration: none;">
-                    <div th:each="postItems,iterationStatus :${subreddits.post}" th:if="${iterationStatus.last}==true">
+                    <a th:href="@{/posts/read/?id={id}(id=${postItems.id})}"
+                       th:each="postItems,iterationStatus :${subreddits.post}"
+                       th:if="${iterationStatus.last}==true" style="text-decoration: none;">
+                    <div>
                     <h3 th:text="${postItems.title}">title</h3>
                     <p th:text="${postItems.content}">content</p>
                     </div>

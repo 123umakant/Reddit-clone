@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/posts/{postid}")
@@ -28,36 +29,37 @@ public class VoteController {
     }
 
     @RequestMapping("/vote")
-    public String vote(@PathVariable("postid") long postId, @RequestParam("upvote") String upVote,
+    public String vote(@PathVariable("postid") Long postId, @RequestParam("upvote") String upVote,
                        Principal principal) {
 
         boolean isUpVote = upVote.equals("true") ? true : false;
 
-        Post post = postService.findByPostId(postId);
+        Optional<Post> post = postService.findByPostId(postId);
+        Post postValues = post.get();
         User loggedUser = userService.findByUserName(principal.getName());
         Vote vote = null;
 
-        vote = voteService.findByPostAndUser(post, loggedUser);
+        vote = voteService.findByPostAndUser(postValues, loggedUser);
 
         if (vote == null) {
 
             if (isUpVote) {
-                post.setUpVoteCount(post.getUpVoteCount() + 1);
+                postValues.setUpVoteCount(postValues.getUpVoteCount() + 1);
             } else {
-                post.setDownVoteCount(post.getDownVoteCount() + 1);
+                postValues.setDownVoteCount(postValues.getDownVoteCount() + 1);
             }
 
-            vote = new Vote(isUpVote, post, loggedUser);
-            post.getVoteList().add(vote);
+            vote = new Vote(isUpVote, postValues, loggedUser);
+            postValues.getVoteList().add(vote);
             loggedUser.getVoteList().add(vote);
 
         } else {
             if (isUpVote) {
-                post.setDownVoteCount(post.getDownVoteCount() - 1);
-                post.setUpVoteCount(post.getUpVoteCount() + 1);
+                postValues.setDownVoteCount(postValues.getDownVoteCount() - 1);
+                postValues.setUpVoteCount(postValues.getUpVoteCount() + 1);
             } else {
-                post.setDownVoteCount(post.getDownVoteCount() + 1);
-                post.setUpVoteCount(post.getUpVoteCount() - 1);
+                postValues.setDownVoteCount(postValues.getDownVoteCount() + 1);
+                postValues.setUpVoteCount(postValues.getUpVoteCount() - 1);
             }
 
             vote.setUpVote(isUpVote);
@@ -72,7 +74,8 @@ public class VoteController {
     public String unVote(@PathVariable("postid") long postId,
                          Principal principal) {
 
-        Post post = postService.findByPostId(postId);
+        Optional<Post> postOptional = postService.findByPostId(postId);
+        Post post = postOptional.get();
         User loggedUser = userService.findByUserName(principal.getName());
 
         Vote vote = voteService.findByPostAndUser(post, loggedUser);

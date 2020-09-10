@@ -34,4 +34,10 @@ public class SubRedditController {
     public List<Subreddit> getAllSubreddit(){
         return subredditService.findAll();
      }
+    @GetMapping("/community/*")
+    public String main(@RequestParam("id") String id, Model model){
+        model.addAttribute("subreddit",subredditService.findById(id).get());
+        return "communitypost";
+    }
+
 }

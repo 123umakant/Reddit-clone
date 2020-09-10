@@ -2,15 +2,12 @@ package com.reddit.clone.service.implementation;
 
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
-import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.repository.PostRepository;
-import com.reddit.clone.repository.SubredditRepository;
 import com.reddit.clone.service.PostService;
-import com.reddit.clone.service.SubredditService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceimpl implements PostService {
@@ -39,7 +36,7 @@ public class PostServiceimpl implements PostService {
     }
 
     @Override
-    public Post findByPostId(long postId) {
+    public Optional<Post> findByPostId(Long postId) {
         return postRepository.findById(postId);
     }
 
