@@ -37,6 +37,8 @@ public class MainController {
     @GetMapping("/main")
     public String main(Model model){
         model.addAttribute("subreddit",subredditService.findAll());
+
+
         return "main";
     }
 

@@ -35,6 +35,7 @@ public class AllPostController {
     @GetMapping
     public String getHotPosts(Model model, Principal principal) {
 
+
         User user = userService.findByUserName(principal.getName());
 
         List<ShowPostDto> showPostDtoList = postService.findSortedAllPosts("hot", user);
