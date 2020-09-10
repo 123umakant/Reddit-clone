@@ -2,14 +2,19 @@ package com.reddit.clone.service.implementation;
 
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.repository.PostRepository;
+import com.reddit.clone.repository.SubredditRepository;
 import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.SubredditService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PostServiceimpl implements PostService {
+
 
     private PostRepository postRepository;
 
@@ -30,6 +35,7 @@ public class PostServiceimpl implements PostService {
     @Override
     public List<Post> findAll() {
         return postRepository.findAll();
+
     }
 
     @Override

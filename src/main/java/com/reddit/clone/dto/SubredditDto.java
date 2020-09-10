@@ -6,6 +6,7 @@ public class SubredditDto {
     private String title;
     private String description;
 
+
     public Long getId() {
         return id;
     }

@@ -4,12 +4,13 @@ import com.reddit.clone.configurations.metadata.AwsS3Credentials;
 import com.reddit.clone.dto.ShowPostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.model.User;
 import com.reddit.clone.model.Vote;
-import com.reddit.clone.service.FileService;
-import com.reddit.clone.service.PostService;
-import com.reddit.clone.service.UserService;
-import com.reddit.clone.service.VoteService;
+import com.reddit.clone.repository.SubredditRepository;
+import com.reddit.clone.service.*;
+import com.reddit.clone.service.implementation.SubredditImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/posts")
 public class PostController {
+
+    @Autowired
+    SubredditRepository subredditRepository;
+
+
+    @Autowired
+    SubredditService subredditService;
 
     private PostService postService;
     private FileService fileService;
@@ -64,11 +72,12 @@ public class PostController {
             return "index";
         }
 
+
         model.addAttribute("posts", posts);
+
 
         return "index";
     }
-
 
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -102,13 +111,16 @@ public class PostController {
         }
 
         Post post = new Post(textPostDto.getTitle(), textPostDto.getContent(), textPostDto.getContentType());
+
         User loggedUser = userService.findByUserName(principal.getName());
 
         loggedUser.getPostList().add(post);
         post.setUser(loggedUser);
 
-        postService.save(post);
+        Subreddit subreddit = subredditRepository.findBycommunityName(textPostDto.getSubredditName());
+        post.setSubreddit(subreddit);
 
-        return "redirect:/posts/create";
+        postService.save(post);
+        return "redirect:/home";
     }
 }

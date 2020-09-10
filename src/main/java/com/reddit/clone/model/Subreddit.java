@@ -1,5 +1,7 @@
 package com.reddit.clone.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -12,12 +14,17 @@ public class Subreddit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     private String communityName;
     private String description;
     private Instant createdAt;
-    @OneToMany(fetch = FetchType.LAZY)
+
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "subreddit")
     private List<Post> post;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -69,15 +76,4 @@ public class Subreddit {
         this.post = post;
     }
 
-    @Override
-    public String toString() {
-        return "Subreddit{" +
-                "id=" + id +
-                ", communityName='" + communityName + '\'' +
-                ", description='" + description + '\'' +
-                ", createdAt=" + createdAt +
-                ", post=" + post +
-                ", user=" + user +
-                '}';
-    }
 }
