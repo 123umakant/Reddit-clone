@@ -1,5 +1,6 @@
 package com.reddit.clone.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -45,6 +46,11 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
+
+    @JsonIgnore
+    @ManyToOne(fetch =LAZY)
+    @JoinColumn(name = "subredditId", referencedColumnName = "id")
+    private Subreddit subreddit;
 
     @PrePersist
     public void prePersist() {
@@ -140,13 +146,28 @@ public class Post {
         return voteList;
     }
 
+    public Subreddit getSubreddit() {
+        return subreddit;
+    }
+
+    public void setSubreddit(Subreddit subreddit) {
+        this.subreddit = subreddit;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                contentType +
+                ", contentType='" + contentType + '\'' +
+                ", user=" + user +
+                ", commentList=" + commentList +
+                ", voteList=" + voteList +
+                ", upVoteCount=" + upVoteCount +
+                ", downVoteCount=" + downVoteCount +
+                ", createdAt=" + createdAt +
+                ", subreddit=" + subreddit +
                 '}';
     }
 }

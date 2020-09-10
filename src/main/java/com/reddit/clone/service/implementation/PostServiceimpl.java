@@ -9,9 +9,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceimpl implements PostService {
+
 
     private PostRepository postRepository;
 
@@ -32,10 +34,11 @@ public class PostServiceimpl implements PostService {
     @Override
     public List<Post> findAll() {
         return postRepository.findAll();
+
     }
 
     @Override
-    public Post findByPostId(long postId) {
+    public Optional<Post> findByPostId(Long postId) {
         return postRepository.findById(postId);
     }
 

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -24,13 +25,19 @@ public class SubRedditController {
     }
 
     @PostMapping("/store")
-    public String create(@Validated SubredditDto subredditDto){
-        subredditService.save(subredditDto);
-         return  "home";
+    public String create(@Validated SubredditDto subredditDto, Principal principal){
+        subredditService.save(subredditDto,principal);
+         return "redirect:/";
     }
      @GetMapping("/get")
      @ResponseBody
     public List<Subreddit> getAllSubreddit(){
         return subredditService.findAll();
      }
+    @GetMapping("/community/*")
+    public String main(@RequestParam("id") String id, Model model){
+        model.addAttribute("subreddit",subredditService.findById(id).get());
+        return "communitypost";
+    }
+
 }

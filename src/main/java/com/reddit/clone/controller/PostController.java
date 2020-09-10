@@ -5,12 +5,13 @@ import com.reddit.clone.dto.ShowPostDto;
 
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.model.User;
 import com.reddit.clone.model.Vote;
-import com.reddit.clone.service.FileService;
-import com.reddit.clone.service.PostService;
-import com.reddit.clone.service.UserService;
-import com.reddit.clone.service.VoteService;
+import com.reddit.clone.repository.SubredditRepository;
+import com.reddit.clone.service.*;
+import com.reddit.clone.service.implementation.SubredditImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +21,19 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/posts")
 public class PostController {
+
+    @Autowired
+    SubredditRepository subredditRepository;
+
+
+
+    @Autowired
+    CommentService commentService;
 
     private PostService postService;
     private FileService fileService;
@@ -66,9 +76,21 @@ public class PostController {
                 return "index";
         }
 
+
         model.addAttribute("posts", posts);
 
+
         return "index";
+    }
+
+    @GetMapping("/read")
+    public String read(@RequestParam("id") String postId,Model model, Principal principal) {
+
+        model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
+
+            model.addAttribute("comments",commentService.findByPostId(postId));
+            model.addAttribute("comment",  postService.findByPostId(Long.parseLong(postId)).get());
+            return "comment";
     }
 
 
@@ -104,13 +126,16 @@ public class PostController {
         }
 
         Post post = new Post(textPostDto.getTitle(), textPostDto.getContent(), textPostDto.getContentType());
+
         User loggedUser = userService.findByUserName(principal.getName());
 
         loggedUser.getPostList().add(post);
         post.setUser(loggedUser);
 
-        postService.save(post);
+        Subreddit subreddit = subredditRepository.findBycommunityName(textPostDto.getSubredditName());
+        post.setSubreddit(subreddit);
 
-        return "redirect:/posts/create";
+        postService.save(post);
+        return "redirect:/home";
     }
 }

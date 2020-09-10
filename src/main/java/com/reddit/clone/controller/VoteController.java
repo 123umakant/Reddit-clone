@@ -65,7 +65,7 @@ public class VoteController {
 
         voteService.save(vote);
 
-        return "redirect:/profile?sort?createdat";
+        return "redirect:/posts/show";
     }
 
     @RequestMapping("/unvote")
@@ -85,7 +85,7 @@ public class VoteController {
 
         voteService.removeByPostAndUser(post, loggedUser);
 
-        return "redirect:/profile?sort?createdat";
+        return "redirect:/posts/show";
     }
 
 }

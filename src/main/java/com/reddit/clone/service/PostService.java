@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.SortedMap;
+import java.util.Optional;
 
 public interface PostService {
     Post savePost(Post post, TextPostDto textPostDto);
@@ -16,4 +17,5 @@ public interface PostService {
     Post findByPostId(long postId);
 
     List<Post> findByUser(User user, Sort sort);
+    Optional<Post> findByPostId(Long postId);
 }

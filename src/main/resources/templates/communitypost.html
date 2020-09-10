@@ -35,32 +35,28 @@
 
 
 <div id="post-subreddit">
-        <div class="subreddit-content" style="width:68%;padding: 28px;">
+    <div id="posts" style="width : 68%;">
+        <div id="sort-posts" style="font-size:15px;height:auto;">
+            <h3 th:text="${subreddit.communityName}"></h3>
+            <span th:text="${'r/'+subreddit.communityName}"></span>
+            <button>JOIN</button>
+        </div>
+        <br>
+
+
+        <div class="subreddit-content" th:each="postItems,iterationStatus :${subreddit.post}">
             <!-- <section id="textpost" th:if="${post.contentType == 'text'}">-->
             <div style="font-size:15px;">
+                <a th:href="@{/subreddit/community/{id}(id=${subreddit.id})}" style="text-decoration: none;">
                     <div>
-                        <span th:text="${'Posted By u/'+comment.user.userName}"></span>
-                        <span th:text="${comment.createdAt}"></span>
-                        <h3 th:text="${comment.title}">title</h3>
-                        <p th:text="${comment.content}">content</p>
+                        <span th:text="${'Posted By u/'+postItems.user.userName}"></span>
+                        <span th:text="${postItems.createdAt}"></span>
+                        <h3 th:text="${postItems.title}">title</h3>
+                        <p th:text="${postItems.content}">content</p>
                     </div>
-
-                <form th:action="@{/comment/create}"   method="post">
-                    <h4 th:text="${'Comment as '+comment.user.userName}"></h4>
-                    <textarea  name="comment" placeholder="What are your thoughts?"
-                               style="min-height: 122px;width: 60%;" required></textarea>
-                    <input type="hidden" name="postId" th:value="${comment.id}"><br>
-                    <button>COMMENT</button>
-                </form>
-
+                </a>
             </div>
             <!--           </section>-->
-
-            <div th:each="items : ${comments}">
-                <p th:text="${items.text}" style="font-size:10px;"></p>
-
-            </div>
-     <!--       <button>Reply</button>-->
 
         </div>
 
@@ -69,11 +65,9 @@
 
 </div>
 
+<div id="subreddits">
 
-<!--
-
--->
-
+</div>
 
 </div>
 </body>

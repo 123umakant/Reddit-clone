@@ -2,7 +2,7 @@
 
 body {
 	font-family: monospace;
-	background-color : rgb(199, 210, 213);
+	background-color : #dae0e6;
 	font-size : 30px;
 }
 
@@ -169,4 +169,11 @@ body {
     height : 30px;
 }
 
+.subreddit-content{
+    height:auto;
+    width : auto;
+    background-color:white;
+    border-style:solid;
+    margin:5px;
+}
 
