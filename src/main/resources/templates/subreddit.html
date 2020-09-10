@@ -55,36 +55,40 @@ padding: 9px 9px 9px 7px;
 </head>
 <body>
 
-<div id="navbar">
+    <div id="navbar">
 
-    <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png"
-         alt="reddit logo">
-    <select name="page" onchange="location = this.value;">
-        <option value="home" selected>Home</option>
-        <option value="popular">Popular</option>
-        <option value="all">All</option>
-        <option value="Communities">Top Communities</option>
-        <option value="posts/create">Create Post</option>
-    </select>
-    <form th:action="@{#}" href="#">
-        <input style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text">
-        <button style="height : 40px; font-size : 20px" type="submit">Search</button>
-    </form>
-    <div style="margin-right : 100px;">
-        <button class="nav-btn">ALL</button>
-        <button class="nav-btn">TOP</button>
-        <BUTTON class="nav-btn">POP</BUTTON>
-        <button class="nav-btn">CP</button>
+        <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png" alt="reddit logo">
+        <select id="pagetype" name="pagetype" onchange="location = this.value;">
+            <option  value="/" selected>Home</option>
+            <option value="../popular">Popular</option>
+            <option value="../all">All</option>
+            <option value="../Communities">Top Communities</option>
+            <option value="../posts/create">Create Post</option>
+            <option value="../profile?sort=createdat">Profile</option>
+        </select>
+        <form th:action="@{#}" href="#" >
+            <input  style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text">
+            <button class="searchbtn" style="height : 40px; font-size : 20px" type="submit">Search</button>
+        </form>
+        <div style="margin-right : 100px;">
+            <button th:onclick="window.location='/all'" class="nav-btn">ALL</button>
+            <button th:onclick="window.location='/popular'" class="nav-btn">TOP</button>
+            <BUTTON th:onclick="window.location='/Communities'" class="nav-btn">POPC</BUTTON>
+            <button th:onclick="window.location='/posts/create'" class="nav-btn">CP</button>
+        </div>
+        <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
+                          <a sec:authentication="name">YOU</a>
+                          <ul>
+                             <li ><a th:href="@{/profile?sort=createdat}">Profile</a></li>
+                             <li><a th:href="@{/logout}">Logout</a></li>
+                          </ul>
+            </span>
+
+        <span id="cururl" th:text="${#httpServletRequest.requestURI}" hidden></span>
+
+
     </div>
-    <span id="profile" sec:authorize="isAuthenticated()" style="margin-right : 90px;">
-            <a sec:authentication="name">YOU</a>
-                <ul>
-                    <li><a th:href="@{/profile?sort=createdat}">Profile</a></li>
-                    <li><a th:href="@{/logout}">Logout</a></li>
-                </ul>
-        </span>
 
-</div>
 <hr>
 
 <div class="form-section">
@@ -99,6 +103,36 @@ padding: 9px 9px 9px 7px;
         <input type="submit" class="btn" name="submit">
     </form>
 </div>
+
+<script>
+        var cururl = document.getElementById("cururl").innerHTML;
+        console.log(cururl.split("/"));
+    switch (cururl.split("/")[1]) {
+        case "home" :
+            document.getElementById('pagetype').selectedIndex=0;
+            break;
+        case "popular" :
+            document.getElementById('pagetype').selectedIndex=1;
+            break;
+        case "topcommunities" :
+            document.getElementById('pagetype').selectedIndex=3;
+            break;
+        case "all" :
+            document.getElementById('pagetype').selectedIndex=2;
+            break;
+        case "posts" :
+            document.getElementById('pagetype').selectedIndex=4;
+            break;
+        case "profile" :
+            document.getElementById('pagetype').selectedIndex=5;
+            break;
+        case "subreddit" :
+            document.getElementById('pagetype').selectedIndex=4;
+            break;
+        default :
+            document.getElementById('pagetype').selectedIndex=0;
+    }
+</script>
 
 </body>
 </html>

@@ -16,13 +16,13 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/posts/{postid}")
-public class VoteController {
+public class PostVoteController {
 
     private PostService postService;
     private VoteService voteService;
     private UserService userService;
 
-    public VoteController(PostService postService, VoteService voteService, UserService userService) {
+    public PostVoteController(PostService postService, VoteService voteService, UserService userService) {
         this.postService = postService;
         this.voteService = voteService;
         this.userService = userService;
@@ -53,11 +53,11 @@ public class VoteController {
 
         } else {
             if (isUpVote) {
-                post.setDownVoteCount(post.getDownVoteCount() - 1);
+                post.setDownVoteCount((post.getDownVoteCount() - 1) > 0 ? (post.getDownVoteCount() - 1) : 1 );
                 post.setUpVoteCount(post.getUpVoteCount() + 1);
             } else {
                 post.setDownVoteCount(post.getDownVoteCount() + 1);
-                post.setUpVoteCount(post.getUpVoteCount() - 1);
+                post.setUpVoteCount((post.getUpVoteCount() - 1) > 0 ? (post.getUpVoteCount() - 1) : 1 );
             }
 
             vote.setUpVote(isUpVote);
@@ -65,7 +65,7 @@ public class VoteController {
 
         voteService.save(vote);
 
-        return "redirect:/posts/show";
+        return "redirect:/all";
     }
 
     @RequestMapping("/unvote")
@@ -85,7 +85,7 @@ public class VoteController {
 
         voteService.removeByPostAndUser(post, loggedUser);
 
-        return "redirect:/posts/show";
+        return "redirect:/all";
     }
 
 }

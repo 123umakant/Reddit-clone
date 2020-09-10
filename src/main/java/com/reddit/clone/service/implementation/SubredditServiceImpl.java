@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SubredditImpl implements SubredditService {
+public class SubredditServiceImpl implements SubredditService {
 
     @Autowired
     SubredditRepository subredditRepository;
@@ -24,14 +24,13 @@ public class SubredditImpl implements SubredditService {
     UserService userService;
 
     @Override
-    public Subreddit save(SubredditDto subredditDto, Principal principal) {
-
+    public Subreddit save(SubredditDto subredditDto, User user) {
         Subreddit subreddit = new Subreddit();
         subreddit.setCommunityName(subredditDto.getTitle());
         subreddit.setDescription(subredditDto.getDescription());
         subreddit.setCreatedAt(Instant.now());
-        User user =userService.findByUserName(principal.getName());
         subreddit.setUser(user);
+
         return subredditRepository.save(subreddit);
 
     }

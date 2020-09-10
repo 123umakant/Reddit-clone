@@ -18,23 +18,16 @@ import java.security.Principal;
 
 
 @Controller
-@SessionAttributes({"page","sort"})
 public class MainController {
 
-
-    @Autowired
-    SubredditService subredditService;
-
-    @RequestMapping(value = "/")
-    public String getIndex(Principal principal, Model model, HttpServletRequest request){
-
-        if(principal != null){
-            model.addAttribute("page", "home");
-            model.addAttribute("sort", "best");
-            return "profile";
-        }
-        return "redirect:/posts/show";
-    }
+//    @RequestMapping(value = "/")
+//    public String getIndex(Principal principal){
+//
+//        if(principal != null){
+//            return "profile";
+//        }
+//        return "redirect:/posts/show";
+//    }
 
     @GetMapping("/main")
     public String main(Model model){

@@ -32,6 +32,8 @@ public class ShowPostDto {
 
     private boolean isUpVote;
 
+    private boolean isSaved;
+
     public ShowPostDto() {
     }
 
@@ -41,11 +43,11 @@ public class ShowPostDto {
         this.content = post.getContent();
         this.contentType = post.getContentType();
         this.user = post.getUser();
-        this.commentList = post.getCommentList();
         this.upVoteCount = post.getUpVoteCount();
         this.downVoteCount = post.getDownVoteCount();
         this.createdAt = post.getCreatedAt();
         this.isVoted = false;
+        this.isSaved = false;
     }
 
     public ShowPostDto(Long id, String title, String content, String contentType, User user, Set<Comment> commentList, Integer upVoteCount, Integer downVoteCount, Date createdAt, boolean isVoted, boolean isUpVote) {
@@ -150,5 +152,14 @@ public class ShowPostDto {
 
     public void getIsUpVote(boolean upVote) {
         isUpVote = upVote;
+    }
+
+
+    public boolean getIsSaved() {
+        return isSaved;
+    }
+
+    public void setIsSaved(boolean saved) {
+        isSaved = saved;
     }
 }

@@ -27,7 +27,7 @@ public class Comment {
     @OneToMany(fetch = LAZY, mappedBy = "commentSet")
     private Set<Comment> commentSet;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
 

@@ -17,16 +17,19 @@ public class Subreddit {
 
     @NotNull
     private String communityName;
+
     private String description;
+
     private Instant createdAt;
 
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "subreddit")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Post> post;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private User user;
+
+    private long subscriberCount;
 
     public User getUser() {
         return user;
@@ -76,4 +79,23 @@ public class Subreddit {
         this.post = post;
     }
 
+    public long getSubscriberCount() {
+        return subscriberCount;
+    }
+
+    public void setSubscriberCount(long subscriberCount) {
+        this.subscriberCount = subscriberCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Subreddit{" +
+                "id=" + id +
+                ", communityName='" + communityName + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", post=" + post +
+                ", user=" + user +
+                '}';
+    }
 }

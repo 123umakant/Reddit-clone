@@ -33,6 +33,9 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Vote> voteList = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Post> savedPostList = new HashSet<>();
+
     public User() {
     }
 
@@ -88,6 +91,14 @@ public class User {
 
     public void setVoteList(Set<Vote> voteList) {
         this.voteList = voteList;
+    }
+
+    public Set<Post> getSavedPostList() {
+        return savedPostList;
+    }
+
+    public void setSavedPostList(Set<Post> savedPostList) {
+        this.savedPostList = savedPostList;
     }
 
     @Override

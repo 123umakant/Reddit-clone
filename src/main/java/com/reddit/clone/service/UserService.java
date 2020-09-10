@@ -4,6 +4,7 @@ import com.reddit.clone.dto.RegisterDto;
 import com.reddit.clone.model.User;
 import com.reddit.clone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,5 +18,7 @@ public interface UserService extends UserDetailsService {
     User save(User user);
 
     User findByUserName(String userName);
+
+    void deleteSavedPosts(long postId);
 
 }

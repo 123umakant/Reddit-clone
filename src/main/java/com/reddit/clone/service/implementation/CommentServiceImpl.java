@@ -3,6 +3,7 @@ package com.reddit.clone.service.implementation;
 import com.reddit.clone.dto.CommentDto;
 import com.reddit.clone.model.Comment;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.User;
 import com.reddit.clone.repository.CommentRepository;
 import com.reddit.clone.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,15 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findByPostId(String postId) {
        return commentRepository.findBypostId(Long.parseLong(postId));
 
+    }
+
+    @Override
+    public List<Comment> findByUser(User user) {
+        return commentRepository.findByUser(user);
+    }
+
+    @Override
+    public void deleteAll(Iterable<Comment> comments) {
+        commentRepository.deleteInBatch(comments);
     }
 }

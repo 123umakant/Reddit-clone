@@ -28,20 +28,19 @@ public class Post {
     @Column(name = "contenttype")
     private String contentType;
 
-    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     private User user;
 
-    @OneToMany(fetch = LAZY, mappedBy = "post")
-    private Set<Comment> commentList = new HashSet<>();
 
     @OneToMany(fetch = LAZY, mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Vote> voteList = new HashSet<>();
 
     @Column(name = "upvotecount")
-    private Integer upVoteCount = 0;
+    private Integer upVoteCount;
 
     @Column(name = "downvotecount")
-    private Integer downVoteCount = 0;
+    private Integer downVoteCount;
+
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
@@ -55,6 +54,8 @@ public class Post {
     @PrePersist
     public void prePersist() {
         createdAt = new Date();
+        this.upVoteCount = 1;
+        this.downVoteCount = 1;
     }
 
     public Post() {
@@ -64,6 +65,14 @@ public class Post {
         this.title = title;
         this.content = content;
         this.contentType = contentType;
+    }
+
+    public Subreddit getSubreddit() {
+        return subreddit;
+    }
+
+    public void setSubreddit(Subreddit subreddit) {
+        this.subreddit = subreddit;
     }
 
     public Long getId() {
@@ -98,13 +107,6 @@ public class Post {
         this.contentType = contentType;
     }
 
-    public Set<Comment> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(Set<Comment> commentList) {
-        this.commentList = commentList;
-    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -162,7 +164,6 @@ public class Post {
                 ", content='" + content + '\'' +
                 ", contentType='" + contentType + '\'' +
                 ", user=" + user +
-                ", commentList=" + commentList +
                 ", voteList=" + voteList +
                 ", upVoteCount=" + upVoteCount +
                 ", downVoteCount=" + downVoteCount +

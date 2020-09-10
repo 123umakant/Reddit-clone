@@ -1,9 +1,9 @@
 package com.reddit.clone.controller;
 
-import com.reddit.clone.dto.ShowPostDto;
+import com.reddit.clone.model.Comment;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
-import com.reddit.clone.model.Vote;
+import com.reddit.clone.service.CommentService;
 import com.reddit.clone.service.PostService;
 import com.reddit.clone.service.UserService;
 import com.reddit.clone.service.VoteService;
@@ -24,14 +24,16 @@ import java.util.List;
 @RequestMapping("/profile")
 public class ProfileController {
 
-    PostService postService;
-    UserService userService;
-    VoteService voteService;
+    private PostService postService;
+    private UserService userService;
+    private VoteService voteService;
+    private CommentService commentService;
 
-    public ProfileController(PostService postService, UserService userService, VoteService voteService) {
+    public ProfileController(PostService postService, UserService userService, VoteService voteService, CommentService commentService) {
         this.postService = postService;
         this.userService = userService;
         this.voteService = voteService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -42,19 +44,53 @@ public class ProfileController {
 
         List<Post> postList = postService.findByUser(user, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        List<ShowPostDto> showPostDtoList = new ArrayList<>();
-        for (Post post : postList) {
-            Vote vote = voteService.findByPostAndUser(post, user);
-            ShowPostDto showPostDto = new ShowPostDto(post);
+        model.addAttribute("posts", postService.getShowPostDtoList(postList, user));
 
-            if (vote != null) {
-                showPostDto.setIsVoted(true);
-                showPostDto.getIsUpVote(vote.isUpVote());
-            }
-            showPostDtoList.add(showPostDto);
-        }
+        return "profile";
+    }
 
-        model.addAttribute("posts", showPostDtoList);
+    @RequestMapping("/comments")
+    public String getUserComments(Model model, Principal principal) {
+
+        User user = userService.findByUserName(principal.getName());
+
+        List<Comment> commentList = commentService.findByUser(user);
+
+        model.addAttribute("comments", commentList);
+
+        return "profile";
+    }
+
+    @RequestMapping("/upvoted")
+    public String getUpVotedPosts(Model model, Principal principal) {
+
+        User user = userService.findByUserName(principal.getName());
+
+        List<Post> upVotedPostList = voteService.findUpVotesByUser(user);
+
+        model.addAttribute("posts", postService.getShowPostDtoList(upVotedPostList, user));
+
+        return "profile";
+    }
+
+    @RequestMapping("/downvoted")
+    public String getDownVotedPosts(Model model, Principal principal) {
+
+        User user = userService.findByUserName(principal.getName());
+
+        List<Post> downVotedPostList = voteService.findDownVotesByUser(user);
+
+        model.addAttribute("posts", postService.getShowPostDtoList(downVotedPostList, user));
+
+        return "profile";
+    }
+
+    @RequestMapping("/saved")
+    public String getSavedPosts(Model model, Principal principal) {
+
+        User user = userService.findByUserName(principal.getName());
+
+        model.addAttribute("posts", postService.getShowPostDtoList(new ArrayList<>(user.getSavedPostList()), user));
 
         return "profile";
     }

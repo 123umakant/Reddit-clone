@@ -2,7 +2,7 @@ package com.reddit.clone.controller;
 
 import com.reddit.clone.configurations.metadata.AwsS3Credentials;
 import com.reddit.clone.dto.ShowPostDto;
-
+import com.reddit.clone.dto.ResponsePostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.Subreddit;
@@ -12,6 +12,14 @@ import com.reddit.clone.repository.SubredditRepository;
 import com.reddit.clone.service.*;
 import com.reddit.clone.service.implementation.SubredditImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.reddit.clone.service.FileService;
+import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.UserService;
+import com.reddit.clone.service.VoteService;
+import com.reddit.clone.service.implementation.CommentServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.reddit.clone.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,23 +38,20 @@ public class PostController {
     @Autowired
     SubredditRepository subredditRepository;
 
-
-
-    @Autowired
-    CommentService commentService;
-
     private PostService postService;
     private FileService fileService;
     private AwsS3Credentials awsS3Credentials;
     private UserService userService;
     private VoteService voteService;
+    private CommentService commentService;
 
-    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService, VoteService voteService) {
+    public PostController(PostService postService, FileService fileService, AwsS3Credentials awsS3Credentials, UserService userService, VoteService voteService, CommentService commentService) {
         this.postService = postService;
         this.fileService = fileService;
         this.awsS3Credentials = awsS3Credentials;
         this.userService = userService;
         this.voteService = voteService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/show")
@@ -59,21 +64,9 @@ public class PostController {
         if (principal != null) {
             User user = userService.findByUserName(principal.getName());
 
-                List<ShowPostDto> showPostDtoList = new ArrayList<>();
-                for (Post post : posts) {
-                    Vote vote = voteService.findByPostAndUser(post, user);
-                    ShowPostDto showPostDto = new ShowPostDto(post);
+            model.addAttribute("posts", postService.getShowPostDtoList(posts, user));
 
-                    if (vote != null) {
-                        showPostDto.setIsVoted(true);
-                        showPostDto.getIsUpVote(vote.isUpVote());
-                    }
-                    showPostDtoList.add(showPostDto);
-                }
-
-                model.addAttribute("posts", showPostDtoList);
-
-                return "index";
+            return "index";
         }
 
 
@@ -102,7 +95,6 @@ public class PostController {
         textPostDto.setContentType("text");
 
         model.addAttribute("post", textPostDto);
-
         return "createpost";
     }
 
@@ -132,10 +124,27 @@ public class PostController {
         loggedUser.getPostList().add(post);
         post.setUser(loggedUser);
 
-        Subreddit subreddit = subredditRepository.findBycommunityName(textPostDto.getSubredditName());
-        post.setSubreddit(subreddit);
 
-        postService.save(post);
-        return "redirect:/home";
+        postService.save(post, textPostDto);
+
+
+        return "redirect:/profile?sort?createdat";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String deletePost(@RequestParam("postid") long postId, Model model, Principal principal) {
+
+        Post post = postService.findByPostId(postId);
+        User user = userService.findByUserName(principal.getName());
+
+        userService.deleteSavedPosts(postId);
+//        commentService.deleteAll(post.getCommentList());
+//        voteService.deleteAll(post.getVoteList());
+
+        postService.delete(post);
+
+        return "redirect:/all";
+
+
     }
 }

@@ -1,5 +1,6 @@
 package com.reddit.clone.service;
 
+import com.reddit.clone.dto.ShowPostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
@@ -11,7 +12,9 @@ import java.util.Optional;
 
 public interface PostService {
     Post savePost(Post post, TextPostDto textPostDto);
-    Post save(Post post);
+
+    Post save(Post post, TextPostDto textPostDto);
+
     List<Post> findAll();
 
     Post findByPostId(long postId);
@@ -19,4 +22,12 @@ public interface PostService {
     List<Post> findByUser(User user, Sort sort);
 
     Optional<Post> findByPostId(Long postId);
+
+    List<Post> findSortedPosts(String sort);
+
+    List<ShowPostDto> findSortedAllPosts(String sort, User user);
+
+    List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user);
+
+    void delete(Post post);
 }
