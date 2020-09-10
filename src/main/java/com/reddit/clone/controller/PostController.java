@@ -10,7 +10,7 @@ import com.reddit.clone.model.User;
 import com.reddit.clone.model.Vote;
 import com.reddit.clone.repository.SubredditRepository;
 import com.reddit.clone.service.*;
-import com.reddit.clone.service.implementation.SubredditImpl;
+import com.reddit.clone.service.implementation.SubredditServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.reddit.clone.service.FileService;
 import com.reddit.clone.service.PostService;
@@ -136,9 +136,13 @@ public class PostController {
 
         Post post = postService.findByPostId(postId);
         User user = userService.findByUserName(principal.getName());
+        Subreddit subreddit = subredditRepository.findBycommunityName(post.getSubreddit().getCommunityName());
+
+        commentService.deleteByPost(post);
+        subreddit.getPost().remove(post);
+        subredditRepository.save(subreddit);
 
         userService.deleteSavedPosts(postId);
-//        commentService.deleteAll(post.getCommentList());
 //        voteService.deleteAll(post.getVoteList());
 
         postService.delete(post);

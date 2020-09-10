@@ -1,7 +1,9 @@
 package com.reddit.clone.controller;
 
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.User;
 import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +30,7 @@ public class IndexController {
         }
 
         List<Post> postList = postService.findSortedPosts("hot");
-
-        model.addAttribute("posts", postList);
+        model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
         return "index";
     }
 
@@ -41,7 +42,7 @@ public class IndexController {
 
         List<Post> postList = postService.findSortedPosts("new");
 
-        model.addAttribute("posts", postList);
+        model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
         return "index";
     }
 
@@ -53,7 +54,7 @@ public class IndexController {
 
         List<Post> postList = postService.findSortedPosts("top");
 
-        model.addAttribute("posts", postList);
+        model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
         return "index";
     }
 
@@ -65,7 +66,7 @@ public class IndexController {
 
         List<Post> postList = postService.findSortedPosts("best");
 
-        model.addAttribute("posts", postList);
+        model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
         return "index";
     }
 }

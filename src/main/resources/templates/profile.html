@@ -63,13 +63,17 @@
                 <div th:each=" post : ${posts}">
 
                     <section id="textpost" th:if="${post.contentType == 'text'}">
-                        <span style="font-size : 14px;" th:text="${post.user}">user</span><br>
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
                         <span style="font-size : 22px"th:text="${post.title}">title</span><br>
                         <span style="font-size : 18px" th:text="${post.content}">content</span>
                     </section>
 
                     <section id="mediapost" th:if="${post.contentType == 'image'}">
-                        <span style="font-size : 14px" th:text="${post.user}">user</span><br>
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
                         <span style="font-size : 22px;"th:text="${post.title}">title</span><br>
                         <img   style="width: 600px; height : 480px;"
                                src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg"
@@ -77,7 +81,9 @@
                     </section>
 
                     <section id="mediapost" th:if="${post.contentType == 'video'}">
-                        <span style="font-size : 14px" th:text="${post.user}">user</span><br>
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
                         <span style="font-size : 22px" th:text="${post.title}">title</span><br>
                         <video controls style="width: 600px;">
                             <source
@@ -87,7 +93,9 @@
                     </section>
 
                     <section id="textpost" th:if="${post.contentType == 'link'}">
-                        <span style="font-size : 14px" th:text="${post.user}">user</span><br>
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
                         <span style="font-size : 22px" th:text="${post.title}">title</span><br>
                         <a th:href="@{${post.content}}"><span style="font-size : 18px" th:text="${post.content}"></span></a>
                     </section>

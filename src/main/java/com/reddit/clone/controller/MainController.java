@@ -20,6 +20,11 @@ import java.security.Principal;
 @Controller
 public class MainController {
 
+    SubredditService subredditService;
+
+    public MainController(SubredditService subredditService) {
+        this.subredditService = subredditService;
+    }
 //    @RequestMapping(value = "/")
 //    public String getIndex(Principal principal){
 //
@@ -31,9 +36,8 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(Model model){
-        System.out.println(subredditService.findAll().get(0).getPost().get(0).getTitle());
         model.addAttribute("subreddit",subredditService.findAll());
-    return "main";
+        return "main";
     }
 
     @RequestMapping(value = "/home")

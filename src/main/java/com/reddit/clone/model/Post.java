@@ -41,7 +41,6 @@ public class Post {
     @Column(name = "downvotecount")
     private Integer downVoteCount;
 
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
@@ -65,14 +64,6 @@ public class Post {
         this.title = title;
         this.content = content;
         this.contentType = contentType;
-    }
-
-    public Subreddit getSubreddit() {
-        return subreddit;
-    }
-
-    public void setSubreddit(Subreddit subreddit) {
-        this.subreddit = subreddit;
     }
 
     public Long getId() {

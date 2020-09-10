@@ -2,6 +2,7 @@ package com.reddit.clone.dto;
 
 import com.reddit.clone.model.Comment;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.model.User;
 
 import java.util.Date;
@@ -34,6 +35,8 @@ public class ShowPostDto {
 
     private boolean isSaved;
 
+    private Subreddit subreddit;
+
     public ShowPostDto() {
     }
 
@@ -46,6 +49,7 @@ public class ShowPostDto {
         this.upVoteCount = post.getUpVoteCount();
         this.downVoteCount = post.getDownVoteCount();
         this.createdAt = post.getCreatedAt();
+        this.subreddit = post.getSubreddit();
         this.isVoted = false;
         this.isSaved = false;
     }
@@ -154,6 +158,13 @@ public class ShowPostDto {
         isUpVote = upVote;
     }
 
+    public Subreddit getSubreddit() {
+        return subreddit;
+    }
+
+    public void setSubreddit(Subreddit subreddit) {
+        this.subreddit = subreddit;
+    }
 
     public boolean getIsSaved() {
         return isSaved;

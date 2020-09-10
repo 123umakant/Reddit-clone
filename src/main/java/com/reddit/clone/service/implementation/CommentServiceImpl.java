@@ -49,4 +49,9 @@ public class CommentServiceImpl implements CommentService {
     public void deleteAll(Iterable<Comment> comments) {
         commentRepository.deleteInBatch(comments);
     }
+
+    @Override
+    public void deleteByPost(Post post) {
+        commentRepository.deleteByPost(post);
+    }
 }

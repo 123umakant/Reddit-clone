@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface SubredditService {
 
-    Subreddit save(SubredditDto subredditDto, Principal principal);
+    Subreddit save(SubredditDto subredditDto, User user);
 
     List<Subreddit> findAll();
 

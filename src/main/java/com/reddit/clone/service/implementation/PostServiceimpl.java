@@ -37,6 +37,7 @@ public class PostServiceimpl implements PostService {
 
         Subreddit subreddit= subredditRepository.findBycommunityName(textPostDto.getSubredditName());
         post.setSubreddit(subreddit);
+        subreddit.getPost().add(post);
         return postRepository.save(post);
     }
 
@@ -106,22 +107,30 @@ public class PostServiceimpl implements PostService {
 
         List<ShowPostDto> showPostDtoList = new ArrayList<>();
 
-        Set<Post> savedPostList = user.getSavedPostList();
+        if(user != null) {
+            Set<Post> savedPostList = user.getSavedPostList();
 
-        for (Post post : postList) {
-            Vote vote = voteService.findByPostAndUser(post, user);
-            ShowPostDto showPostDto = new ShowPostDto(post);
+            for (Post post : postList) {
+                Vote vote = voteService.findByPostAndUser(post, user);
+                ShowPostDto showPostDto = new ShowPostDto(post);
 
-            if (vote != null) {
-                showPostDto.setIsVoted(true);
-                showPostDto.getIsUpVote(vote.isUpVote());
+                if (vote != null) {
+                    showPostDto.setIsVoted(true);
+                    showPostDto.getIsUpVote(vote.isUpVote());
+                }
+
+                if (savedPostList.contains(post)) {
+                    showPostDto.setIsSaved(true);
+                }
+
+                showPostDtoList.add(showPostDto);
             }
+        } else {
 
-            if (savedPostList.contains(post)) {
-                showPostDto.setIsSaved(true);
+            for (Post post : postList) {
+                ShowPostDto showPostDto = new ShowPostDto(post);
+                showPostDtoList.add(showPostDto);
             }
-
-            showPostDtoList.add(showPostDto);
         }
 
         return showPostDtoList;
