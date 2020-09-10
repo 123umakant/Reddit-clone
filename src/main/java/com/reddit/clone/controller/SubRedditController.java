@@ -62,7 +62,12 @@ public class SubRedditController {
     public String joinSubreddit(@RequestParam("subredditid") String subredditId, Principal principal){
 
         User user = userService.findByUserName(principal.getName());
-        user.getJoinedCommunitieList().add( subredditService.findById(subredditId).get());
+
+        Subreddit subreddit = subredditService.findById(subredditId).get();
+        subreddit.setSubscriberCount(subreddit.getSubscriberCount() + 1);
+        subredditService.saveSubredditPosts(subreddit);
+
+        user.getJoinedCommunitieList().add( subreddit );
         userService.save(user);
 
         return "redirect:/all";
@@ -72,7 +77,12 @@ public class SubRedditController {
     public String unJoinSubreddit(@RequestParam("subredditid") String subredditId, Principal principal){
 
         User user = userService.findByUserName(principal.getName());
-        user.getJoinedCommunitieList().remove( subredditService.findById(subredditId).get());
+
+        Subreddit subreddit = subredditService.findById(subredditId).get();
+        subreddit.setSubscriberCount(subreddit.getSubscriberCount() - 1 > 0 ? subreddit.getSubscriberCount() - 1 : 0 );
+        subredditService.saveSubredditPosts(subreddit);
+
+        user.getJoinedCommunitieList().remove( subreddit);
         userService.save(user);
 
         return "redirect:/all";

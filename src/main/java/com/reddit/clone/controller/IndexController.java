@@ -3,6 +3,7 @@ package com.reddit.clone.controller;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
 import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.SubredditService;
 import com.reddit.clone.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,12 @@ public class IndexController {
 
     PostService postService;
     UserService userService;
+    SubredditService subredditService;
 
-    public IndexController(PostService postService, UserService userService) {
+    public IndexController(PostService postService, UserService userService, SubredditService subredditService) {
         this.userService = userService;
         this.postService = postService;
+        this.subredditService = subredditService;
     }
 
     @GetMapping
@@ -32,13 +35,17 @@ public class IndexController {
             User user = userService.findByUserName(principal.getName());
 
             List<Post> postList = postService.findBySubreddit(new ArrayList<>(user.getJoinedCommunitieList()));
+
             model.addAttribute("posts", postService.getShowPostDtoList(postList, user));
+            model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
             return "profile";
         }
 
         List<Post> postList = postService.findSortedPosts("hot");
         model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
+
         return "index";
     }
 
@@ -51,6 +58,8 @@ public class IndexController {
         List<Post> postList = postService.findSortedPosts("new");
 
         model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
+
         return "index";
     }
 
@@ -63,6 +72,8 @@ public class IndexController {
         List<Post> postList = postService.findSortedPosts("top");
 
         model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
+
         return "index";
     }
 
@@ -75,6 +86,8 @@ public class IndexController {
         List<Post> postList = postService.findSortedPosts("best");
 
         model.addAttribute("posts", postService.getShowPostDtoList(postList, null));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
+
         return "index";
     }
 }

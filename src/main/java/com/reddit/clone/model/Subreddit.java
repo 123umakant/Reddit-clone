@@ -31,6 +31,11 @@ public class Subreddit {
 
     private long subscriberCount;
 
+    @PrePersist
+    public void setSubscriberCount() {
+        this.subscriberCount = 1;
+    }
+
     public User getUser() {
         return user;
     }

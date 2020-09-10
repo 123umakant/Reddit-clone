@@ -5,6 +5,7 @@ import com.reddit.clone.dto.SubredditDto;
 import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.model.User;
 
+import java.awt.print.Pageable;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,7 @@ public interface SubredditService {
     void saveSubredditPosts(Subreddit subreddit);
 
     Optional<Subreddit> findById(String id);
+
+    List<Subreddit> findTopGrowingSubredditList();
+
 }

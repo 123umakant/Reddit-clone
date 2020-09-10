@@ -3,10 +3,7 @@ package com.reddit.clone.controller;
 import com.reddit.clone.model.Comment;
 import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
-import com.reddit.clone.service.CommentService;
-import com.reddit.clone.service.PostService;
-import com.reddit.clone.service.UserService;
-import com.reddit.clone.service.VoteService;
+import com.reddit.clone.service.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,12 +25,14 @@ public class ProfileController {
     private UserService userService;
     private VoteService voteService;
     private CommentService commentService;
+    private SubredditService subredditService;
 
-    public ProfileController(PostService postService, UserService userService, VoteService voteService, CommentService commentService) {
+    public ProfileController(PostService postService, UserService userService, VoteService voteService, CommentService commentService, SubredditService subredditService) {
         this.postService = postService;
         this.userService = userService;
         this.voteService = voteService;
         this.commentService = commentService;
+        this.subredditService = subredditService;
     }
 
     @GetMapping
@@ -45,6 +44,7 @@ public class ProfileController {
         List<Post> postList = postService.findByUser(user, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         model.addAttribute("posts", postService.getShowPostDtoList(postList, user));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
@@ -57,6 +57,7 @@ public class ProfileController {
         List<Comment> commentList = commentService.findByUser(user);
 
         model.addAttribute("comments", commentList);
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
@@ -69,6 +70,7 @@ public class ProfileController {
         List<Post> upVotedPostList = voteService.findUpVotesByUser(user);
 
         model.addAttribute("posts", postService.getShowPostDtoList(upVotedPostList, user));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
@@ -81,6 +83,7 @@ public class ProfileController {
         List<Post> downVotedPostList = voteService.findDownVotesByUser(user);
 
         model.addAttribute("posts", postService.getShowPostDtoList(downVotedPostList, user));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
@@ -91,6 +94,7 @@ public class ProfileController {
         User user = userService.findByUserName(principal.getName());
 
         model.addAttribute("posts", postService.getShowPostDtoList(new ArrayList<>(user.getSavedPostList()), user));
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }

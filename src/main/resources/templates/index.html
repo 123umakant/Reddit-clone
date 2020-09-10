@@ -135,30 +135,16 @@
     </div>
 
             <div id="subreddits" style="width : 33%;">
-                <section >
-
-                    <span style="font-size : 15px; ">Todya's Top Growing Communities</span>
-
-                    <a href="#">1    firstsub</a><br>
-                    <a href="#">2    secondsub</a><br>
-                    <a href="#">3    thirdsub</a><br>
-                    <a href="#">4    fourthsub</a><br>
-                    <a href="#">5    fifthsub</a><br>
-                    <button >View All</button>
-                </section>
-
-                <br>
-                <br>
 
                 <section >
+
                     <span style="font-size : 15px; ">Top Trending Communities</span>
+                    <div th:each="subreddit : ${growingreddits}">
+                        <a th:href="@{/subreddit/community/?id={id}(id=${subreddit.id})}" style="text-decoration:none;">
+                            <span  th:text="${'r/' + subreddit.communityName}" style="font-size : 15px;">first sub</span>
+                        </a>
+                    </div>
 
-                    <a href="#">1    firstsub</a><br>
-                    <a href="#">2    secondsub</a><br>
-                    <a href="#">3    thirdsub</a><br>
-                    <a href="#">4    fourthsub</a><br>
-                    <a href="#">5    fifthsub</a><br>
-                    <button >View All</button>
                 </section>
             </div>
 

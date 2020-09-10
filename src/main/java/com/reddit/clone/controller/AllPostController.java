@@ -6,6 +6,7 @@ import com.reddit.clone.model.Post;
 import com.reddit.clone.model.User;
 import com.reddit.clone.model.Vote;
 import com.reddit.clone.service.PostService;
+import com.reddit.clone.service.SubredditService;
 import com.reddit.clone.service.UserService;
 import com.reddit.clone.service.VoteService;
 import org.springframework.data.domain.Sort;
@@ -25,11 +26,14 @@ public class AllPostController {
     PostService postService;
     UserService userService;
     VoteService voteService;
+    SubredditService subredditService;
 
-    public AllPostController(PostService postService, VoteService voteService, UserService userService) {
+    public AllPostController(PostService postService, VoteService voteService,
+                             UserService userService, SubredditService subredditService) {
         this.voteService = voteService;
         this.userService = userService;
         this.postService = postService;
+        this.subredditService = subredditService;
     }
 
     @GetMapping
@@ -40,6 +44,7 @@ public class AllPostController {
         List<ShowPostDto> showPostDtoList = postService.findSortedAllPosts("hot", user);
 
         model.addAttribute("posts", showPostDtoList);
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
@@ -52,6 +57,7 @@ public class AllPostController {
         List<ShowPostDto> showPostDtoList = postService.findSortedAllPosts("new", user);
 
         model.addAttribute("posts", showPostDtoList);
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
@@ -64,6 +70,7 @@ public class AllPostController {
         List<ShowPostDto> showPostDtoList = postService.findSortedAllPosts("top", user);
 
         model.addAttribute("posts", showPostDtoList);
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
@@ -76,6 +83,7 @@ public class AllPostController {
         List<ShowPostDto> showPostDtoList = postService.findSortedAllPosts("best", user);
 
         model.addAttribute("posts", showPostDtoList);
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
         return "profile";
     }
