@@ -37,6 +37,8 @@ public class ShowPostDto {
 
     private Subreddit subreddit;
 
+    private boolean isJoined;
+
     public ShowPostDto() {
     }
 
@@ -52,6 +54,7 @@ public class ShowPostDto {
         this.subreddit = post.getSubreddit();
         this.isVoted = false;
         this.isSaved = false;
+        this.isJoined = false;
     }
 
     public ShowPostDto(Long id, String title, String content, String contentType, User user, Set<Comment> commentList, Integer upVoteCount, Integer downVoteCount, Date createdAt, boolean isVoted, boolean isUpVote) {
@@ -168,6 +171,14 @@ public class ShowPostDto {
 
     public boolean getIsSaved() {
         return isSaved;
+    }
+
+    public boolean getIsJoined() {
+        return isJoined;
+    }
+
+    public void setIsJoined(boolean joined) {
+        isJoined = joined;
     }
 
     public void setIsSaved(boolean saved) {

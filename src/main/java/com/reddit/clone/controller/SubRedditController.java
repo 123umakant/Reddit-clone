@@ -25,7 +25,7 @@ public class SubRedditController {
     UserService userService;
 
     @GetMapping("/create")
-    public String subredditPage(){
+    public String subredditPage() {
         return "subreddit";
     }
 
@@ -36,23 +36,46 @@ public class SubRedditController {
         return "redirect:/";
 
     }
+
     @PostMapping("/create")
-    public String create(@Validated SubredditDto subredditDto, Principal principal){
+    public String create(@Validated SubredditDto subredditDto, Principal principal) {
         User user = userService.findByUserName(principal.getName());
 
         subredditService.save(subredditDto, user);
 
-        return  "home";
+        return "home";
     }
-     @GetMapping("/get")
-     @ResponseBody
-    public List<Subreddit> getAllSubreddit(){
+
+    @GetMapping("/get")
+    @ResponseBody
+    public List<Subreddit> getAllSubreddit() {
         return subredditService.findAll();
-     }
+    }
+
     @GetMapping("/community/*")
-    public String main(@RequestParam("id") String id, Model model){
-        model.addAttribute("subreddit",subredditService.findById(id).get());
+    public String main(@RequestParam("id") String id, Model model) {
+        model.addAttribute("subreddit", subredditService.findById(id).get());
         return "communitypost";
+    }
+
+    @GetMapping("/join")
+    public String joinSubreddit(@RequestParam("subredditid") String subredditId, Principal principal){
+
+        User user = userService.findByUserName(principal.getName());
+        user.getJoinedCommunitieList().add( subredditService.findById(subredditId).get());
+        userService.save(user);
+
+        return "redirect:/all";
+    }
+
+    @GetMapping("/unjoin")
+    public String unJoinSubreddit(@RequestParam("subredditid") String subredditId, Principal principal){
+
+        User user = userService.findByUserName(principal.getName());
+        user.getJoinedCommunitieList().remove( subredditService.findById(subredditId).get());
+        userService.save(user);
+
+        return "redirect:/all";
     }
 
 }

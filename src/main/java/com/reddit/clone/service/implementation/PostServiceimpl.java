@@ -35,7 +35,7 @@ public class PostServiceimpl implements PostService {
     @Override
     public Post save(Post post, TextPostDto textPostDto) {
 
-        Subreddit subreddit= subredditRepository.findBycommunityName(textPostDto.getSubredditName());
+        Subreddit subreddit = subredditRepository.findBycommunityName(textPostDto.getSubredditName());
         post.setSubreddit(subreddit);
         subreddit.getPost().add(post);
         return postRepository.save(post);
@@ -103,12 +103,19 @@ public class PostServiceimpl implements PostService {
         postRepository.delete(post);
     }
 
+    @Override
+    public List<Post> findBySubreddit(List<Subreddit> subredditList) {
+        return postRepository.findBySubredditIn(subredditList);
+    }
+
+
     public List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user) {
 
         List<ShowPostDto> showPostDtoList = new ArrayList<>();
 
-        if(user != null) {
+        if (user != null) {
             Set<Post> savedPostList = user.getSavedPostList();
+            Set<Subreddit> joinedCommunityList = user.getJoinedCommunitieList();
 
             for (Post post : postList) {
                 Vote vote = voteService.findByPostAndUser(post, user);
@@ -121,6 +128,10 @@ public class PostServiceimpl implements PostService {
 
                 if (savedPostList.contains(post)) {
                     showPostDto.setIsSaved(true);
+                }
+
+                if (joinedCommunityList.contains(post.getSubreddit())) {
+                    showPostDto.setIsJoined(true);
                 }
 
                 showPostDtoList.add(showPostDto);

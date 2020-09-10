@@ -1,7 +1,6 @@
 package com.reddit.clone.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -35,6 +34,9 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Post> savedPostList = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Subreddit> joinedCommunitieList = new HashSet<>();
 
     public User() {
     }
@@ -99,6 +101,14 @@ public class User {
 
     public void setSavedPostList(Set<Post> savedPostList) {
         this.savedPostList = savedPostList;
+    }
+
+    public Set<Subreddit> getJoinedCommunitieList() {
+        return joinedCommunitieList;
+    }
+
+    public void setJoinedCommunitieList(Set<Subreddit> joinedCommunitieList) {
+        this.joinedCommunitieList = joinedCommunitieList;
     }
 
     @Override

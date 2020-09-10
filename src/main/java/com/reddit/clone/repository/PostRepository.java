@@ -1,6 +1,7 @@
 package com.reddit.clone.repository;
 
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.model.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +29,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
      @Query(value = "SELECT post FROM Post post ORDER BY (post.upVoteCount/post.downVoteCount) DESC")
      List<Post> findBestSortedPosts( );
+
+     List<Post> findBySubredditIn(List<Subreddit> subredditList);
 
 }
 

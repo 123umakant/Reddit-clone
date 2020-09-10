@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,8 +18,10 @@ import java.util.List;
 public class IndexController {
 
     PostService postService;
+    UserService userService;
 
-    public IndexController(PostService postService) {
+    public IndexController(PostService postService, UserService userService) {
+        this.userService = userService;
         this.postService = postService;
     }
 
@@ -26,6 +29,11 @@ public class IndexController {
     public String getHotIndexPage(Model model, Principal principal) {
 
         if (principal != null) {
+            User user = userService.findByUserName(principal.getName());
+
+            List<Post> postList = postService.findBySubreddit(new ArrayList<>(user.getJoinedCommunitieList()));
+            model.addAttribute("posts", postService.getShowPostDtoList(postList, user));
+
             return "profile";
         }
 

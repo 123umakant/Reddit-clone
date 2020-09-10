@@ -3,6 +3,7 @@ package com.reddit.clone.service;
 import com.reddit.clone.dto.ShowPostDto;
 import com.reddit.clone.dto.TextPostDto;
 import com.reddit.clone.model.Post;
+import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.model.User;
 import org.springframework.data.domain.Sort;
 
@@ -30,4 +31,7 @@ public interface PostService {
     List<ShowPostDto> getShowPostDtoList(List<Post> postList, User user);
 
     void delete(Post post);
+
+    List<Post> findBySubreddit(List<Subreddit> subredditList);
+
 }

@@ -115,6 +115,9 @@
 
                     <button th:if="${post.user.userName} == ${#authentication.name}"><a th:href="@{/posts/delete (postid = ${post.id})}">Delete</a></button>
 
+                    <button th:unless="${post.isJoined}" ><a th:href="@{/subreddit/join (subredditid = ${post.subreddit.id})}">join</a></button>
+                    <button th:if="${post.isJoined}" ><a th:href="@{/subreddit/unjoin (subredditid = ${post.subreddit.id})}">unjoin</a></button>
+
 
                 </div>
 
