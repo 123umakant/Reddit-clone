@@ -77,15 +77,19 @@ public class PostController {
     }
 
     @GetMapping("/read")
-    public String read(@RequestParam("id") String postId,Model model, Principal principal) {
+    public String read(@RequestParam("id") String postId, Model model, Principal principal) {
 
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
 
-            model.addAttribute("comments",commentService.findByPostId(postId));
-            model.addAttribute("comment",  postService.findByPostId(Long.parseLong(postId)));
-            return "comment";
-    }
+        User user = userService.findByUserName(principal.getName());
 
+        Post post = postService.findByPostId(Long.parseLong(postId));
+
+        model.addAttribute("comments", commentService.findByPostId(postId));
+        model.addAttribute("post", postService.getShowPostDto(post, user));
+
+        return "comment";
+    }
 
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)

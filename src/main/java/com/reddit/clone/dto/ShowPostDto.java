@@ -1,9 +1,6 @@
 package com.reddit.clone.dto;
 
-import com.reddit.clone.model.Comment;
-import com.reddit.clone.model.Post;
-import com.reddit.clone.model.Subreddit;
-import com.reddit.clone.model.User;
+import com.reddit.clone.model.*;
 
 import java.util.Date;
 import java.util.HashSet;

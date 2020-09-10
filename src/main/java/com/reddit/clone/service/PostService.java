@@ -34,4 +34,6 @@ public interface PostService {
 
     List<Post> findBySubreddit(List<Subreddit> subredditList);
 
+    public ShowPostDto getShowPostDto(Post post, User user);
+
 }

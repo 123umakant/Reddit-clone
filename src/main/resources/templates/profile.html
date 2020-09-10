@@ -63,52 +63,68 @@
                 <div th:each=" post : ${posts}">
 
                     <section id="textpost" th:if="${post.contentType == 'text'}">
-                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                            <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
-                        <span style="font-size : 22px"th:text="${post.title}">title</span><br>
-                        <span style="font-size : 18px" th:text="${post.content}">content</span>
+                        <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                            <span style="font-size : 22px"th:text="${post.title}">title</span><br>
+                            <span style="font-size : 18px" th:text="${post.content}">content</span>
+                        </a>
                     </section>
 
                     <section id="mediapost" th:if="${post.contentType == 'image'}">
-                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                            <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
-                        <span style="font-size : 22px;"th:text="${post.title}">title</span><br>
-                        <img   style="width: 600px; height : 480px;"
-                               src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg"
-                               th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" th:alt="${post.content}" >
+                        <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                            <span style="font-size : 22px;"th:text="${post.title}">title</span><br>
+                            <img   style="width: 600px; height : 480px;"
+                                   src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg"
+                                   th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" th:alt="${post.content}" >
+                        </a>
                     </section>
 
                     <section id="mediapost" th:if="${post.contentType == 'video'}">
-                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                            <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
-                        <span style="font-size : 22px" th:text="${post.title}">title</span><br>
-                        <video controls style="width: 600px;">
-                            <source
-                                    src="https://redditmedia.s3.ap-south-1.amazonaws.com/2020-09-03-153241.mp4"
-                                    th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" type="video/mp4" >
-                        </video>
+                        <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                            <span style="font-size : 22px" th:text="${post.title}">title</span><br>
+                            <video controls style="width: 600px;">
+                                <source
+                                        src="https://redditmedia.s3.ap-south-1.amazonaws.com/2020-09-03-153241.mp4"
+                                        th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" type="video/mp4" >
+                            </video>
+                        </a>
                     </section>
 
-                    <section id="textpost" th:if="${post.contentType == 'link'}">
-                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                    <section id="linkpost" th:if="${post.contentType == 'link'}">
+                        <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                            <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                        </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
-                        <span style="font-size : 22px" th:text="${post.title}">title</span><br>
-                        <a th:href="@{${post.content}}"><span style="font-size : 18px" th:text="${post.content}"></span></a>
+                        <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                            <span style="font-size : 22px" th:text="${post.title}">title</span><br>
+                            <a th:href="@{${post.content}}"><span style="font-size : 18px" th:text="${post.content}"></span></a>
+                        </a>
                     </section>
 
-                    <button th:unless="${post.isVoted && post.isUpVote}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-vote</a></button>
-                    <button th:if="${post.isVoted && post.isUpVote}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Up-voted</a></button>
+                    <button th:unless="${post.isVoted && post.isUpVote}" ><a th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-vote</a></button>
+                    <button th:if="${post.isVoted && post.isUpVote}" ><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Up-voted</a></button>
 
 
                     <span style="font-size : 14px" th:text="${post.upVoteCount} - ${post.downVoteCount} > 0 ? ${post.upVoteCount} - ${post.downVoteCount} : 0"></span>
 
 
-                    <button th:unless="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
-                    <button th:if="${post.isVoted && post.isUpVote == false}" sec:authorize="isAuthenticated()"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
+                    <button th:unless="${post.isVoted && post.isUpVote == false}" ><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
+                    <button th:if="${post.isVoted && post.isUpVote == false}" ><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
 
                     <button th:unless="${post.isSaved}" ><a th:href="@{/posts/{postid}/save (postid = ${post.id})}">save</a></button>
                     <button th:if="${post.isSaved}" ><a th:href="@{/posts/{postid}/unsave (postid = ${post.id})}">unsave</a></button>

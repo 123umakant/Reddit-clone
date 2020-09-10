@@ -147,6 +147,26 @@ public class PostServiceimpl implements PostService {
         return showPostDtoList;
     }
 
+    public ShowPostDto getShowPostDto(Post post, User user) {
+        Vote vote = voteService.findByPostAndUser(post, user);
+        ShowPostDto showPostDto = new ShowPostDto(post);
+
+        if (vote != null) {
+            showPostDto.setIsVoted(true);
+            showPostDto.getIsUpVote(vote.isUpVote());
+        }
+
+        if (user.getSavedPostList().contains(post)) {
+            showPostDto.setIsSaved(true);
+        }
+
+        if (user.getJoinedCommunitieList().contains(post.getSubreddit())) {
+            showPostDto.setIsJoined(true);
+        }
+
+        return showPostDto;
+    }
+
     private String getSortString(String sort) {
         String sortBy = null;
 
