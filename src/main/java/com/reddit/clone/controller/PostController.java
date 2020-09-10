@@ -89,7 +89,7 @@ public class PostController {
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
 
             model.addAttribute("comments",commentService.findByPostId(postId));
-            model.addAttribute("comment",  postService.findByPostId(Long.parseLong(postId)).get());
+            model.addAttribute("comment",  postService.findByPostId(Long.parseLong(postId)));
             return "comment";
     }
 

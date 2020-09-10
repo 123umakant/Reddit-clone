@@ -38,6 +38,11 @@ public class PostServiceimpl implements PostService {
     }
 
     @Override
+    public Post findByPostId(long postId) {
+        return postRepository.findById(postId);
+    }
+
+    @Override
     public Optional<Post> findByPostId(Long postId) {
         return postRepository.findById(postId);
     }
