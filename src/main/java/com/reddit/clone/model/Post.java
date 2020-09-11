@@ -28,10 +28,11 @@ public class Post {
     @Column(name = "contenttype")
     private String contentType;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
     private User user;
 
-
+    @JsonIgnore
     @OneToMany(fetch = LAZY, mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Vote> voteList = new HashSet<>();
 

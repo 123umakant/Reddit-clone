@@ -7,8 +7,10 @@ import com.reddit.clone.repository.SubredditRepository;
 import com.reddit.clone.service.SubredditService;
 import com.reddit.clone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
@@ -43,6 +45,12 @@ public class SubredditServiceImpl implements SubredditService {
     @Override
     public Optional<Subreddit> findById(String id) {
       return   subredditRepository.findById(Long.parseLong(id));
+    }
+
+    @Override
+    public List<Subreddit> findTopGrowingSubredditList() {
+        Pageable pageable = PageRequest.of(0, 5);
+        return subredditRepository.findTopGrowingSubredditList(pageable);
     }
 
     @Override
