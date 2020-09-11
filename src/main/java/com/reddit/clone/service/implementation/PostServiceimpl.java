@@ -8,8 +8,10 @@ import com.reddit.clone.model.User;
 import com.reddit.clone.model.Vote;
 import com.reddit.clone.repository.PostRepository;
 import com.reddit.clone.repository.SubredditRepository;
+import com.reddit.clone.repository.repositoryImpl.PostRepositoryImpl;
 import com.reddit.clone.service.PostService;
 import com.reddit.clone.service.VoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import java.util.Set;
 
 @Service
 public class PostServiceimpl implements PostService {
+
 
 
     private PostRepository postRepository;
@@ -51,6 +54,7 @@ public class PostServiceimpl implements PostService {
         return postRepository.findAll();
 
     }
+
 
     @Override
     public Post findByPostId(long postId) {

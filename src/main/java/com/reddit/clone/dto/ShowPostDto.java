@@ -1,6 +1,7 @@
 package com.reddit.clone.dto;
 
 import com.reddit.clone.model.*;
+import com.reddit.clone.utility.TimestampToDays;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -36,10 +37,15 @@ public class ShowPostDto {
 
     private boolean isJoined;
 
+    private String createdAtDaysAgo;
+
     public ShowPostDto() {
     }
 
     public ShowPostDto(Post post) {
+        TimestampToDays timestampToDays = new TimestampToDays();
+
+
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
@@ -52,6 +58,7 @@ public class ShowPostDto {
         this.isVoted = false;
         this.isSaved = false;
         this.isJoined = false;
+        this.createdAtDaysAgo =timestampToDays.getDays(post.getCreatedAt().getTime());
     }
 
     public ShowPostDto(Long id, String title, String content, String contentType, User user, Set<Comment> commentList, Integer upVoteCount, Integer downVoteCount, Date createdAt, boolean isVoted, boolean isUpVote) {
@@ -180,5 +187,13 @@ public class ShowPostDto {
 
     public void setIsSaved(boolean saved) {
         isSaved = saved;
+    }
+
+    public String getCreatedAtDaysAgo() {
+        return createdAtDaysAgo;
+    }
+
+    public void setCreatedAtDaysAgo(String createdAtDaysAgo) {
+        this.createdAtDaysAgo = createdAtDaysAgo;
     }
 }

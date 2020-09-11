@@ -18,6 +18,7 @@ public interface PostService {
 
     List<Post> findAll();
 
+
     Post findByPostId(long postId);
 
     List<Post> findByUser(User user, Sort sort);

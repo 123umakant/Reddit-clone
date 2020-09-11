@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../static/css/indexstyle.css" th:href="@{/css/indexstyle.css}">
 </head>
 <body>
-<div id="navbar">
+<div id="navbar"> 
 
     <img id="redditlogo" src="https://redditmedia.s3.ap-south-1.amazonaws.com/NicePng_reddit-png_2342271.png"
          alt="reddit logo">
@@ -47,14 +47,14 @@
         <div class="subreddit-content" th:each="postItems,iterationStatus :${subreddit.post}">
             <!-- <section id="textpost" th:if="${post.contentType == 'text'}">-->
             <div style="font-size:15px;">
-                <a th:href="@{/subreddit/community/{id}(id=${subreddit.id})}" style="text-decoration: none;">
+
                     <div>
                         <span th:text="${'Posted By u/'+postItems.user.userName}"></span>
-                        <span th:text="${postItems.createdAt}"></span>
+                        <span th:text="${subredditTime}"></span>
                         <h3 th:text="${postItems.title}">title</h3>
                         <p th:text="${postItems.content}">content</p>
                     </div>
-                </a>
+
             </div>
             <!--           </section>-->
 

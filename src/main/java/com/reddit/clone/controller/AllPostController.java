@@ -8,6 +8,7 @@ import com.reddit.clone.model.Vote;
 import com.reddit.clone.service.PostService;
 import com.reddit.clone.service.UserService;
 import com.reddit.clone.service.VoteService;
+import com.reddit.clone.utility.TimestampToDays;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,11 +36,8 @@ public class AllPostController {
     @GetMapping
     public String getHotPosts(Model model, Principal principal) {
 
-
         User user = userService.findByUserName(principal.getName());
-
         List<ShowPostDto> showPostDtoList = postService.findSortedAllPosts("hot", user);
-
         model.addAttribute("posts", showPostDtoList);
 
         return "profile";

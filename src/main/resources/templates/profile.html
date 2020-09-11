@@ -18,9 +18,10 @@
             <option value="../posts/create">Create Post</option>
             <option value="../profile?sort=createdat">Profile</option>
         </select>
-        <form th:action="@{#}" href="#" >
-            <input  style="height : 30px; font-size : 20px; width : 500px; border-radius : 6px;" type="text" placeholder="Search">
-            <button class="searchbtn" style="height : 40px; font-size : 20px" type="submit">Search</button>
+        <form th:action="@{/search}" method="post">
+            <input  style="height : 35px; font-size : 20px; width : 700px; border-radius : 10px; border-width : 1px;" type="text" name="search" placeholder="Search">
+            <button style="height : 35px; font-size : 20px; background-color : white;
+                           border-width : 1px; border-radius : 10px;" class="btnn btn-default" type="submit">Search</button>
         </form>
         <div style="margin-right : 100px;">
             <button th:onclick="window.location='/all'" class="nav-btn">ALL</button>
@@ -67,7 +68,7 @@
                             <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
                         </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
-                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
+                        <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
                         <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
                             <span style="font-size : 22px"th:text="${post.title}">title</span><br>
                             <span style="font-size : 18px" th:text="${post.content}">content</span>
@@ -79,7 +80,7 @@
                             <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
                         </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
-                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
+                        <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
                         <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
                             <span style="font-size : 22px;"th:text="${post.title}">title</span><br>
                             <img   style="width: 600px; height : 480px;"
@@ -93,7 +94,7 @@
                             <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
                         </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
-                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
+                        <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
                         <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
                             <span style="font-size : 22px" th:text="${post.title}">title</span><br>
                             <video controls style="width: 600px;">
@@ -109,7 +110,7 @@
                             <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
                         </a>
                         <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
-                        <span th:text="${post.createdAt}" style="font-size:15px;"></span></span> <br>
+                        <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
                         <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
                             <span style="font-size : 22px" th:text="${post.title}">title</span><br>
                             <a th:href="@{${post.content}}"><span style="font-size : 18px" th:text="${post.content}"></span></a>

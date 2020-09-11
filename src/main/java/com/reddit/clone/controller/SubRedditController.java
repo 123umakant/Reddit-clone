@@ -5,6 +5,7 @@ import com.reddit.clone.model.Subreddit;
 import com.reddit.clone.model.User;
 import com.reddit.clone.service.SubredditService;
 import com.reddit.clone.service.UserService;
+import com.reddit.clone.utility.TimestampToDays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +55,10 @@ public class SubRedditController {
 
     @GetMapping("/community/*")
     public String main(@RequestParam("id") String id, Model model) {
+        TimestampToDays timestampToDays = new TimestampToDays();
+       String timeDaysAgo = timestampToDays.getDays(subredditService.findById(id).get().getCreatedAt().toEpochMilli());
         model.addAttribute("subreddit", subredditService.findById(id).get());
+        model.addAttribute("subredditTime", timeDaysAgo);
         return "communitypost";
     }
 

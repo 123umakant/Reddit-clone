@@ -87,7 +87,7 @@ public class Subreddit {
         this.subscriberCount = subscriberCount;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "Subreddit{" +
                 "id=" + id +
@@ -97,5 +97,5 @@ public class Subreddit {
                 ", post=" + post +
                 ", user=" + user +
                 '}';
-    }
+    }*/
 }

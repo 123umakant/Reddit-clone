@@ -147,7 +147,7 @@ public class Post {
         this.subreddit = subreddit;
     }
 
-    @Override
+  /*  @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
@@ -161,5 +161,5 @@ public class Post {
                 ", createdAt=" + createdAt +
                 ", subreddit=" + subreddit +
                 '}';
-    }
+    }*/
 }
