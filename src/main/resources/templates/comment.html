@@ -35,90 +35,103 @@
 
 
 <div id="post-subreddit">
-        <div class="subreddit-content" style="width:68%;padding: 28px;">
-            <section id="textpost" th:if="${post.contentType == 'text'}">
-                <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
-                    <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
-                </a>
-                <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+    <div class="subreddit-content" style="width:68%;padding: 28px;">
+        <section id="textpost" th:if="${post.contentType == 'text'}">
+            <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+            </a>
+            <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
-                    <span style="font-size : 22px"th:text="${post.title}">title</span><br>
-                    <span style="font-size : 18px" th:text="${post.content}">content</span>
-            </section>
+            <span style="font-size : 22px" th:text="${post.title}">title</span><br>
+            <span style="font-size : 18px" th:text="${post.content}">content</span>
+        </section>
 
-            <section id="mediapost" th:if="${post.contentType == 'image'}">
-                <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
-                    <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
-                </a>
-                <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+        <section id="mediapost" th:if="${post.contentType == 'image'}">
+            <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+            </a>
+            <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
-                    <span style="font-size : 22px;"th:text="${post.title}">title</span><br>
-                    <img   style="width: 600px; height : 480px;"
-                           src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg"
-                           th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" th:alt="${post.content}" >
-            </section>
+            <span style="font-size : 22px;" th:text="${post.title}">title</span><br>
+            <img style="width: 600px; height : 480px;"
+                 src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg"
+                 th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}"
+                 th:alt="${post.content}">
+        </section>
 
-            <section id="mediapost" th:if="${post.contentType == 'video'}">
-                <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
-                    <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
-                </a>
-                <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+        <section id="mediapost" th:if="${post.contentType == 'video'}">
+            <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+            </a>
+            <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
-                    <span style="font-size : 22px" th:text="${post.title}">title</span><br>
-                    <video controls style="width: 600px;">
-                        <source
-                                src="https://redditmedia.s3.ap-south-1.amazonaws.com/2020-09-03-153241.mp4"
-                                th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" type="video/mp4" >
-                    </video>
-            </section>
+            <span style="font-size : 22px" th:text="${post.title}">title</span><br>
+            <video controls style="width: 600px;">
+                <source
+                        src="https://redditmedia.s3.ap-south-1.amazonaws.com/2020-09-03-153241.mp4"
+                        th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}"
+                        type="video/mp4">
+            </video>
+        </section>
 
-            <section id="linkpost" th:if="${post.contentType == 'link'}">
-                <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
-                    <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
-                </a>
-                <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+        <section id="linkpost" th:if="${post.contentType == 'link'}">
+            <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+            </a>
+            <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
                         <span th:text="${post.createdAtDaysAgo}" style="font-size:15px;"></span></span> <br>
-                    <span style="font-size : 22px" th:text="${post.title}">title</span><br>
-                    <a th:href="@{${post.content}}"><span style="font-size : 18px" th:text="${post.content}"></span></a>
-            </section>
+            <span style="font-size : 22px" th:text="${post.title}">title</span><br>
+            <a th:href="@{${post.content}}"><span style="font-size : 18px" th:text="${post.content}"></span></a>
+        </section>
 
-            <button th:unless="${post.isVoted && post.isUpVote}" ><a th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-vote</a></button>
-            <button th:if="${post.isVoted && post.isUpVote}" ><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Up-voted</a></button>
-
-
-            <span style="font-size : 14px" th:text="${post.upVoteCount} - ${post.downVoteCount} > 0 ? ${post.upVoteCount} - ${post.downVoteCount} : 0"></span>
-
-
-            <button th:unless="${post.isVoted && post.isUpVote == false}" ><a th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
-            <button th:if="${post.isVoted && post.isUpVote == false}" ><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
-
-            <button th:unless="${post.isSaved}" ><a th:href="@{/posts/{postid}/save (postid = ${post.id})}">save</a></button>
-            <button th:if="${post.isSaved}" ><a th:href="@{/posts/{postid}/unsave (postid = ${post.id})}">unsave</a></button>
-
-            <button th:if="${post.user.userName} == ${#authentication.name}"><a th:href="@{/posts/delete (postid = ${post.id})}">Delete</a></button>
-
-            <button th:unless="${post.isJoined}" ><a th:href="@{/subreddit/join (subredditid = ${post.subreddit.id})}">join</a></button>
-            <button th:if="${post.isJoined}" ><a th:href="@{/subreddit/unjoin (subredditid = ${post.subreddit.id})}">unjoin</a></button>
+        <button th:unless="${post.isVoted && post.isUpVote}"><a
+                th:href="@{/posts/{postid}/vote?upvote=true (postid = ${post.id})}">Up-vote</a></button>
+        <button th:if="${post.isVoted && post.isUpVote}"><a th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Up-voted</a>
+        </button>
 
 
-            <form th:action="@{/comment/create}"   method="post">
-                    <h4 th:text="${'Comment as '+post.user.userName}"></h4>
-                    <textarea  name="comment" placeholder="What are your thoughts?"
-                               style="min-height: 122px;width: 60%;" required></textarea>
-                    <input type="hidden" name="postId" th:value="${post.id}"><br>
-                    <button>COMMENT</button>
-                </form>
+        <span style="font-size : 14px"
+              th:text="${post.upVoteCount} - ${post.downVoteCount} > 0 ? ${post.upVoteCount} - ${post.downVoteCount} : 0"></span>
 
-            <div th:each="items : ${comments}">
-                <p th:text="${items.text}" style="font-size:10px;"></p>
 
-            </div>
-     <!--       <button>Reply</button>-->
+        <button th:unless="${post.isVoted && post.isUpVote == false}"><a
+                th:href="@{/posts/{postid}/vote?upvote=false (postid = ${post.id})}">Down-vote</a></button>
+        <button th:if="${post.isVoted && post.isUpVote == false}"><a
+                th:href="@{/posts/{postid}/unvote (postid = ${post.id})}">Down-voted</a></button>
+
+        <button th:unless="${post.isSaved}"><a th:href="@{/posts/{postid}/save (postid = ${post.id})}">save</a></button>
+        <button th:if="${post.isSaved}"><a th:href="@{/posts/{postid}/unsave (postid = ${post.id})}">unsave</a></button>
+
+        <button th:if="${post.user.userName} == ${#authentication.name}"><a
+                th:href="@{/posts/delete (postid = ${post.id})}">Delete</a></button>
+
+        <button th:unless="${post.isJoined}"><a
+                th:href="@{/subreddit/join (subredditid = ${post.subreddit.id})}">join</a></button>
+        <button th:if="${post.isJoined}"><a
+                th:href="@{/subreddit/unjoin (subredditid = ${post.subreddit.id})}">unjoin</a></button>
+
+
+        <form th:action="@{/comment/create}" method="post">
+            <h4 th:text="${'Comment as '+post.user.userName}"></h4>
+            <textarea name="comment" placeholder="What are your thoughts?"
+                      style="min-height: 122px;width: 60%;" required></textarea>
+            <input type="hidden" name="postId" th:value="${post.id}"><br>
+            <button>COMMENT</button>
+        </form>
+
+        <div th:each="items : ${comments}" style="margin:5px;">
+
+                <span th:text="${items.post.user.userName}" style="font-size:10px;"></span>
+                <span th:text="${#dates.format(items.createdDate,'dd-MM-yyyy HH:mm')}" style="font-size:10px;"></span>
+                <p th:text="${items.text}" style="font-size:20px;"></p>
 
         </div>
-
+        <!--       <button>Reply</button>-->
 
     </div>
+
+
+</div>
 
 </div>
 

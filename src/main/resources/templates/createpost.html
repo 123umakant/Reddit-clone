@@ -63,8 +63,8 @@
 
         <div class="subreddit">
             <div>
-                <label for="subreddit">Choose a Subreddit:</label>
-                <select name="subredditName" id="subreddit"></select>
+                <label >Choose a Subreddit:</label>
+                <select name="subredditName" class="subredditValue"></select>
             </div>
 
         </div>
@@ -96,6 +96,16 @@
 
     <form id="mediapost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
           enctype="multipart/form-data">
+
+
+        <div class="subreddit">
+            <div>
+                <label >Choose a Subreddit:</label>
+                <select name="subredditName" class="subredditValue"></select>
+            </div>
+
+        </div>
+
         <div class="form-group">
             <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="Title">
         </div>
@@ -113,6 +123,16 @@
 
     <form id="linkpost" action="post/create" th:action="@{/posts/create}" method="post" th:object="${post}"
           enctype="multipart/form-data">
+
+
+
+        <div class="subreddit">
+            <div>
+                <label>Choose a Subreddit:</label>
+                <select name="subredditName" class="subredditValue"></select>
+            </div>
+
+        </div>
 
         <div class="form-group">
             <input th:field="*{title}" type="text" class="form-control" name="title" placeholder="Title">
@@ -143,7 +163,7 @@
                           console.log(data.length);
                            for(var i=0;i<data.length;i++){
 
-                            $("#subreddit").append("<option value="+data[i].communityName+">r/"+data[i].communityName+"</option>");
+                            $(".subredditValue").append("<option value="+data[i].communityName+">r/"+data[i].communityName+"</option>");
                         }
 				}
 
