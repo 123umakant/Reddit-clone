@@ -26,7 +26,7 @@ public class TwitterController {
     public String getTweets() throws TwitterException {
 
         Twitter twitter = TwitterFactory.getSingleton();
-        String message = "\"this is testing \" by Euromaxx: Lifestyle Europe (DW) \n http://bit.ly/1cHB7MH";
+        String message = "\"this is working \" by Euromaxx: Lifestyle Europe (DW) \n http://bit.ly/1cHB7MH";
         System.out.println(twitter.updateStatus(message).getText());
         return "";
     }

@@ -25,13 +25,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
 
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 @Controller
 @RequestMapping("/posts")
 public class PostController {
@@ -106,7 +110,8 @@ public class PostController {
     @PostMapping("/create")
     public String post(@ModelAttribute("post") TextPostDto textPostDto, Model
             model, @RequestParam(value = "file", required = false) MultipartFile multipartFile,
-                       Principal principal) throws IOException {
+                       Principal principal) throws IOException, TwitterException {
+
 
         if (textPostDto.getContentType().equals("media")) {
             String fileName = fileService.upLoadFile(multipartFile);
@@ -132,7 +137,10 @@ public class PostController {
 
         postService.save(post, textPostDto);
 
-
+        Twitter twitter = TwitterFactory.getSingleton();
+        String message = post.getTitle()+"\n " +
+                "http://mbreddit-clone.herokuapp.com/posts/read/?id="+post.getId();
+        System.out.println(twitter.updateStatus(message).getText());
         return "redirect:/profile?sort?createdat";
     }
 
