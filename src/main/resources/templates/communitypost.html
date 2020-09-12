@@ -42,26 +42,65 @@
             <button>JOIN</button>
         </div>
         <br>
+        <section id="post-content" style="margin-top : 10px">
+            <div th:each="post,iterationStatus :${subreddit.post}">
 
+                <section id="textpost" th:if="${post.contentType == 'text'}">
+                    <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                    </a>
+                    <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        </span> <br>
+                    <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                        <span style="font-size : 22px"th:text="${post.title}">title</span><br>
+                        <span style="font-size : 18px" th:text="${post.content}">content</span>
+                    </a>
+                </section>
 
-        <div class="subreddit-content" th:each="postItems,iterationStatus :${subreddit.post}">
-            <!-- <section id="textpost" th:if="${post.contentType == 'text'}">-->
-            <div style="font-size:15px;">
+                <section id="mediapost" th:if="${post.contentType == 'image'}">
+                    <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                    </a>
+                    <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        </span> <br>
+                    <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                        <span style="font-size : 22px;"th:text="${post.title}">title</span><br>
+                        <img   style="width: 600px; height : 480px;"
+                               src="https://www.hindustantimes.com/rf/image_size_960x540/HT/p2/2020/05/21/Pictures/_037138a2-9b47-11ea-a010-c71373fc244b.jpg"
+                               th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" th:alt="${post.content}" >
+                    </a>
+                </section>
 
-                    <div>
-                        <span th:text="${'Posted By u/'+postItems.user.userName}"></span>
-                        <span th:text="${subredditTime}"></span>
-                        <h3 th:text="${postItems.title}">title</h3>
-                        <p th:text="${postItems.content}">content</p>
-                    </div>
+                <section id="mediapost" th:if="${post.contentType == 'video'}">
+                    <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                    </a>
+                    <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        </span> <br>
+                    <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                        <span style="font-size : 22px" th:text="${post.title}">title</span><br>
+                        <video controls style="width: 600px;">
+                            <source
+                                    src="https://redditmedia.s3.ap-south-1.amazonaws.com/2020-09-03-153241.mp4"
+                                    th:src="@{https://redditmedia.s3.ap-south-1.amazonaws.com/{file} (file = ${post.content})}" type="video/mp4" >
+                        </video>
+                    </a>
+                </section>
+
+                <section id="linkpost" th:if="${post.contentType == 'link'}">
+                    <a th:href="@{/subreddit/community/?id={id}(id=${post.subreddit.id})}" style="text-decoration:none;">
+                        <span th:text="${'r/'+post.subreddit.communityName}" style="font-size:15px;">Subreddit</span>
+                    </a>
+                    <span style="color:rgb(120, 124, 126); font-size:15px;">Posted by u/<span th:text="${post.user}">user</span>
+                        </span> <br>
+                    <a th:href="@{/posts/read/?id={id}(id=${post.id})}" style="text-decoration: none; color : black;">
+                        <span style="font-size : 22px" th:text="${post.title}">title</span><br>
+                        <a th:href="@{${post.content}}"><span style="font-size : 18px" th:text="${post.content}"></span></a>
+                    </a>
+                </section>
 
             </div>
-            <!--           </section>-->
-
-        </div>
-
-
-    </div>
+        </section>
 
 </div>
 

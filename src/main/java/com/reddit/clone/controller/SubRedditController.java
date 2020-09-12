@@ -34,7 +34,7 @@ public class SubRedditController {
     public String store(@Validated SubredditDto subredditDto, Principal principal) {
         User user = userService.findByUserName(principal.getName());
         subredditService.save(subredditDto, user);
-        return "redirect:/";
+        return "redirect:/posts/create";
 
     }
 
