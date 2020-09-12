@@ -60,8 +60,9 @@ public class MainController {
 
 
         model.addAttribute("posts", posts);
+        model.addAttribute("growingreddits", subredditService.findTopGrowingSubredditList());
 
-    return "search";
+        return "search";
     }
 
     @GetMapping("/main")
