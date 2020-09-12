@@ -138,6 +138,16 @@
 
                 </div>
 
+                <div th:each=" comment : ${comments}">
+                    <section>
+                        <span style="font-size : 15px" th:text="${comment.user.userName}"></span><br>
+                        <span style="font-size : 22px" th:text="${comment.text}"></span><br>
+                        <a th:href="@{/posts/read/?id={id}(id=${comment.post.id})}" style="text-decoration: none; color : black;">
+                            <span style="font-size : 18px" th:text="${comment.post.title}"></span>
+                        </a>
+                    </section>
+                </div>
+
                 <span th:unless="${posts}" style="margin-left : 160px; font-size : 20px;">Please join some communities</span>
 
             </section>
@@ -198,6 +208,9 @@
             break;
         case "subreddit" :
             document.getElementById('pagetype').selectedIndex=4;
+            break;
+        case "search" :
+            document.getElementById('pagetype').selectedIndex=2;
             break;
         default :
             document.getElementById('pagetype').selectedIndex=0;

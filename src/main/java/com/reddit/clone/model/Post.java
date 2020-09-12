@@ -163,4 +163,11 @@ public class Post {
                 ", subreddit=" + subreddit +
                 '}';
     }*/
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }

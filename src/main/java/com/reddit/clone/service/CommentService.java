@@ -8,7 +8,7 @@ import com.reddit.clone.model.User;
 import java.util.*;
 public interface CommentService {
 
-    Comment save(CommentDto commentDto);
+    Comment save(CommentDto commentDto, User user);
     List<Comment> findAll();
 
     List<Comment> findByPostId(String postId);

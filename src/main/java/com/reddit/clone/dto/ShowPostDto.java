@@ -196,4 +196,11 @@ public class ShowPostDto {
     public void setCreatedAtDaysAgo(String createdAtDaysAgo) {
         this.createdAtDaysAgo = createdAtDaysAgo;
     }
+
+    @Override
+    public String toString() {
+        return "ShowPostDto{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }

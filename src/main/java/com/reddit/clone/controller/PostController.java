@@ -33,9 +33,11 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+
 @Controller
 @RequestMapping("/posts")
 public class PostController {
@@ -86,14 +88,24 @@ public class PostController {
 
         model.addAttribute("endpoint", awsS3Credentials.S3_BUCKET_NAME + "." + awsS3Credentials.S3_END_POINT);
 
-        User user = userService.findByUserName(principal.getName());
+        if (principal != null) {
+            User user = userService.findByUserName(principal.getName());
+
+            Post post = postService.findByPostId(Long.parseLong(postId));
+
+            model.addAttribute("comments", commentService.findByPostId(postId));
+            model.addAttribute("post", postService.getShowPostDto(post, user));
+
+            return "comment";
+        }
 
         Post post = postService.findByPostId(Long.parseLong(postId));
 
         model.addAttribute("comments", commentService.findByPostId(postId));
-        model.addAttribute("post", postService.getShowPostDto(post, user));
+        model.addAttribute("post", postService.getShowPostDto(post, null));
 
         return "comment";
+
     }
 
 
@@ -138,8 +150,8 @@ public class PostController {
         postService.save(post, textPostDto);
 
         Twitter twitter = TwitterFactory.getSingleton();
-        String message = post.getTitle()+"\n " +
-                "http://mbreddit-clone.herokuapp.com/posts/read/?id="+post.getId();
+        String message = post.getTitle() + "\n " +
+                "http://mbreddit-clone.herokuapp.com/posts/read/?id=" + post.getId();
         System.out.println(twitter.updateStatus(message).getText());
         return "redirect:/profile?sort?createdat";
     }

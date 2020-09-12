@@ -24,7 +24,6 @@ import java.util.Set;
 public class PostServiceimpl implements PostService {
 
 
-
     private PostRepository postRepository;
     private SubredditRepository subredditRepository;
     private VoteService voteService;
@@ -152,9 +151,13 @@ public class PostServiceimpl implements PostService {
     }
 
     public ShowPostDto getShowPostDto(Post post, User user) {
-        Vote vote = voteService.findByPostAndUser(post, user);
         ShowPostDto showPostDto = new ShowPostDto(post);
 
+        if (user == null) {
+            return showPostDto;
+        }
+
+        Vote vote = voteService.findByPostAndUser(post, user);
         if (vote != null) {
             showPostDto.setIsVoted(true);
             showPostDto.getIsUpVote(vote.isUpVote());
